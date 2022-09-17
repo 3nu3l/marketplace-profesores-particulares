@@ -105,7 +105,8 @@
 
 .logo {
   height: 1em;
-  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: black;
 }
 
 @media (max-width: 600px) {
