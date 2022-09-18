@@ -185,7 +185,9 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Marketplace
+            <Link color="inherit" href="/">
+              Marketplace
+            </Link>{' '}
           </Typography>
           <Search>
             <SearchIconWrapper>

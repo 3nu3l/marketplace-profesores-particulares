@@ -11,7 +11,6 @@ function ImageLogo() {
     )
 }
 
-
 export default function Footer() {
     return (
         <Box
