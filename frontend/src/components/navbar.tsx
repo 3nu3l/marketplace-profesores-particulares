@@ -15,6 +15,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -77,6 +79,14 @@ export default function PrimarySearchAppBar() {
     handleMobileMenuClose();
   };
 
+  const router = useRouter();
+
+  const handleClick = (e, path) => {
+    if (path === "/sigin") {
+      console.log("I clicked on the About Page");
+    }
+  };
+
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -98,6 +108,7 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem><Link href="/signin"><a onClick={(e) => handleClick(e, "/signin")}>Conectarse</a></Link></MenuItem>
       <MenuItem onClick={handleMenuClose}>Mi Perfil</MenuItem>
       <MenuItem onClick={handleMenuClose}>Configuración de Cuenta</MenuItem>
     </Menu>

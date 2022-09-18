@@ -1,8 +1,6 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import ResponsiveAppBar from '../src/components/navbar';
 
 export default function Home() {
   return (
@@ -12,8 +10,7 @@ export default function Home() {
         <meta name="description" content="Aplicación de marketplace para profesores particulares" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ResponsiveAppBar />
-
+      
       <main className={styles.main}>
         <h1 className={styles.title}>
           Marketplace de Profesores
@@ -67,13 +64,6 @@ export default function Home() {
           </Link>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        Powered by{' '}
-        <span className={styles.logo}>
-          <Image src="/logo_uade.svg" alt="UADE Logo" width={80} height={26} />
-        </span>
-      </footer>
     </div>
   )
 }
