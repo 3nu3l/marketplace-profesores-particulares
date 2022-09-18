@@ -83,7 +83,7 @@ export default function PrimarySearchAppBar() {
 
   const handleClick = (e, path) => {
     if (path === "/sigin") {
-      console.log("I clicked on the About Page");
+      console.log("I clicked on the Sign In Page");
     }
   };
 
@@ -110,7 +110,6 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem><Link href="/signin"><a onClick={(e) => handleClick(e, "/signin")}>Conectarse</a></Link></MenuItem>
       <MenuItem onClick={handleMenuClose}>Mi Perfil</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Configuración de Cuenta</MenuItem>
     </Menu>
   );
 
