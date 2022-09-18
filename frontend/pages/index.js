@@ -1,16 +1,9 @@
-import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Marketplace</title>
-        <meta name="description" content="Aplicación de marketplace para profesores particulares" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      
+    <div className={styles.container}>      
       <main className={styles.main}>
         <h1 className={styles.title}>
           Marketplace de Profesores

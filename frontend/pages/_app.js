@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { SessionProvider } from 'next-auth/react';
 import ResponsiveAppBar from '../src/components/navbar';
 import Footer from '../src/components/footer';
+import Header from '../src/components/header';
 
 const darkTheme = createTheme({
   palette: {
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }) {
     <SessionProvider session={pageProps.session}>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
+        <Header />
         <ResponsiveAppBar />
         <Component {...pageProps} />
         <Footer />

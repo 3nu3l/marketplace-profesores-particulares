@@ -1,10 +1,8 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Link from "next/link";
 import Image from 'next/image'
 import UADE from '../../public/logo_uade.svg'
-import styles from '../../styles/Home.module.css'
 import Copyright from '../components/copyright';
 
 function ImageLogo() {
