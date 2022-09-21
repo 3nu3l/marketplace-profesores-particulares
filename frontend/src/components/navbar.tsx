@@ -200,7 +200,7 @@ export default function PrimarySearchAppBar() {
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
             <Link color="inherit" href="/">
-              Marketplace
+              Marketplace de profesores
             </Link>{' '}
           </Typography>
 
