@@ -14,7 +14,7 @@ export default function FeatureBox({ icon, title, description }) {
         <div className={styles.grid}>
             <Link href="/">
                 <a className={styles.card}>
-                    <FontAwesomeIcon icon={icon} size="3x" className={styles.icon} />
+                    <FontAwesomeIcon icon={icon} size="2x" className={styles.icon} />
 
                     <h2 style={centered}>{title}</h2>
 

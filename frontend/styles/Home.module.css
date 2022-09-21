@@ -95,7 +95,7 @@
 
 .icon {
   justify-content: 'center' !important; 
-  display: 'flex';
+  display: 'flex' !important;
   align-items: 'center' !important;
 }
 
