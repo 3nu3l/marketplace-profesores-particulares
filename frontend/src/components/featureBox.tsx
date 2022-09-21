@@ -3,7 +3,7 @@ import styles from '../../styles/Home.module.css'
 import Link from 'next/link'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function FeatureBox({ icon, title, description }) {
+export default function FeatureBox({ icon, title, description, pageLink }) {
     const centered = {
         display: 'flex',
         alignItems: 'center',
@@ -12,7 +12,7 @@ export default function FeatureBox({ icon, title, description }) {
 
     return (
         <div className={styles.grid}>
-            <Link href="/">
+            <Link href={pageLink}>
                 <a className={styles.card}>
                     <div style={{marginBottom: '1rem'}}>
                         <FontAwesomeIcon icon={icon} size="3x" className={styles.icon} style={{display: 'block', margin: 'auto'}} />
