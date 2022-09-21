@@ -58,6 +58,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+function SearchComponent() {
+  return (
+    <Search>
+      <SearchIconWrapper>
+        <SearchIcon />
+      </SearchIconWrapper>
+      <StyledInputBase
+        placeholder="Buscar…"
+        inputProps={{ 'aria-label': 'search' }}
+      />
+    </Search>
+  )
+}
+
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -80,6 +94,7 @@ export default function PrimarySearchAppBar() {
   };
 
   const router = useRouter();
+  const showSearch = router.pathname === "/" ? false : true;
 
   const handleClick = (e, path) => {
     if (path === "/sigin") {
@@ -188,15 +203,9 @@ export default function PrimarySearchAppBar() {
               Marketplace
             </Link>{' '}
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+
+          {showSearch && <SearchComponent/>}
+          
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show new mails" color="inherit">
