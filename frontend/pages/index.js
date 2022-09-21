@@ -2,9 +2,7 @@ import styles from '../styles/Home.module.css'
 import SubjectSearchBar from '../src/components/autocompleteSearch'
 import { Button, Grid } from '@mui/material';
 import FeatureBox from '../src/components/featureBox'
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { faTrophy } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTrophy,faMagnifyingGlass  } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   return (
@@ -44,12 +42,9 @@ export default function Home() {
             direction="row"
             justify="space-between"
             alignItems="center">
-
-            <FeatureBox title="BUSCÁ" description="La materia en la que necesitás ayuda" icon={faMagnifyingGlass} />
-
-            <FeatureBox title="RESERVÁ" description="Una clase con uno de nuestros profesores" icon={faCheck} />
-
-            <FeatureBox title="APROBÁ" description="Para ponerte a un paso más cerca de conseguir tu título" icon={faTrophy} />
+              <FeatureBox title="BUSCÁ" description="La materia en la que necesitás ayuda" icon={faMagnifyingGlass} />
+              <FeatureBox title="RESERVÁ" description="Una clase con uno de nuestros profesores" icon={faCheck} />
+              <FeatureBox title="APROBÁ" description="Para ponerte a un paso más cerca de conseguir tu título" icon={faTrophy} />
           </Grid></div>
       </main>
     </div>
