@@ -5,9 +5,9 @@ import { SessionProvider } from 'next-auth/react';
 import ResponsiveAppBar from '../src/components/navbar';
 import Footer from '../src/components/footer';
 import Header from '../src/components/header';
-import '@fortawesome/fontawesome-svg-core/styles.css';
-import { config } from "@fortawesome/fontawesome-svg-core";
-config.autoAddCss = false;
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
 
 const darkTheme = createTheme({
   palette: {
