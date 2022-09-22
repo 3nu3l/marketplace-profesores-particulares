@@ -101,9 +101,11 @@ export default function ModifyClass() {
                     </Grid>
 
                     <Button
+                        color="secondary"
                         type="submit"
                         fullWidth
-                        variant="contained"
+                        variant="outlined"
+                        //variant="contained"
                         sx={{ mt: 3, mb: 1}}
                     >
                         Guardar y cerrar
