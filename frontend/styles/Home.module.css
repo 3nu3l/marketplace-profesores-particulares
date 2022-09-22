@@ -60,7 +60,7 @@
 .card {
   margin: 1rem;
   padding: 1.5rem;
-  text-align: left;
+  
   color: inherit;
   text-decoration: none;
   border: 1px solid #eaeaea;
@@ -91,6 +91,12 @@
   height: 1em;
   margin-bottom: 0.5rem;
   color: black;
+}
+
+.icon {
+  justify-content: 'center' !important; 
+  display: 'flex' !important;
+  align-items: 'center' !important;
 }
 
 @media (max-width: 600px) {
