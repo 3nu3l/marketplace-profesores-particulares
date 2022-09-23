@@ -22,11 +22,14 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "font-awesome": "^4.7.0",
+    "imask": "^6.4.3",
     "mui": "^0.0.1",
     "next": "12.3.0",
     "next-auth": "^4.10.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-imask": "^6.4.3",
+    "react-number-format": "^5.0.0-beta.5"
   },
   "devDependencies": {
     "eslint": "8.23.1",
