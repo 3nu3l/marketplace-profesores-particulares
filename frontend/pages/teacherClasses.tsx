@@ -3,6 +3,11 @@ import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Container } from '@mui/system';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PublishIcon from '@mui/icons-material/Publish';
+import DownloadIcon from '@mui/icons-material/Download';
+import { Button } from '@mui/material';
 
 
 const columns: GridColDef[] = [
@@ -24,29 +29,29 @@ const columns: GridColDef[] = [
     //valueGetter: (params: GridValueGetterParams) =>
       //`${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
-  { field: 'status', headerName: 'Estado', width: 100}, 
+  { field: 'status', headerName: 'Estado', width: 100},
 ];
 
 const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  { id: 1, className: 'Snow', matter: 'Jon', duration: 35, frecuency: 'Semanal', status: 'Publicada' },
+  { id: 2, className: 'Lannister', matter: 'Cersei', duration: 42 , frecuency: 'diaria', status: 'Publicada' },
+  { id: 3, className: 'Lannister', matter: 'Jaime', duration: 45, frecuency: 'diaria', status: 'Sin publicar'  },
+  { id: 4, className: 'Stark', matter: 'Arya', duration: 16 , frecuency: 'Semanal', status: 'Publicada' },
+  { id: 5, className: 'Targaryen', matter: 'Daenerys', duration: null , frecuency: 'Semanal', status: 'Sin publicar' },
+  { id: 6, className: 'Melisandre', matter: null, duration: 150 , frecuency: 'Semanal', status: 'Sin publicar' },
+  { id: 7, className: 'Clifford', matter: 'Ferrara', duration: 44 , frecuency: 'diaria', status: 'Publicada' },
+  { id: 8, className: 'Frances', matter: 'Rossini', duration: 36 , frecuency: 'Semanal', status: 'Publicada' },
+  { id: 9, className: 'Roxie', matter: 'Harvey', duration: 65 , frecuency: 'Semanal', status: 'Publicada' },
 ];
 
 export default function DataTable() {
   return (
     <Container component="main" maxWidth="lg">
         <CssBaseline />
-            <Box
+            <Box 
                 sx={{
-                    marginTop: 2,
-                    marginBottom: 2,
+                    //marginTop: 0,
+                    marginBottom: 20,
                     paddingBottom:30,
                     display: 'flex',
                     flexDirection: 'column',
@@ -55,6 +60,8 @@ export default function DataTable() {
             >
                 <div style={{ height: 371, width: '100%'}}>
                     <h1>Mis clases</h1>
+                    <Button variant="outlined">Crear</Button>
+                    <h1></h1>
                 <DataGrid
                     rows={rows}
                     columns={columns}
@@ -62,6 +69,10 @@ export default function DataTable() {
                     rowsPerPageOptions={[5]}
                     checkboxSelection
                 />
+                <Button variant="outlined" color="error" startIcon={<DeleteIcon/>}>Eliminar</Button>
+                <Button variant="outlined" color="secondary" startIcon={<EditIcon/>}>Modificar</Button>
+                <Button variant="outlined" startIcon={<DownloadIcon/>}> Despublicar</Button>
+                <Button variant="outlined" color="success" startIcon={<PublishIcon/>}>Publicar</Button>
                 </div>
             </Box>
     </Container>
