@@ -18,7 +18,8 @@ export default function Home() {
             spacing={2}
             direction="row"
             justify="space-between"
-            alignItems="center">
+            alignItems="center"
+            justifyContent="center">
             <Grid item>
               <SubjectSearchBar />
             </Grid>
