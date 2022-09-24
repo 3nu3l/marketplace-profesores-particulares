@@ -14,6 +14,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Link from 'next/link';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import EditIcon from '@mui/icons-material/Edit';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const anchor = 'left'
@@ -95,6 +96,18 @@ export default function HamburguerDrawer() {
                 </ListItem>
             </Link>
         </List>
+
+        <Divider />
+        <Link color="inherit" href="/">
+            <ListItem key={'logout'} disablePadding>
+                <ListItemButton>
+                    <ListItemIcon>
+                        <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={'Cerrar sesión'} />
+                </ListItemButton>
+            </ListItem>
+        </Link>
     </Box>
     );
 
