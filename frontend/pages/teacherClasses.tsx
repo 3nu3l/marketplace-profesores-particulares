@@ -1,26 +1,30 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { Container } from '@mui/system';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
 
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
+  { field: 'className', headerName: 'Nombre de la clase', width: 150 },
+  { field: 'matter', headerName: 'Materia', width: 90 },
   {
-    field: 'age',
-    headerName: 'Age',
+    field: 'duration',
+    headerName: 'Duración',
     type: 'number',
     width: 90,
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
+    field: 'frecuency',
+    headerName: 'Frecuencia',
+    //description: 'This column has a value getter and is not sortable.',
     sortable: false,
     width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    //valueGetter: (params: GridValueGetterParams) =>
+      //`${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
+  { field: 'status', headerName: 'Estado', width: 100}, 
 ];
 
 const rows = [
@@ -37,14 +41,29 @@ const rows = [
 
 export default function DataTable() {
   return (
-    <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
-    </div>
+    <Container component="main" maxWidth="lg">
+        <CssBaseline />
+            <Box
+                sx={{
+                    marginTop: 2,
+                    marginBottom: 2,
+                    paddingBottom:30,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <div style={{ height: 371, width: '100%'}}>
+                    <h1>Mis clases</h1>
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    checkboxSelection
+                />
+                </div>
+            </Box>
+    </Container>
   );
 }
