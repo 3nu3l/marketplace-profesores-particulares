@@ -13,36 +13,19 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 export default function SignIn() {
-  const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+  const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9]){1,}?/
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/
-
-  const emailError = (email: string): boolean => { return (!emailRegex.test(email) || email?.length === 0) };
-  const passwordError = (password: string): boolean => { return (!passwordRegex.test(password)) };
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [emailErrorText, setEmailErrorText] = React.useState("");
-  const [passwordErrorText, setPasswordErrorText] = React.useState("");
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
-
-    emailError ? setEmailErrorText("Ingrese un correo válido") : setEmailErrorText("")
-    passwordError ? setPasswordErrorText("Ingrese una contraseña válida") : setPasswordErrorText("")
   };
 
   return (
@@ -72,10 +55,10 @@ export default function SignIn() {
             label="Correo electrónico"
             name="email"
             autoComplete="email"
-            helperText={emailErrorText}
+            helperText={emailRegex.test(email) ? "Ingrese un correo válido" : ""}
             value={email}
-            error={emailError(email)}
-            onChange={handleEmailChange}
+            error={emailRegex.test(email)}
+            onChange={(event) => setEmail(event.target.value)}
             autoFocus
           />
           <TextField
@@ -87,10 +70,10 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            helperText={passwordErrorText}
-            onChange={handlePasswordChange}
+            helperText={passwordRegex.test(password) ? "Ingrese una contraseña válida" : ""}
+            onChange={(event) => setPassword(event.target.value)}
             value={password}
-            error={passwordError(password)}
+            error={passwordRegex.test(password)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -107,7 +90,7 @@ export default function SignIn() {
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                ¿Olvidó su contraseña?
+                {"¿Olvidó su contraseña?"}
               </Link>
             </Grid>
             <Grid item>
