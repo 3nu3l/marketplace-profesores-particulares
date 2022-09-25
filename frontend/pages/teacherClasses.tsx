@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PublishIcon from '@mui/icons-material/Publish';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Button } from '@mui/material';
+import Switch from '@mui/material/Switch';
 
 
 const columns: GridColDef[] = [
@@ -29,11 +30,11 @@ const columns: GridColDef[] = [
     //valueGetter: (params: GridValueGetterParams) =>
       //`${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
-  { field: 'status', headerName: 'Estado', width: 100},
+  { field: 'status', headerName: 'Publicado', width: 100},
 ];
 
 const rows = [
-  { id: 1, className: 'Snow', matter: 'Jon', duration: 35, frecuency: 'Semanal', status: 'Publicada' },
+  { id: 1, className: 'Snow', matter: 'Jon', duration: 35, frecuency: 'Semanal', status: <Switch /> },
   { id: 2, className: 'Lannister', matter: 'Cersei', duration: 42 , frecuency: 'diaria', status: 'Publicada' },
   { id: 3, className: 'Lannister', matter: 'Jaime', duration: 45, frecuency: 'diaria', status: 'Sin publicar'  },
   { id: 4, className: 'Stark', matter: 'Arya', duration: 16 , frecuency: 'Semanal', status: 'Publicada' },
