@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Container } from '@mui/system';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,6 +9,12 @@ import { Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton'
 import Switch from '@mui/material/Switch';
 import Link from 'next/link';
+
+const [checked, setChecked] = React.useState(true);
+
+const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setChecked(event.target.checked);
+};
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -26,13 +32,25 @@ const columns: GridColDef[] = [
     sortable: false,
     width: 160
   },
-  { field: 'status', headerName: 'Publicada', width: 100, renderCell: () => { return (<Switch />)}},
-  { field: 'actions', headerName: 'Acciones', renderCell: () => {return (
-    <div>
-      <IconButton color="error"><DeleteIcon/></IconButton>
-      <IconButton color="secondary"><EditIcon/></IconButton>
-    </div>)}}
-];
+  {
+    field: 'status', headerName: 'Publicada', width: 100, renderCell: () => {
+      return (<Switch
+        checked={checked}
+        onChange={handleChange}
+        inputProps={{ 'aria-label': 'controlled' }}
+      />)
+    }
+  },
+  {
+    field: 'actions', headerName: 'Acciones', renderCell: () => {
+      return (
+        <div>
+          <IconButton color="error"><DeleteIcon /></IconButton>
+          <IconButton color="secondary"><EditIcon /></IconButton>
+        </div>);
+    }
+  }
+]
 
 const rows = [
   Row(1, 'Snow', 'Jon', 35, 'Semanal', true),
@@ -47,7 +65,7 @@ const rows = [
 ];
 
 function Row(id: number, className: string, matter: string, duration: number, frecuency: string, status: boolean) {
-  return({ id: id, className: className, matter: matter, duration: duration, frecuency: frecuency, status: status })
+  return ({ id: id, className: className, matter: matter, duration: duration, frecuency: frecuency, status: status })
 }
 
 export default function DataTable() {
