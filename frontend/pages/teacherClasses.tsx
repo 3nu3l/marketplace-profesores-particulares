@@ -10,11 +10,20 @@ import IconButton from '@mui/material/IconButton'
 import Switch from '@mui/material/Switch';
 import Link from 'next/link';
 
-const [checked, setChecked] = React.useState(true);
+function CustomSwitch() {
+  const [checked, setChecked] = React.useState(true);
 
-const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setChecked(event.target.checked);
-};
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
+  return (
+    <Switch
+      checked={checked}
+      onChange={handleChange}
+    />
+  );
+}
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -34,11 +43,7 @@ const columns: GridColDef[] = [
   },
   {
     field: 'status', headerName: 'Publicada', width: 100, renderCell: () => {
-      return (<Switch
-        checked={checked}
-        onChange={handleChange}
-        inputProps={{ 'aria-label': 'controlled' }}
-      />)
+      return (<CustomSwitch></CustomSwitch>)
     }
   },
   {
