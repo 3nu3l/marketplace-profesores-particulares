@@ -29,11 +29,27 @@ export default function SignUp() {
             password: data.get('password')
         });
     };
-    const [registeredUserRole, setRegisteredUserRole] = React.useState()
-    const handleRegisteredUserRole = (event) => {
-        setRegisteredUserRole(event.target.value);
-    };
 
+    const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/
+    const [password, setPassword] = React.useState("");
+
+    const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    const [email, setEmail] = React.useState("");
+
+    const teacherExpRegex = /^([0-9]|[1-6][0-9]|70)$/
+    const [teacherExp, setTeacherExp] = React.useState("");
+
+    var curr = new Date();
+    curr.setDate(curr.getDate());
+    var currDate = curr.toISOString().substring(0, 10);
+    const [date, setDate] = React.useState(currDate)
+    function dateCondition() {
+        if (date <= currDate)
+            return false;
+        return true;
+    }
+
+    const [registeredUserRole, setRegisteredUserRole] = React.useState("")
     function handleUserRole(registeredUserRole) {
         if (registeredUserRole === 'student') {
 
@@ -47,7 +63,10 @@ export default function SignUp() {
                         label="Fecha de Nacimiento"
                         type="date"
                         focused
-                        autoFocus
+                        defaultValue={currDate}
+                        onChange={(event) => setDate(event.target.value)}
+                        error={date !== "" && dateCondition()}
+                        helperText={date !== "" && dateCondition() ? <>Ingrese una fecha anterior a hoy</> : <></>}
                     />
                 </Grid>
                 {
@@ -138,9 +157,16 @@ export default function SignUp() {
                             required
                             fullWidth
                             id="teacherExperience"
-                            label="Experiencia"
+                            label="Su experiencia (0 a 70 años)"
                             name="teacherExperience"
-                            type="number"
+                            type='number'
+                            error={teacherExp !== "" && !teacherExp.match(teacherExpRegex)}
+                            helperText={teacherExp !== "" && !teacherExp.match(teacherExpRegex) ?
+                                <>Ingrese un número válido:<br />
+                                    Su experiencia laboral debe ser entre 0 y 70 años.
+                                </> : <></>}
+                            value={teacherExp}
+                            onChange={(event) => setTeacherExp(event.target.value)}
                             inputProps={{ min: 0, max: 70 }}
                         />
                     </Grid>
@@ -198,6 +224,10 @@ export default function SignUp() {
                                 label="Correo Electrónico"
                                 name="email"
                                 autoComplete="email"
+                                error={email !== "" && !email.match(emailRegex)}
+                                helperText={email !== "" && !email.match(emailRegex) ? <>email incorrecto</> : <></>}
+                                onChange={(event) => setEmail(event.target.value)}
+                                value={email}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -219,6 +249,18 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="new-password"
+                                error={password !== "" && !password.match(passwordRegex)}
+                                helperText={password !== "" && !password.match(passwordRegex) ?
+                                    <>Ingrese una contraseña válida.<br />
+                                        La contraseña debe poseer:<br />
+                                        - Entre 8 y 16 caracteres alfanuméricos<br />
+                                        - Dos letras mayúsculas<br />
+                                        - Un caracter especial, elegir entre: !@#$&*<br />
+                                        - Tres letras minúsculas<br />
+                                        - Dos números<br />
+                                    </> : <></>}
+                                onChange={(event) => setPassword(event.target.value)}
+                                value={password}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -233,12 +275,12 @@ export default function SignUp() {
                             justifyContent="center"
                             alignItems="center">
                             <FormControl>
-                                <FormLabel id="registeredUserRole">¿Que te trae acá?<br /></FormLabel>
+                                <FormLabel id="registeredUserRole">¿Qué te trae acá?<br /></FormLabel>
                                 <RadioGroup
                                     color="primary"
                                     aria-labelledby="registeredUserRole"
                                     name="user-role-radio-buttons-group"
-                                    onChange={handleRegisteredUserRole}
+                                    onChange={(event) => setRegisteredUserRole(event.target.value)}
                                 >
                                     <Grid item xs={12}>
                                         <FormControlLabel value="teacher" control={<Radio />} label="Soy profesor" />
