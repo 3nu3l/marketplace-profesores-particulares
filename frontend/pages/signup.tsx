@@ -32,6 +32,16 @@ export default function SignUp() {
         });
     };
 
+    var curr = new Date();
+    curr.setDate(curr.getDate());
+    var currDate = curr.toISOString().substring(0, 10);
+    const [date, setDate] = React.useState(currDate)
+    function dateCondition() {
+        if (date <= currDate || !date)
+            return false;
+        return true;
+    }
+
     const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/
     const [password, setPassword] = React.useState("");
     const [showPassword, setShowPassword] = React.useState(false);
@@ -44,15 +54,12 @@ export default function SignUp() {
 
     const [teacherTitle, setTeacherTitle] = React.useState("");
 
-    var curr = new Date();
-    curr.setDate(curr.getDate());
-    var currDate = curr.toISOString().substring(0, 10);
-    const [date, setDate] = React.useState(currDate)
-    function dateCondition() {
-        if (date <= currDate)
-            return false;
-        return true;
-    }
+    const [name, setName] = React.useState("");
+
+    const [lastName, setLastName] = React.useState("");
+
+    const phoneRegex = /^[0-9,+]*$/
+    const [phone, setPhone] = React.useState("");
 
     const [registeredUserRole, setRegisteredUserRole] = React.useState("")
     function handleUserRole(registeredUserRole) {
@@ -170,8 +177,8 @@ export default function SignUp() {
                             label="Su experiencia (0 a 70 años)"
                             name="teacherExperience"
                             type='number'
-                            error={!teacherExp && !teacherExp.match(teacherExpRegex)}
-                            helperText={!teacherExp && !teacherExp.match(teacherExpRegex) ?
+                            error={teacherExp.trim().length == 0 || !teacherExp.match(teacherExpRegex)}
+                            helperText={teacherExp.trim().length == 0 || !teacherExp.match(teacherExpRegex) ?
                                 <>Ingrese un número válido:<br />
                                     Su experiencia laboral debe ser entre 0 y 70 años.
                                 </> : <></>}
@@ -213,7 +220,10 @@ export default function SignUp() {
                                 fullWidth
                                 id="firstName"
                                 label="Nombre"
-                                autoFocus
+                                error={name.trim().length == 0}
+                                helperText={name.trim().length == 0 ? <>No debe estar vacío.</> : <></>}
+                                onChange={(event) => setName(event.target.value)}
+                                value={name}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -224,6 +234,10 @@ export default function SignUp() {
                                 label="Apellido"
                                 name="lastName"
                                 autoComplete="family-name"
+                                error={lastName.trim().length == 0}
+                                helperText={lastName.trim().length == 0 ? <>No debe estar vacío.</> : <></>}
+                                onChange={(event) => setLastName(event.target.value)}
+                                value={lastName}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -234,8 +248,9 @@ export default function SignUp() {
                                 label="Correo Electrónico"
                                 name="email"
                                 autoComplete="email"
-                                error={email !== "" && !email.match(emailRegex)}
-                                helperText={email !== "" && !email.match(emailRegex) ? <>email incorrecto</> : <></>}
+                                error={email.trim().length == 0 || !email.match(emailRegex)}
+                                helperText={email.trim().length == 0 || !email.match(emailRegex) ?
+                                    <>El formato de email es incorrecto. Ejemplo: example@mail.com</> : <></>}
                                 onChange={(event) => setEmail(event.target.value)}
                                 value={email}
                             />
@@ -248,6 +263,11 @@ export default function SignUp() {
                                 label="Número de Telefono"
                                 name="phone"
                                 autoComplete="phone"
+                                error={phone.trim().length == 0 || !phone.match(phoneRegex)}
+                                helperText={phone.trim().length == 0 || !phone.match(phoneRegex) ?
+                                    <>El formato de telefono es incorrecto. Ejemplo: +5491187654321</> : <></>}
+                                onChange={(event) => setPhone(event.target.value)}
+                                value={phone}
                             />
                         </Grid>
                         <Grid item xs={12}>
