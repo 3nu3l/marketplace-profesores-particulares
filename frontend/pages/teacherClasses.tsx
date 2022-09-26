@@ -3,12 +3,14 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Container } from '@mui/system';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+//import EditIcon from '@mui/icons-material/Edit';
+//import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton'
 import Switch from '@mui/material/Switch';
 import Link from 'next/link';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 function CustomSwitch() {
   const [checked, setChecked] = React.useState(true);
@@ -27,13 +29,14 @@ function CustomSwitch() {
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'className', headerName: 'Nombre de la clase', width: 150 },
-  { field: 'matter', headerName: 'Materia', width: 90 },
+  { field: 'className', headerName: 'Nombre de la clase', width: 200 },
+  { field: 'matter', headerName: 'Materia', width: 200 },
   {
     field: 'duration',
     headerName: 'Duración',
     type: 'number',
-    width: 90
+    width: 90,
+    align: 'left'
   },
   {
     field: 'frecuency',
@@ -50,8 +53,8 @@ const columns: GridColDef[] = [
     field: 'actions', headerName: 'Acciones', renderCell: () => {
       return (
         <div>
-          <IconButton color="error"><DeleteIcon /></IconButton>
-          <IconButton color="secondary"><EditIcon /></IconButton>
+          <IconButton color="error"><DeleteOutlineIcon /></IconButton>
+          <IconButton color="secondary"><EditOutlinedIcon /></IconButton>
         </div>);
     }
   }
