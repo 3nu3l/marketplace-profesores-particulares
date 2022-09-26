@@ -42,6 +42,8 @@ export default function SignUp() {
     const teacherExpRegex = /^([0-9]|[1-6][0-9]|70)$/
     const [teacherExp, setTeacherExp] = React.useState("");
 
+    const [teacherTitle, setTeacherTitle] = React.useState("");
+
     var curr = new Date();
     curr.setDate(curr.getDate());
     var currDate = curr.toISOString().substring(0, 10);
@@ -65,8 +67,8 @@ export default function SignUp() {
                         id="studentBirthday"
                         label="Fecha de Nacimiento"
                         type="date"
-                        focused
                         defaultValue={currDate}
+                        focused
                         onChange={(event) => setDate(event.target.value)}
                         error={date !== "" && dateCondition()}
                         helperText={date !== "" && dateCondition() ? <>Ingrese una fecha anterior a hoy</> : <></>}
@@ -144,6 +146,7 @@ export default function SignUp() {
         }
 
         if (registeredUserRole === 'teacher') {
+            debugger
             return (
                 <>
                     <Grid item xs={12} sm={6}>
@@ -152,7 +155,12 @@ export default function SignUp() {
                             required
                             fullWidth
                             id="teacherTitle"
-                            label="Título"
+                            label="Título de Grado"
+                            error={teacherTitle !== " "}
+                            helperText={teacherTitle !== " " ?
+                                <>Ingrese un título de grado habilitante para dar clases</> : <></>}
+                            value={teacherTitle}
+                            onChange={(event) => setTeacherTitle(event.target.value)}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
