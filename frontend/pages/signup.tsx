@@ -156,9 +156,8 @@ export default function SignUp() {
                             fullWidth
                             id="teacherTitle"
                             label="Título de Grado"
-                            error={teacherTitle !== " "}
-                            helperText={teacherTitle !== " " ?
-                                <>Ingrese un título de grado habilitante para dar clases</> : <></>}
+                            error={!teacherTitle}
+                            helperText={!teacherTitle ? <>Ingrese un título de grado habilitante para dar clases</> : <></>}
                             value={teacherTitle}
                             onChange={(event) => setTeacherTitle(event.target.value)}
                         />
@@ -171,8 +170,8 @@ export default function SignUp() {
                             label="Su experiencia (0 a 70 años)"
                             name="teacherExperience"
                             type='number'
-                            error={teacherExp !== "" && !teacherExp.match(teacherExpRegex)}
-                            helperText={teacherExp !== "" && !teacherExp.match(teacherExpRegex) ?
+                            error={!teacherExp && !teacherExp.match(teacherExpRegex)}
+                            helperText={!teacherExp && !teacherExp.match(teacherExpRegex) ?
                                 <>Ingrese un número válido:<br />
                                     Su experiencia laboral debe ser entre 0 y 70 años.
                                 </> : <></>}
