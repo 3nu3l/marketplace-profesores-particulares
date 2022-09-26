@@ -64,7 +64,6 @@ export default function SignUp() {
     const [registeredUserRole, setRegisteredUserRole] = React.useState("")
     function handleUserRole(registeredUserRole) {
         if (registeredUserRole === 'student') {
-
             return (<>
                 <Grid item xs={12}>
                     <TextField
@@ -151,7 +150,6 @@ export default function SignUp() {
                     </Grid>}
             </>)
         }
-
         if (registeredUserRole === 'teacher') {
             debugger
             return (
@@ -291,8 +289,8 @@ export default function SignUp() {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="new-password"
-                                error={password !== "" && !password.match(passwordRegex)}
-                                helperText={password !== "" && !password.match(passwordRegex) ?
+                                error={password.trim().length == 0 || !password.match(passwordRegex)}
+                                helperText={password.trim().length == 0 || !password.match(passwordRegex) ?
                                     <>Ingrese una contraseña válida.<br />
                                         La contraseña debe poseer:<br />
                                         - Entre 8 y 16 caracteres alfanuméricos<br />
