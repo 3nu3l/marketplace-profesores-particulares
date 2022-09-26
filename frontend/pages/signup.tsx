@@ -35,7 +35,7 @@ export default function SignUp() {
     var curr = new Date();
     curr.setDate(curr.getDate());
     var currDate = curr.toISOString().substring(0, 10);
-    const [date, setDate] = React.useState(currDate)
+    const [date, setDate] = React.useState("")
     function dateCondition() {
         if (date <= currDate || !date)
             return false;
@@ -77,8 +77,8 @@ export default function SignUp() {
                         defaultValue={currDate}
                         focused
                         onChange={(event) => setDate(event.target.value)}
-                        error={date !== "" && dateCondition()}
-                        helperText={date !== "" && dateCondition() ? <>Ingrese una fecha anterior a hoy</> : <></>}
+                        error={date.trim().length === 0 || dateCondition()}
+                        helperText={date.trim().length === 0 || dateCondition() ? <>Ingrese una fecha anterior a hoy</> : <></>}
                     />
                 </Grid>
                 {
