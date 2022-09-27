@@ -15,6 +15,8 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export default function SignUp() {
 
@@ -29,14 +31,42 @@ export default function SignUp() {
             password: data.get('password')
         });
     };
-    const [registeredUserRole, setRegisteredUserRole] = React.useState()
-    const handleRegisteredUserRole = (event) => {
-        setRegisteredUserRole(event.target.value);
-    };
 
+    var dateLessSixYear = new Date();
+    dateLessSixYear.setDate(dateLessSixYear.getDate() - 2192);
+    var formatDateLessSixYear = dateLessSixYear.toISOString().substring(0, 10);
+    const [date, setDate] = React.useState(formatDateLessSixYear)
+    function dateCondition() {
+        var _auxDate = new Date();
+        _auxDate.setDate(_auxDate.getDate() - 2191);
+        var auxDate = _auxDate.toISOString().substring(0, 10);
+        if (date >= auxDate || date.trim().length === 0)
+            return false;
+        return true;
+    }
+
+    const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/
+    const [password, setPassword] = React.useState("");
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    const [email, setEmail] = React.useState("");
+
+    const teacherExpRegex = /^([0-9]|[1-6][0-9]|70)$/
+    const [teacherExp, setTeacherExp] = React.useState("");
+
+    const [teacherTitle, setTeacherTitle] = React.useState("");
+
+    const [name, setName] = React.useState("");
+
+    const [lastName, setLastName] = React.useState("");
+
+    const phoneRegex = /^[0-9,+]*$/
+    const [phone, setPhone] = React.useState("");
+
+    const [registeredUserRole, setRegisteredUserRole] = React.useState("")
     function handleUserRole(registeredUserRole) {
         if (registeredUserRole === 'student') {
-
             return (<>
                 <Grid item xs={12}>
                     <TextField
@@ -46,8 +76,11 @@ export default function SignUp() {
                         id="studentBirthday"
                         label="Fecha de Nacimiento"
                         type="date"
+                        defaultValue={formatDateLessSixYear}
                         focused
-                        autoFocus
+                        onChange={(event) => setDate(event.target.value)}
+                        error={!dateCondition()}
+                        helperText={!dateCondition() ? <>Solo se pueden registrar mayores de seis años.</> : <></>}
                     />
                 </Grid>
                 {
@@ -120,8 +153,8 @@ export default function SignUp() {
                     </Grid>}
             </>)
         }
-
         if (registeredUserRole === 'teacher') {
+            debugger
             return (
                 <>
                     <Grid item xs={12} sm={6}>
@@ -130,7 +163,11 @@ export default function SignUp() {
                             required
                             fullWidth
                             id="teacherTitle"
-                            label="Título"
+                            label="Título de Grado"
+                            error={!teacherTitle}
+                            helperText={!teacherTitle ? <>Ingrese un título de grado habilitante para dar clases</> : <></>}
+                            value={teacherTitle}
+                            onChange={(event) => setTeacherTitle(event.target.value)}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -138,9 +175,16 @@ export default function SignUp() {
                             required
                             fullWidth
                             id="teacherExperience"
-                            label="Experiencia"
+                            label="Su experiencia (0 a 70 años)"
                             name="teacherExperience"
-                            type="number"
+                            type='number'
+                            error={teacherExp.trim().length == 0 || !teacherExp.match(teacherExpRegex)}
+                            helperText={teacherExp.trim().length == 0 || !teacherExp.match(teacherExpRegex) ?
+                                <>Ingrese un número válido:<br />
+                                    Su experiencia laboral debe ser entre 0 y 70 años.
+                                </> : <></>}
+                            value={teacherExp}
+                            onChange={(event) => setTeacherExp(event.target.value)}
                             inputProps={{ min: 0, max: 70 }}
                         />
                     </Grid>
@@ -177,7 +221,10 @@ export default function SignUp() {
                                 fullWidth
                                 id="firstName"
                                 label="Nombre"
-                                autoFocus
+                                error={name.trim().length == 0}
+                                helperText={name.trim().length == 0 ? <>No debe estar vacío.</> : <></>}
+                                onChange={(event) => setName(event.target.value)}
+                                value={name}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -188,6 +235,10 @@ export default function SignUp() {
                                 label="Apellido"
                                 name="lastName"
                                 autoComplete="family-name"
+                                error={lastName.trim().length == 0}
+                                helperText={lastName.trim().length == 0 ? <>No debe estar vacío.</> : <></>}
+                                onChange={(event) => setLastName(event.target.value)}
+                                value={lastName}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -198,6 +249,11 @@ export default function SignUp() {
                                 label="Correo Electrónico"
                                 name="email"
                                 autoComplete="email"
+                                error={email.trim().length == 0 || !email.match(emailRegex)}
+                                helperText={email.trim().length == 0 || !email.match(emailRegex) ?
+                                    <>El formato de email es incorrecto. Ejemplo: example@mail.com</> : <></>}
+                                onChange={(event) => setEmail(event.target.value)}
+                                value={email}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -208,17 +264,46 @@ export default function SignUp() {
                                 label="Número de Telefono"
                                 name="phone"
                                 autoComplete="phone"
+                                error={phone.trim().length == 0 || !phone.match(phoneRegex)}
+                                helperText={phone.trim().length == 0 || !phone.match(phoneRegex) ?
+                                    <>El formato de telefono es incorrecto. Ejemplo: +5491187654321</> : <></>}
+                                onChange={(event) => setPhone(event.target.value)}
+                                value={phone}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                onClick={() => setShowPassword(prev => !prev)}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}
                                 required
                                 fullWidth
                                 name="password"
                                 label="Contraseña"
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="new-password"
+                                error={password.trim().length == 0 || !password.match(passwordRegex)}
+                                helperText={password.trim().length == 0 || !password.match(passwordRegex) ?
+                                    <>Ingrese una contraseña válida.<br />
+                                        La contraseña debe poseer:<br />
+                                        - Entre 8 y 16 caracteres alfanuméricos<br />
+                                        - Dos letras mayúsculas<br />
+                                        - Un caracter especial, elegir entre: !@#$&*<br />
+                                        - Tres letras minúsculas<br />
+                                        - Dos números<br />
+                                    </> : <></>}
+                                onChange={(event) => setPassword(event.target.value)}
+                                value={password}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -233,12 +318,16 @@ export default function SignUp() {
                             justifyContent="center"
                             alignItems="center">
                             <FormControl>
-                                <FormLabel id="registeredUserRole">¿Que te trae acá?<br /></FormLabel>
+                                <FormLabel
+                                    id="registeredUserRole"
+                                    required>
+                                    ¿Qué te trae acá?
+                                </FormLabel>
                                 <RadioGroup
                                     color="primary"
                                     aria-labelledby="registeredUserRole"
                                     name="user-role-radio-buttons-group"
-                                    onChange={handleRegisteredUserRole}
+                                    onChange={(event) => setRegisteredUserRole(event.target.value)}
                                 >
                                     <Grid item xs={12}>
                                         <FormControlLabel value="teacher" control={<Radio />} label="Soy profesor" />
