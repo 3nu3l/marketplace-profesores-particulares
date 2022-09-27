@@ -95,7 +95,7 @@ export default function CreateClass() {
                                 type='number'
                                 error={cost.trim().length === 0 || !cost.match(costRegex)}
                                 helperText={cost.trim().length === 0 || !cost.match(costRegex) ?
-                                    <>Ingrese un monto válido mayor a &apos;'0&apos;' (cero) y separando los centavos con &apos;'.&apos;' (punto) solo con dos decimales</> : <></>}
+                                    <>Ingrese un monto válido mayor a &#39;0&#39; (cero) y separando los centavos con &#39;.&#39; (punto) solo con dos decimales</> : <></>}
                                 value={cost}
                                 onChange={(event) => setCost(event.target.value)}
                                 inputProps={{ min: 0 }}
