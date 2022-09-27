@@ -32,12 +32,15 @@ export default function SignUp() {
         });
     };
 
-    var curr = new Date();
-    curr.setDate(curr.getDate());
-    var currDate = curr.toISOString().substring(0, 10);
-    const [date, setDate] = React.useState("")
+    var dateLessSixYear = new Date();
+    dateLessSixYear.setDate(dateLessSixYear.getDate() - 2192);
+    var formatDateLessSixYear = dateLessSixYear.toISOString().substring(0, 10);
+    const [date, setDate] = React.useState(formatDateLessSixYear)
     function dateCondition() {
-        if (date <= currDate || !date)
+        var _auxDate = new Date();
+        _auxDate.setDate(_auxDate.getDate() - 2191);
+        var auxDate = _auxDate.toISOString().substring(0, 10);
+        if (date >= auxDate || date.trim().length === 0)
             return false;
         return true;
     }
@@ -64,7 +67,6 @@ export default function SignUp() {
     const [registeredUserRole, setRegisteredUserRole] = React.useState("")
     function handleUserRole(registeredUserRole) {
         if (registeredUserRole === 'student') {
-
             return (<>
                 <Grid item xs={12}>
                     <TextField
@@ -74,11 +76,11 @@ export default function SignUp() {
                         id="studentBirthday"
                         label="Fecha de Nacimiento"
                         type="date"
-                        defaultValue={currDate}
+                        defaultValue={formatDateLessSixYear}
                         focused
                         onChange={(event) => setDate(event.target.value)}
-                        error={date.trim().length === 0 || dateCondition()}
-                        helperText={date.trim().length === 0 || dateCondition() ? <>Ingrese una fecha anterior a hoy</> : <></>}
+                        error={!dateCondition()}
+                        helperText={!dateCondition() ? <>Solo se pueden registrar mayores de seis años.</> : <></>}
                     />
                 </Grid>
                 {
@@ -151,7 +153,6 @@ export default function SignUp() {
                     </Grid>}
             </>)
         }
-
         if (registeredUserRole === 'teacher') {
             debugger
             return (
@@ -291,8 +292,8 @@ export default function SignUp() {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="new-password"
-                                error={password !== "" && !password.match(passwordRegex)}
-                                helperText={password !== "" && !password.match(passwordRegex) ?
+                                error={password.trim().length == 0 || !password.match(passwordRegex)}
+                                helperText={password.trim().length == 0 || !password.match(passwordRegex) ?
                                     <>Ingrese una contraseña válida.<br />
                                         La contraseña debe poseer:<br />
                                         - Entre 8 y 16 caracteres alfanuméricos<br />
@@ -317,7 +318,11 @@ export default function SignUp() {
                             justifyContent="center"
                             alignItems="center">
                             <FormControl>
-                                <FormLabel id="registeredUserRole">¿Qué te trae acá?<br /></FormLabel>
+                                <FormLabel
+                                    id="registeredUserRole"
+                                    required>
+                                    ¿Qué te trae acá?
+                                </FormLabel>
                                 <RadioGroup
                                     color="primary"
                                     aria-labelledby="registeredUserRole"
