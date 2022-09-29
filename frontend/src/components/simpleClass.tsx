@@ -19,7 +19,6 @@ export default function SimpleClass({name, subject, price, rating, frequency, du
     <Paper
       sx={{
         p: 2,
-        margin: 'auto',
         maxWidth: 700,
         flexGrow: 1,
         backgroundColor: (theme) =>
