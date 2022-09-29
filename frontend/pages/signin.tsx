@@ -58,8 +58,8 @@ export default function SignIn() {
             label="Correo Electrónico"
             name="email"
             autoComplete="email"
-            error={email.trim().length == 0 || !email.match(emailRegex)}
-            helperText={email.trim().length == 0 || !email.match(emailRegex) ?
+            error={email.trim().length === 0 || !email.match(emailRegex)}
+            helperText={email.trim().length === 0 || !email.match(emailRegex) ?
               <>El formato de email es incorrecto. Ejemplo: example@mail.com</> : <></>}
             onChange={(event) => setEmail(event.target.value)}
             value={email}
@@ -84,8 +84,8 @@ export default function SignIn() {
             type={showPassword ? 'text' : 'password'}
             id="password"
             autoComplete="new-password"
-            error={password.trim().length == 0 || !password.match(passwordRegex)}
-            helperText={password.trim().length == 0 || !password.match(passwordRegex) ?
+            error={password.trim().length === 0 || !password.match(passwordRegex)}
+            helperText={password.trim().length === 0 || !password.match(passwordRegex) ?
               <>Ingrese una contraseña válida.<br />
                 La contraseña debe poseer:<br />
                 - Entre 8 y 16 caracteres alfanuméricos<br />

@@ -18,6 +18,14 @@ export default function ModifyClass() {
     const costRegex = /^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/
     const [cost, setCost] = React.useState("");
 
+    const [className, setClassName] = React.useState("");
+
+    const [matter, setMatter] = React.useState("");
+
+    const [duration, setDuration] = React.useState("");
+
+    const [frequency, setFrequency] = React.useState("");
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -49,13 +57,15 @@ export default function ModifyClass() {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
-                                autoComplete="given-name"
-                                name="className"
+                                name="firstName"
                                 required
                                 fullWidth
                                 id="className"
-                                label="Nombre de la clase"
-                                autoFocus
+                                label="Nombre"
+                                error={className.trim().length === 0}
+                                helperText={className.trim().length === 0 ? <>No debe estar vacío.</> : <></>}
+                                onChange={(event) => setClassName(event.target.value)}
+                                value={className}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -65,7 +75,10 @@ export default function ModifyClass() {
                                 id="matter"
                                 label="Materia"
                                 name="matter"
-                                autoComplete="family-name"
+                                error={matter.trim().length === 0}
+                                helperText={matter.trim().length === 0 ? <>No debe estar vacío.</> : <></>}
+                                onChange={(event) => setMatter(event.target.value)}
+                                value={matter}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -75,7 +88,13 @@ export default function ModifyClass() {
                                 id="duration"
                                 label="Duración"
                                 name="duration"
-                                autoComplete="duration"
+                                inputProps={{ min: 0 }}
+                                type='number'
+                                error={duration.trim().length === 0 || !duration.match(costRegex)}
+                                helperText={duration.trim().length === 0 || !duration.match(costRegex) ?
+                                    <>{<div>Ingrese una duración válida mayor a &#39;0&#39; (cero).</div>}</> : <></>}
+                                value={duration}
+                                onChange={(event) => setDuration(event.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -84,9 +103,14 @@ export default function ModifyClass() {
                                 fullWidth
                                 name="frequency"
                                 label="Frecuencia"
-                                type="frequency"
                                 id="frequency"
-                                autoComplete="frequency"
+                                inputProps={{ min: 0 }}
+                                type='number'
+                                error={frequency.trim().length === 0 || !frequency.match(costRegex)}
+                                helperText={frequency.trim().length === 0 || !frequency.match(costRegex) ?
+                                    <>{<div>Ingrese una frecuencia válida mayor a &#39;0&#39; (cero).</div>}</> : <></>}
+                                value={frequency}
+                                onChange={(event) => setFrequency(event.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>

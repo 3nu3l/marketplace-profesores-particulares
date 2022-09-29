@@ -178,8 +178,8 @@ export default function SignUp() {
                             label="Su experiencia (0 a 70 años)"
                             name="teacherExperience"
                             type='number'
-                            error={teacherExp.trim().length == 0 || !teacherExp.match(teacherExpRegex)}
-                            helperText={teacherExp.trim().length == 0 || !teacherExp.match(teacherExpRegex) ?
+                            error={teacherExp.trim().length === 0 || !teacherExp.match(teacherExpRegex)}
+                            helperText={teacherExp.trim().length === 0 || !teacherExp.match(teacherExpRegex) ?
                                 <>Ingrese un número válido:<br />
                                     Su experiencia laboral debe ser entre 0 y 70 años.
                                 </> : <></>}
@@ -221,8 +221,8 @@ export default function SignUp() {
                                 fullWidth
                                 id="firstName"
                                 label="Nombre"
-                                error={name.trim().length == 0}
-                                helperText={name.trim().length == 0 ? <>No debe estar vacío.</> : <></>}
+                                error={name.trim().length === 0}
+                                helperText={name.trim().length === 0 ? <>No debe estar vacío.</> : <></>}
                                 onChange={(event) => setName(event.target.value)}
                                 value={name}
                             />
@@ -235,8 +235,8 @@ export default function SignUp() {
                                 label="Apellido"
                                 name="lastName"
                                 autoComplete="family-name"
-                                error={lastName.trim().length == 0}
-                                helperText={lastName.trim().length == 0 ? <>No debe estar vacío.</> : <></>}
+                                error={lastName.trim().length === 0}
+                                helperText={lastName.trim().length === 0 ? <>No debe estar vacío.</> : <></>}
                                 onChange={(event) => setLastName(event.target.value)}
                                 value={lastName}
                             />
@@ -249,8 +249,8 @@ export default function SignUp() {
                                 label="Correo Electrónico"
                                 name="email"
                                 autoComplete="email"
-                                error={email.trim().length == 0 || !email.match(emailRegex)}
-                                helperText={email.trim().length == 0 || !email.match(emailRegex) ?
+                                error={email.trim().length === 0 || !email.match(emailRegex)}
+                                helperText={email.trim().length === 0 || !email.match(emailRegex) ?
                                     <>El formato de email es incorrecto. Ejemplo: example@mail.com</> : <></>}
                                 onChange={(event) => setEmail(event.target.value)}
                                 value={email}
@@ -264,8 +264,8 @@ export default function SignUp() {
                                 label="Número de Telefono"
                                 name="phone"
                                 autoComplete="phone"
-                                error={phone.trim().length == 0 || !phone.match(phoneRegex)}
-                                helperText={phone.trim().length == 0 || !phone.match(phoneRegex) ?
+                                error={phone.trim().length === 0 || !phone.match(phoneRegex)}
+                                helperText={phone.trim().length === 0 || !phone.match(phoneRegex) ?
                                     <>El formato de telefono es incorrecto. Ejemplo: +5491187654321</> : <></>}
                                 onChange={(event) => setPhone(event.target.value)}
                                 value={phone}
@@ -292,8 +292,8 @@ export default function SignUp() {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="new-password"
-                                error={password.trim().length == 0 || !password.match(passwordRegex)}
-                                helperText={password.trim().length == 0 || !password.match(passwordRegex) ?
+                                error={password.trim().length === 0 || !password.match(passwordRegex)}
+                                helperText={password.trim().length === 0 || !password.match(passwordRegex) ?
                                     <>Ingrese una contraseña válida.<br />
                                         La contraseña debe poseer:<br />
                                         - Entre 8 y 16 caracteres alfanuméricos<br />
