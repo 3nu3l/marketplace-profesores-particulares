@@ -6,13 +6,8 @@ import ListItem from '@mui/material/ListItem'
 import Grid from '@mui/material/Grid'
 import SimpleClass from '../src/components/simpleClass'
 import FilterSelector from '../src/components/filterSelector'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { useTheme } from '@mui/material/styles';
 
 export default function SearchResults() {
-    const theme = useTheme();
-    const largeScreen = useMediaQuery((theme => theme.breakpoints.up('md')));
-
     return (
         <Container
         component = "main"
@@ -20,7 +15,7 @@ export default function SearchResults() {
         >
             <CssBaseline />
             <h1>Resultados de la búsqueda</h1>
-            <Grid container spacing={largeScreen ? 0 : 2} direction={largeScreen ? "row" : "column"}>
+            <Grid container spacing={{xs: 2, md: 0}} direction={{xs: "column", md: "row"}}>
                 <Grid item xs={3}>
                     <FilterSelector />
                 </Grid>
