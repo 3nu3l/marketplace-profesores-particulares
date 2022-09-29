@@ -11,8 +11,17 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export default function SignIn() {
+  const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/
+  const [password, setPassword] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+  const [email, setEmail] = React.useState("");
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -21,6 +30,7 @@ export default function SignIn() {
       password: data.get('password'),
     });
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -45,24 +55,51 @@ export default function SignIn() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Correo Electrónico"
             name="email"
             autoComplete="email"
-            autoFocus
+            error={email.trim().length == 0 || !email.match(emailRegex)}
+            helperText={email.trim().length == 0 || !email.match(emailRegex) ?
+              <>El formato de email es incorrecto. Ejemplo: example@mail.com</> : <></>}
+            onChange={(event) => setEmail(event.target.value)}
+            value={email}
           />
           <TextField
-            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(prev => !prev)}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
             required
             fullWidth
             name="password"
-            label="Password"
-            type="password"
+            label="Contraseña"
+            type={showPassword ? 'text' : 'password'}
             id="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
+            error={password.trim().length == 0 || !password.match(passwordRegex)}
+            helperText={password.trim().length == 0 || !password.match(passwordRegex) ?
+              <>Ingrese una contraseña válida.<br />
+                La contraseña debe poseer:<br />
+                - Entre 8 y 16 caracteres alfanuméricos<br />
+                - Dos letras mayúsculas<br />
+                - Un caracter especial, elegir entre: !@#$&*<br />
+                - Tres letras minúsculas<br />
+                - Dos números<br />
+              </> : <></>}
+            onChange={(event) => setPassword(event.target.value)}
+            value={password}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Recordar"
+            label="Recordar mis datos"
           />
           <Button
             type="submit"
@@ -75,12 +112,12 @@ export default function SignIn() {
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                Olvidó su contraseña?
+                {"¿Olvidó su contraseña?"}
               </Link>
             </Grid>
             <Grid item>
               <Link href="/signup" variant="body2">
-                {"No tiene cuenta? Registrese"}
+                {"¿No tiene cuenta? Cree una"}
               </Link>
             </Grid>
           </Grid>
