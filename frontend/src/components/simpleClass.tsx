@@ -38,7 +38,7 @@ export default function SimpleClass({name, subject, price, rating, frequency, du
               </Typography>
             </Grid>
             <Grid item xs={4}>
-              <Typography variant="subtitle1" component="div" style={{textAlign: "right"}}>
+              <Typography variant="h5" component="div" style={{textAlign: "right"}} color="green">
                 $ {price}
               </Typography>
             </Grid>

@@ -6,8 +6,13 @@ import ListItem from '@mui/material/ListItem'
 import Grid from '@mui/material/Grid'
 import SimpleClass from '../src/components/simpleClass'
 import FilterSelector from '../src/components/filterSelector'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTheme } from '@mui/material/styles';
 
 export default function SearchResults() {
+    const theme = useTheme();
+    const largeScreen = useMediaQuery((theme => theme.breakpoints.up('md')));
+
     return (
         <Container
         component = "main"
@@ -15,7 +20,7 @@ export default function SearchResults() {
         >
             <CssBaseline />
             <h1>Resultados de la búsqueda</h1>
-            <Grid container spacing={0}>
+            <Grid container spacing={largeScreen ? 0 : 2} direction={largeScreen ? "row" : "column"}>
                 <Grid item xs={3}>
                     <FilterSelector />
                 </Grid>
@@ -34,12 +39,11 @@ export default function SearchResults() {
                             <SimpleClass name="Uniones covalentes" subject="Química" price='65.00' rating={4} frequency="Mensual" duration="2" />
                         </ListItem>
                         <ListItem>
-                            <SimpleClass name="Redes y Telecomunicaciones 1" subject="Matemática" price='150.00' rating={1} frequency="Semanal" duration="4" />
+                            <SimpleClass name="Redes y Telecomunicaciones 1" subject="Sistemas de Comuncaciones" price='150.00' rating={1} frequency="Semanal" duration="4" />
                         </ListItem>
                     </List>
                 </Grid>
-            </Grid>
-            
+            </Grid> 
         </Container> 
     )
 }
