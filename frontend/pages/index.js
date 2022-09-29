@@ -47,9 +47,15 @@ export default function Home() {
             direction="row"
             justify="space-between"
             alignItems="center">
-              <FeatureBox title="BUSCÁ" description="La materia en la que necesitás ayuda" icon={faMagnifyingGlass} pageLink="signin" />
-              <FeatureBox title="RESERVÁ" description="Una clase con uno de nuestros profesores" icon={faCheck} pageLink="signin" />
-              <FeatureBox title="APROBÁ" description="Para ponerte a un paso más cerca de conseguir tu título" icon={faTrophy} pageLink="signin" />
+              <Grid item>
+                <FeatureBox title="BUSCÁ" description="La materia en la que necesitás ayuda" icon={faMagnifyingGlass} pageLink="signin" />
+              </Grid>
+              <Grid item>
+                <FeatureBox title="RESERVÁ" description="Una clase con uno de nuestros profesores" icon={faCheck} pageLink="signin" />
+              </Grid>
+              <Grid item>
+                <FeatureBox title="APROBÁ" description="Para ponerte a un paso más cerca de conseguir tu título" icon={faTrophy} pageLink="signin" />
+              </Grid>
           </Grid>
         </div>
 
