@@ -3,18 +3,17 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import { InputAdornment } from '@mui/material';
 
 export default function CreateClass() {
+    const costRegex = /^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/
+    const [cost, setCost] = React.useState("");
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -91,12 +90,24 @@ export default function CreateClass() {
                                 required
                                 fullWidth
                                 id="cost"
-                                label="Costo"
+                                label="Costo por hora"
                                 name="cost"
-                                autoComplete="cost"
+                                type='number'
+                                error={cost.trim().length === 0 || !cost.match(costRegex)}
+                                helperText={cost.trim().length === 0 || !cost.match(costRegex) ?
+                                    <>{<div>Ingrese un monto válido mayor a &#39;0&#39; (cero) y separando los centavos con &#39;.&#39; (punto) solo con dos decimales</div>}</> : <></>}
+                                value={cost}
+                                onChange={(event) => setCost(event.target.value)}
+                                inputProps={{ min: 0 }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <div>$</div>
+                                        </InputAdornment>
+                                    ),
+                                }}
                             />
                         </Grid>
-
                     </Grid>
                     <Button
                         type="submit"
