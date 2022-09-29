@@ -3,6 +3,7 @@ import SubjectSearchBar from '../src/components/autocompleteSearch'
 import { Button, Divider, Grid } from '@mui/material';
 import FeatureBox from '../src/components/featureBox'
 import { faCheck, faTrophy, faMagnifyingGlass, faChalkboardUser, faFilePen, faCommentDollar } from "@fortawesome/free-solid-svg-icons";
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -24,7 +25,7 @@ export default function Home() {
               <SubjectSearchBar />
             </Grid>
             <Grid item>
-              <Button variant='outlined'>Buscar</Button>
+              <Link href="/searchResults"><Button variant='outlined'>Buscar</Button></Link>
             </Grid>
           </Grid>
         </div>
