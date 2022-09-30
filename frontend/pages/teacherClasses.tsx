@@ -3,8 +3,6 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Container } from '@mui/system';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-//import EditIcon from '@mui/icons-material/Edit';
-//import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton'
 import Switch from '@mui/material/Switch';
@@ -29,7 +27,7 @@ function CustomSwitch() {
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'className', headerName: 'Nombre de la clase', width: 200 },
+  { field: 'className', headerName: 'Nombre de la clase', width: 300 },
   { field: 'subject', headerName: 'Materia', width: 200 },
   {
     field: 'duration',
@@ -61,15 +59,15 @@ const columns: GridColDef[] = [
 ]
 
 const rows = [
-  Row(1, 'Snow', 'Jon', 35, 'Semanal', true),
-  Row(2, 'Lannister', 'Cersei', 42, 'diaria', true),
-  Row(3, 'Lannister', 'Jaime', 45, 'diaria', false),
-  Row(4, 'Stark', 'Arya', 16, 'Semanal', true),
-  Row(5, 'Targaryen', 'Daenerys', null, 'Semanal', false),
-  Row(6, 'Melisandre', null, 150, 'Semanal', false),
-  Row(7, 'Clifford', 'Ferrara', 44, 'diaria', true),
-  Row(8, 'Frances', 'Rossini', 36, 'Semanal', true),
-  Row(9, 'Roxie', 'Harvey', 65, 'Semanal', true),
+  Row(1, 'Introducción a trigonometría', 'Matemática', 35, 'Semanal', true),
+  Row(2, 'MRU, MRUV, Tiro vertical', 'Física', 42, 'Única', true),
+  Row(3, 'Entendiendio el Martín Fierro', 'Lengua y Literatura', 45, 'Única', false),
+  Row(4, 'Uniones covalentes', 'Química', 16, 'Semanal', true),
+  Row(5, 'Redes y Telecomunicaciones 1', 'Sistemas de Comuncaciones', 24, 'Semanal', false),
+  Row(6, 'Introducción a trigonometría', 'Matemática', 150, 'Semanal', false),
+  Row(7, 'MRU, MRUV, Tiro vertical', 'Física', 44, 'Única', true),
+  Row(8, 'Entendiendio el Martín Fierro', 'Lengua y Literatura', 36, 'Semanal', true),
+  Row(9, 'Uniones covalentes', 'Química', 65, 'Semanal', true),
 ];
 
 function Row(id: number, className: string, subject: string, duration: number, frecuency: string, status: boolean) {

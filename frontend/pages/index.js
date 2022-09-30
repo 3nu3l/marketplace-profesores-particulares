@@ -72,9 +72,15 @@ export default function Home() {
             direction="row"
             justify="space-between"
             alignItems="center">
-              <FeatureBox title="REGISTRÁ" description="Tus asignaturas y horarios para los alumnos" icon={faFilePen} pageLink="registrationClass" />
-              <FeatureBox title="COBRÁ" description="Establecé las tarifas que quieras por tus clases " icon={faCommentDollar} pageLink="registrationClass" />
-              <FeatureBox title="ENSEÑÁ" description="En vivo directamente en la plataforma" icon={faChalkboardUser} pageLink="registrationClass" />
+              <Grid item>
+                <FeatureBox title="REGISTRÁ" description="Tus asignaturas y horarios para los alumnos" icon={faFilePen} pageLink="teacherClasses" />
+              </Grid>
+              <Grid item>
+                <FeatureBox title="COBRÁ" description="Establecé las tarifas que quieras por tus clases " icon={faCommentDollar} pageLink="teacherClasses" />
+              </Grid>
+              <Grid item>
+                <FeatureBox title="ENSEÑÁ" description="En vivo directamente en la plataforma" icon={faChalkboardUser} pageLink="teacherClasses" />
+              </Grid>
           </Grid>
         </div>
       </main>
