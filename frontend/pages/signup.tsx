@@ -19,19 +19,6 @@ import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export default function SignUp() {
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
-            email: data.get('email'),
-            phone: data.get('phone'),
-            password: data.get('password')
-        });
-    };
-
     var dateLessSixYear = new Date();
     dateLessSixYear.setDate(dateLessSixYear.getDate() - 2192);
     var formatDateLessSixYear = dateLessSixYear.toISOString().substring(0, 10);
@@ -47,22 +34,72 @@ export default function SignUp() {
 
     const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/
     const [password, setPassword] = React.useState("");
+    const [errorPassword, setErrorPassword] = React.useState(false);
     const [showPassword, setShowPassword] = React.useState(false);
 
     const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    const [errorEmail, setErrorEmail] = React.useState(false);
     const [email, setEmail] = React.useState("");
 
     const teacherExpRegex = /^([0-9]|[1-6][0-9]|70)$/
+    const [errorTeacherExp, setErrorTeacherExp] = React.useState(false);
     const [teacherExp, setTeacherExp] = React.useState("");
 
     const [teacherTitle, setTeacherTitle] = React.useState("");
+    const [errorTeacherTitle, setErrorTeacherTitle] = React.useState(false);
 
     const [name, setName] = React.useState("");
+    const [errorName, setErrorName] = React.useState(false);
 
     const [lastName, setLastName] = React.useState("");
+    const [errorLastName, setErrorLastName] = React.useState(false);
 
     const phoneRegex = /^[0-9,+]*$/
+    const [errorPhone, setErrorPhone] = React.useState(false);
     const [phone, setPhone] = React.useState("");
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        console.log({
+            email: data.get('email'),
+        });
+
+        if (password.trim().length === 0 || !password.match(passwordRegex))
+            setErrorPassword(true);
+        else
+            setErrorPassword(false);
+
+        if (email.trim().length === 0 || !email.match(emailRegex))
+            setErrorEmail(true);
+        else
+            setErrorEmail(false);
+
+        if (teacherTitle.trim().length === 0)
+            setErrorTeacherTitle(true);
+        else
+            setErrorTeacherTitle(false);
+
+        if (teacherExp.trim().length === 0 || !teacherExp.match(teacherExpRegex))
+            setErrorTeacherExp(true);
+        else
+            setErrorTeacherExp(false);
+
+        if (name.trim().length === 0)
+            setErrorName(true);
+        else
+            setErrorName(false);
+
+        if (lastName.trim().length === 0)
+            setErrorLastName(true);
+        else
+            setErrorLastName(false);
+
+        if (phone.trim().length === 0 || !phone.match(phoneRegex))
+            setErrorPhone(true);
+        else
+            setErrorPhone(false);
+    };
 
     const [registeredUserRole, setRegisteredUserRole] = React.useState("")
     function handleUserRole(registeredUserRole) {
@@ -164,8 +201,8 @@ export default function SignUp() {
                             fullWidth
                             id="teacherTitle"
                             label="Título de Grado"
-                            error={!teacherTitle}
-                            helperText={!teacherTitle ? <>Ingrese un título de grado habilitante para dar clases</> : <></>}
+                            error={errorTeacherTitle}
+                            helperText={errorTeacherTitle ? <>Ingrese un título de grado habilitante para dar clases</> : <></>}
                             value={teacherTitle}
                             onChange={(event) => setTeacherTitle(event.target.value)}
                         />
@@ -178,8 +215,8 @@ export default function SignUp() {
                             label="Su experiencia (0 a 70 años)"
                             name="teacherExperience"
                             type='number'
-                            error={teacherExp.trim().length === 0 || !teacherExp.match(teacherExpRegex)}
-                            helperText={teacherExp.trim().length === 0 || !teacherExp.match(teacherExpRegex) ?
+                            error={errorTeacherExp}
+                            helperText={errorTeacherExp ?
                                 <>Ingrese un número válido:<br />
                                     Su experiencia laboral debe ser entre 0 y 70 años.
                                 </> : <></>}
@@ -221,8 +258,8 @@ export default function SignUp() {
                                 fullWidth
                                 id="firstName"
                                 label="Nombre"
-                                error={name.trim().length === 0}
-                                helperText={name.trim().length === 0 ? <>No debe estar vacío.</> : <></>}
+                                error={errorName}
+                                helperText={errorName ? <>No debe estar vacío.</> : <></>}
                                 onChange={(event) => setName(event.target.value)}
                                 value={name}
                             />
@@ -235,8 +272,8 @@ export default function SignUp() {
                                 label="Apellido"
                                 name="lastName"
                                 autoComplete="family-name"
-                                error={lastName.trim().length === 0}
-                                helperText={lastName.trim().length === 0 ? <>No debe estar vacío.</> : <></>}
+                                error={errorLastName}
+                                helperText={errorLastName ? <>No debe estar vacío.</> : <></>}
                                 onChange={(event) => setLastName(event.target.value)}
                                 value={lastName}
                             />
@@ -249,8 +286,8 @@ export default function SignUp() {
                                 label="Correo Electrónico"
                                 name="email"
                                 autoComplete="email"
-                                error={email.trim().length === 0 || !email.match(emailRegex)}
-                                helperText={email.trim().length === 0 || !email.match(emailRegex) ?
+                                error={errorEmail}
+                                helperText={errorEmail ?
                                     <>El formato de email es incorrecto. Ejemplo: example@mail.com</> : <></>}
                                 onChange={(event) => setEmail(event.target.value)}
                                 value={email}
@@ -264,8 +301,8 @@ export default function SignUp() {
                                 label="Número de Telefono"
                                 name="phone"
                                 autoComplete="phone"
-                                error={phone.trim().length === 0 || !phone.match(phoneRegex)}
-                                helperText={phone.trim().length === 0 || !phone.match(phoneRegex) ?
+                                error={errorPhone}
+                                helperText={errorPhone ?
                                     <>El formato de telefono es incorrecto. Ejemplo: +5491187654321</> : <></>}
                                 onChange={(event) => setPhone(event.target.value)}
                                 value={phone}
@@ -292,8 +329,8 @@ export default function SignUp() {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="new-password"
-                                error={password.trim().length === 0 || !password.match(passwordRegex)}
-                                helperText={password.trim().length === 0 || !password.match(passwordRegex) ?
+                                error={errorPassword}
+                                helperText={errorPassword ?
                                     <>Ingrese una contraseña válida.<br />
                                         La contraseña debe poseer:<br />
                                         - Entre 8 y 16 caracteres alfanuméricos<br />
