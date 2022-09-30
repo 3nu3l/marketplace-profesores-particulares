@@ -27,7 +27,7 @@ function CustomSwitch() {
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'className', headerName: 'Nombre de la clase', width: 200 },
+  { field: 'className', headerName: 'Nombre de la clase', width: 300 },
   { field: 'subject', headerName: 'Materia', width: 200 },
   {
     field: 'duration',
