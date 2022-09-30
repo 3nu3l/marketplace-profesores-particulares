@@ -30,7 +30,7 @@ function CustomSwitch() {
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
   { field: 'className', headerName: 'Nombre de la clase', width: 200 },
-  { field: 'matter', headerName: 'Materia', width: 200 },
+  { field: 'subject', headerName: 'Materia', width: 200 },
   {
     field: 'duration',
     headerName: 'Duración',
@@ -72,8 +72,8 @@ const rows = [
   Row(9, 'Roxie', 'Harvey', 65, 'Semanal', true),
 ];
 
-function Row(id: number, className: string, matter: string, duration: number, frecuency: string, status: boolean) {
-  return ({ id: id, className: className, matter: matter, duration: duration, frecuency: frecuency, status: status })
+function Row(id: number, className: string, subject: string, duration: number, frecuency: string, status: boolean) {
+  return ({ id: id, className: className, subject: subject, duration: duration, frecuency: frecuency, status: status })
 }
 
 export default function DataTable() {
