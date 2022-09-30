@@ -46,7 +46,8 @@ export default function Home() {
             spacing={2}
             direction="row"
             justify="space-between"
-            alignItems="center">
+            alignItems="center"
+            justifyContent="center">
               <Grid item>
                 <FeatureBox title="BUSCÁ" description="La materia en la que necesitás ayuda" icon={faMagnifyingGlass} pageLink="signin" />
               </Grid>
@@ -71,7 +72,8 @@ export default function Home() {
             spacing={2}
             direction="row"
             justify="space-between"
-            alignItems="center">
+            alignItems="center"
+            justifyContent="center">
               <Grid item>
                 <FeatureBox title="REGISTRÁ" description="Tus asignaturas y horarios para los alumnos" icon={faFilePen} pageLink="teacherClasses" />
               </Grid>
