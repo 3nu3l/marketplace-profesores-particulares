@@ -17,18 +17,29 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 export default function SignIn() {
   const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/
   const [password, setPassword] = React.useState("");
+  const [errorPassword, setErrorPassword] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+  const [errorEmail, setErrorEmail] = React.useState(false);
   const [email, setEmail] = React.useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: data.get('email')
     });
+
+    if (password.trim().length === 0 || !password.match(passwordRegex))
+      setErrorPassword(true);
+    else
+      setErrorPassword(false);
+
+    if (email.trim().length === 0 || !email.match(emailRegex))
+      setErrorEmail(true);
+    else
+      setErrorEmail(false);
   };
 
   return (
@@ -58,8 +69,8 @@ export default function SignIn() {
             label="Correo Electrónico"
             name="email"
             autoComplete="email"
-            error={email.trim().length === 0 || !email.match(emailRegex)}
-            helperText={email.trim().length === 0 || !email.match(emailRegex) ?
+            error={errorEmail}
+            helperText={errorEmail ?
               <>El formato de email es incorrecto. Ejemplo: example@mail.com</> : <></>}
             onChange={(event) => setEmail(event.target.value)}
             value={email}
@@ -84,8 +95,8 @@ export default function SignIn() {
             type={showPassword ? 'text' : 'password'}
             id="password"
             autoComplete="new-password"
-            error={password.trim().length === 0 || !password.match(passwordRegex)}
-            helperText={password.trim().length === 0 || !password.match(passwordRegex) ?
+            error={errorPassword}
+            helperText={errorPassword ?
               <>Ingrese una contraseña válida.<br />
                 La contraseña debe poseer:<br />
                 - Entre 8 y 16 caracteres alfanuméricos<br />
