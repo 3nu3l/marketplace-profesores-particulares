@@ -14,6 +14,12 @@ import Container from '@mui/material/Container';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
+function handlePasswordRecovery() {
+  let text
+  let email = prompt("Ingrese el correo electrónico con el que se registró:", "example@mail.com")
+  window.alert("Si su dirección se encuentra en nuestra base de datos, le enviaremos un correo de recuperación.")
+}
+
 export default function SignIn() {
   const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/
   const [password, setPassword] = React.useState("");
@@ -123,7 +129,7 @@ export default function SignIn() {
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                {"¿Olvidó su contraseña?"}
+                <a onClick={handlePasswordRecovery}>¿Olvidó su contraseña?</a>{""}
               </Link>
             </Grid>
             <Grid item>
