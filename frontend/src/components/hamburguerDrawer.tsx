@@ -15,6 +15,7 @@ import Link from 'next/link';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import EditIcon from '@mui/icons-material/Edit';
 import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const anchor = 'left'
@@ -50,6 +51,19 @@ export default function HamburguerDrawer() {
         onKeyDown={toggleDrawer(anchor, false)}
     >
         <List>
+            <Link color="inherit" href="/">
+                <ListItem key={'home'} disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon>
+                        <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={'Inicio'} />
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+
+            <Divider />
+
             <Link color="inherit" href="/signin">
                 <ListItem key={'signin'} disablePadding>
                     <ListItemButton>
