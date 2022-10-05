@@ -9,6 +9,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import EditIcon from '@mui/icons-material/Edit';
 import { InputAdornment } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 
 
 export default function ModifyClass() {
@@ -19,8 +23,8 @@ export default function ModifyClass() {
     const [className, setClassName] = React.useState("");
     const [errorClassName, setErrorClassName] = React.useState(false);
 
-    const [matter, setMatter] = React.useState("");
-    const [errorMatter, setErrorMatter] = React.useState(false);
+    const [subject, setSubject] = React.useState("");
+    const [errorSubject, setErrorSubject] = React.useState(false);
 
     const [duration, setDuration] = React.useState("");
     const [errorDuration, setErrorDuration] = React.useState(false);
@@ -28,12 +32,14 @@ export default function ModifyClass() {
     const [frequency, setFrequency] = React.useState("");
     const [errorFrequency, setErrorFrequency] = React.useState(false);
 
+    const [classType, setClassType] = React.useState("");
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
             className: data.get('className'),
-            matter: data.get('matter'),
+            subject: data.get('subject'),
         });
 
         if (cost.trim().length === 0 || !cost.match(costRegex))
@@ -44,10 +50,10 @@ export default function ModifyClass() {
             setErrorClassName(true);
         else
             setErrorClassName(false);
-        if (matter.trim().length === 0)
-            setErrorMatter(true);
+        if (subject.trim().length === 0)
+            setErrorSubject(true);
         else
-            setErrorMatter(false);
+            setErrorSubject(false);
         if (duration.trim().length === 0 || !duration.match(costRegex))
             setErrorDuration(true);
         else
@@ -95,13 +101,13 @@ export default function ModifyClass() {
                             <TextField
                                 required
                                 fullWidth
-                                id="matter"
+                                id="subject"
                                 label="Materia"
-                                name="matter"
-                                error={errorMatter}
-                                helperText={errorMatter ? <>No debe estar vacío.</> : <></>}
-                                onChange={(event) => setMatter(event.target.value)}
-                                value={matter}
+                                name="subject"
+                                error={errorSubject}
+                                helperText={errorSubject ? <>No debe estar vacío.</> : <></>}
+                                onChange={(event) => setSubject(event.target.value)}
+                                value={subject}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -120,18 +126,37 @@ export default function ModifyClass() {
                                 onChange={(event) => setDuration(event.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                required
-                                fullWidth
-                                name="frequency"
-                                label="Frecuencia"
-                                id="frequency"
-                                error={errorFrequency}
-                                helperText={errorFrequency ? <>No debe estar vacío.</> : <></>}
+                        <Grid item xs={6}>
+                            <FormControl fullWidth>
+                                <InputLabel id="frequency-select-label">Frencuencia</InputLabel>
+                                <Select
+                                labelId="frequency-select-label"
+                                id="frequency-select"
                                 value={frequency}
-                                onChange={(event) => setFrequency(event.target.value)}
-                            />
+                                label="Frencuencia"
+                                onChange={(event: SelectChangeEvent) => setFrequency(event.target.value as string)}
+                                >
+                                    <MenuItem value={0}>Única</MenuItem>
+                                    <MenuItem value={1}>Semanal</MenuItem>
+                                    <MenuItem value={2}>Mensual</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <FormControl fullWidth>
+                                <InputLabel id="class-type-select-label">Tipo</InputLabel>
+                                <Select
+                                labelId="class-type-select-label"
+                                id="class-type-select"
+                                value={classType}
+                                label="Tipo"
+                                onChange={(event: SelectChangeEvent) => setClassType(event.target.value as string)}
+                                >
+                                    <MenuItem value={0}>Individual</MenuItem>
+                                    <MenuItem value={1}>Grupal</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
@@ -156,13 +181,14 @@ export default function ModifyClass() {
                                 }}
                             />
                         </Grid>
+
                     </Grid>
+
                     <Button
                         color="secondary"
                         type="submit"
                         fullWidth
                         variant="outlined"
-                        //variant="contained"
                         sx={{ mt: 3, mb: 1 }}
                     >
                         Guardar y cerrar
@@ -175,9 +201,6 @@ export default function ModifyClass() {
                     >
                         Publicar clase
                     </Button>
-
-
-
                 </Box>
             </Box>
         </Container>
