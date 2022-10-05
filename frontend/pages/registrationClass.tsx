@@ -32,14 +32,6 @@ export default function CreateClass() {
 
     const [classType, setClassType] = React.useState("");
 
-    const handleClassTypeChange = (event: SelectChangeEvent) => {
-        setClassType(event.target.value as string);
-    };
-
-    const handleFrequencyChange = (event: SelectChangeEvent) => {
-        setFrequency(event.target.value as string);
-    };
-
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -65,7 +57,6 @@ export default function CreateClass() {
         else
             setErrorDuration(false);
     };
-
 
     return (
         <Container component="main" maxWidth="xs">
@@ -131,13 +122,13 @@ export default function CreateClass() {
                         </Grid>
                         <Grid item xs={6}>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Frencuencia</InputLabel>
+                                <InputLabel id="frequency-select-label">Frencuencia</InputLabel>
                                 <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
+                                labelId="frequency-select-label"
+                                id="frequency-select"
                                 value={frequency}
                                 label="Frencuencia"
-                                onChange={handleFrequencyChange}
+                                onChange={(event: SelectChangeEvent) => setFrequency(event.target.value as string)}
                                 >
                                     <MenuItem value={0}>Única</MenuItem>
                                     <MenuItem value={1}>Semanal</MenuItem>
@@ -148,13 +139,13 @@ export default function CreateClass() {
 
                         <Grid item xs={6}>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
+                                <InputLabel id="class-type-select-label">Tipo</InputLabel>
                                 <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
+                                labelId="class-type-select-label"
+                                id="class-type-select"
                                 value={classType}
                                 label="Tipo"
-                                onChange={handleClassTypeChange}
+                                onChange={(event: SelectChangeEvent) => setClassType(event.target.value as string)}
                                 >
                                     <MenuItem value={0}>Individual</MenuItem>
                                     <MenuItem value={1}>Grupal</MenuItem>
