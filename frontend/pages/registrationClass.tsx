@@ -9,6 +9,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { InputAdornment } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
 
 export default function CreateClass() {
     const costRegex = /^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/
@@ -18,21 +22,30 @@ export default function CreateClass() {
     const [className, setClassName] = React.useState("");
     const [errorClassName, setErrorClassName] = React.useState(false);
 
-    const [matter, setMatter] = React.useState("");
-    const [errorMatter, setErrorMatter] = React.useState(false);
+    const [subject, setSubject] = React.useState("");
+    const [errorSubject, setErrorSubject] = React.useState(false);
 
     const [duration, setDuration] = React.useState("");
     const [errorDuration, setErrorDuration] = React.useState(false);
 
     const [frequency, setFrequency] = React.useState("");
-    const [errorFrequency, setErrorFrequency] = React.useState(false);
+
+    const [classType, setClassType] = React.useState("");
+
+    const handleClassTypeChange = (event: SelectChangeEvent) => {
+        setClassType(event.target.value as string);
+    };
+
+    const handleFrequencyChange = (event: SelectChangeEvent) => {
+        setFrequency(event.target.value as string);
+    };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
             className: data.get('className'),
-            matter: data.get('matter'),
+            subject: data.get('subject'),
         });
 
         if (cost.trim().length === 0 || !cost.match(costRegex))
@@ -43,19 +56,16 @@ export default function CreateClass() {
             setErrorClassName(true);
         else
             setErrorClassName(false);
-        if (matter.trim().length === 0)
-            setErrorMatter(true);
+        if (subject.trim().length === 0)
+            setErrorSubject(true);
         else
-            setErrorMatter(false);
+            setErrorSubject(false);
         if (duration.trim().length === 0 || !duration.match(costRegex))
             setErrorDuration(true);
         else
             setErrorDuration(false);
-        if (frequency.trim().length === 0)
-            setErrorFrequency(true);
-        else
-            setErrorFrequency(false);
     };
+
 
     return (
         <Container component="main" maxWidth="xs">
@@ -79,7 +89,7 @@ export default function CreateClass() {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
-                                name="className"
+                                name="firstName"
                                 required
                                 fullWidth
                                 id="className"
@@ -94,13 +104,13 @@ export default function CreateClass() {
                             <TextField
                                 required
                                 fullWidth
-                                id="matter"
+                                id="subject"
                                 label="Materia"
-                                name="matter"
-                                error={errorMatter}
-                                helperText={errorMatter ? <>No debe estar vacío.</> : <></>}
-                                onChange={(event) => setMatter(event.target.value)}
-                                value={matter}
+                                name="subject"
+                                error={errorSubject}
+                                helperText={errorSubject ? <>No debe estar vacío.</> : <></>}
+                                onChange={(event) => setSubject(event.target.value)}
+                                value={subject}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -119,19 +129,39 @@ export default function CreateClass() {
                                 onChange={(event) => setDuration(event.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                required
-                                fullWidth
-                                name="frequency"
-                                label="Frecuencia"
-                                id="frequency"
-                                error={errorFrequency}
-                                helperText={errorFrequency ? <>No debe estar vacío.</> : <></>}
+                        <Grid item xs={6}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Frencuencia</InputLabel>
+                                <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
                                 value={frequency}
-                                onChange={(event) => setFrequency(event.target.value)}
-                            />
+                                label="Frencuencia"
+                                onChange={handleFrequencyChange}
+                                >
+                                    <MenuItem value={0}>Única</MenuItem>
+                                    <MenuItem value={1}>Semanal</MenuItem>
+                                    <MenuItem value={2}>Mensual</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
+
+                        <Grid item xs={6}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Tipo</InputLabel>
+                                <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={classType}
+                                label="Tipo"
+                                onChange={handleClassTypeChange}
+                                >
+                                    <MenuItem value={0}>Individual</MenuItem>
+                                    <MenuItem value={1}>Grupal</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+
                         <Grid item xs={12}>
                             <TextField
                                 required
