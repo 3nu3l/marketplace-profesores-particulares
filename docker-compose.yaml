@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   backend:
-    build: ./backend
+    build: ./api
     ports:
       - "3001:3001"
   frontend:
