@@ -7,14 +7,6 @@ const User = require('./models/user');
 
 const app = express();
 
-// app.use((req, res, next) => {
-//   req.on('data', chunk => {
-//     const data = JSON.parse(chunk);
-//     req.body = data;
-//     next();
-//   });
-// });
-
 app.use(express.json());
 app.use(userRouter);
 
@@ -34,6 +26,6 @@ app.get('/', (req, res) => {
   res.json({ success: true, message: 'Welcome to backend zone!' });
 });
 
-app.listen(3001, () => {
-  console.log('port is listening');
+var listener = app.listen(process.env.HTTP_PORT || 3001, () => {
+  console.log(listener.address().port + ' port is listening');
 });
