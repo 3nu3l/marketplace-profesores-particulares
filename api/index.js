@@ -10,14 +10,6 @@ const app = express();
 app.use(express.json());
 app.use(userRouter);
 
-// const test = async (email, password) => {
-//   const user = await User.findOne({ email: email });
-//   const result = await user.comparePassword(password);
-//   console.log(result);
-// };
-
-// test('niraj@email.com', 'niraj12');
-
 app.get('/test', (req, res) => {
   res.send('Hello world');
 });
@@ -30,5 +22,4 @@ var listener = app.listen(process.env.HTTP_PORT || 3001, () => {
   console.log(listener.address().port + ' port is listening');
 });
 
-// Export the Express API
 module.exports = app;
