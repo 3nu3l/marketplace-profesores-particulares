@@ -23,4 +23,4 @@ var listener = app.listen(PORT, () => {
   console.log(listener.address().port + ' port is listening');
 });
 
-module.exports = app;
+module.exports = app
