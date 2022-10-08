@@ -18,7 +18,8 @@ app.get('/', (req, res) => {
   res.json({ success: true, message: 'Welcome to backend zone!' });
 });
 
-var listener = app.listen(process.env.HTTP_PORT || 3001, () => {
+const PORT = process.env.PORT || 3001;
+var listener = app.listen(PORT, () => {
   console.log(listener.address().port + ' port is listening');
 });
 
