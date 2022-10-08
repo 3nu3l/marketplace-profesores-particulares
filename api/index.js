@@ -29,3 +29,6 @@ app.get('/', (req, res) => {
 var listener = app.listen(process.env.HTTP_PORT || 3001, () => {
   console.log(listener.address().port + ' port is listening');
 });
+
+// Export the Express API
+module.exports = app;
