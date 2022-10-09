@@ -8,7 +8,7 @@
             "name": "ISC"
         }
     },
-    "host": "marketplace-profesores-particulares-backend.vercel.app",
+    "host": "localhost:3001",
     "basePath": "/",
     "tags": [
         {
@@ -47,10 +47,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "New user is created",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
+                        "description": "New user is created"
+                    },
+                    "400": {
+                        "description": "Missing a mandatory field"
+                    },
+                    "409": {
+                        "description": "Email in use"
                     }
                 }
             }
@@ -80,8 +83,7 @@
                 },
                 "email": {
                     "type": "string",
-                    "uniqueItems": true,
-                    "required": true
+                    "uniqueItems": true
                 },
                 "phone": {
                     "type": "string"
@@ -99,8 +101,7 @@
                     "type": "string"
                 },
                 "dateOfBirthStudent": {
-                    "type": "string",
-                    "required": true
+                    "type": "string"
                 },
                 "degreeLevelStudent": {
                     "type": "string"
