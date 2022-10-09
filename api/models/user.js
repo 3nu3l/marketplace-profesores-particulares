@@ -38,9 +38,6 @@ const userSchema = new mongoose.Schema({
   },
   degreeLevelStudent: {
     type: String,
-  },
-  lastModified: {
-    type: Date,
   }
 });
 userSchema.pre('save', function (next) {

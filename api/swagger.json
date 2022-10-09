@@ -1,0 +1,111 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "marketplace-api",
+        "description": "Marketplace API de clases particulares",
+        "license": {
+            "name": "ISC"
+        }
+    },
+    "host": "localhost:3001",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Marketplace",
+            "description": "API for users in the system"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/create-user": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Create new user in system",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User that we want to create",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New user is created",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "phone",
+                "password",
+                "role",
+                "degreeTeacher",
+                "experienceTeacher",
+                "dateOfBirthStudent",
+                "degreeLevelStudent",
+                "lastModified"
+            ],
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "uniqueItems": true,
+                    "required": true
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "degreeTeacher": {
+                    "type": "string"
+                },
+                "experienceTeacher": {
+                    "type": "string"
+                },
+                "dateOfBirthStudent": {
+                    "type": "string",
+                    "required": true
+                },
+                "degreeLevelStudent": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
