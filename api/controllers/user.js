@@ -19,7 +19,7 @@ exports.createUser = async (req, res) => {
   if (!isNewUser)
     return res.json({
       success: false,
-      message: 'Este email ya existe en la platafora. Si no recuerda la contraseña la puede recuperar',
+      message: 'Este email ya existe en la plataforma. Si no recuerda la contraseña la puede recuperar',
     });
   const user = await User({
     firstName,
