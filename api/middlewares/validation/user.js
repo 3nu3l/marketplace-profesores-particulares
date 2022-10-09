@@ -34,6 +34,7 @@ exports.userVlidation = (req, res, next) => {
   if (!result.length) return next();
 
   const error = result[0].msg;
+  res.status(400)
   res.json({ success: false, message: error });
 };
 
