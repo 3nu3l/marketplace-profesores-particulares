@@ -3,7 +3,7 @@
     "info": {
         "version": "1.0.0",
         "title": "marketplace-api",
-        "description": "Marketplace API de clases particulares",
+        "description": "Marketplace API de clases particulares - Only in localhost mode",
         "license": {
             "name": "ISC"
         }

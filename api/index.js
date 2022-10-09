@@ -19,12 +19,8 @@ app.use(
   swaggerUi.setup(swaggerDocument)
 );
 
-app.get('/test', (req, res) => {
-  res.send('Hello world');
-});
-
 app.get('/', (req, res) => {
-  res.json({ success: true, message: 'Welcome to backend zone!' });
+  res.json({ success: true, message: 'Backend OK' });
 });
 
 const PORT = process.env.HTTP_PORT || 3001;
