@@ -8,7 +8,7 @@
             "name": "ISC"
         }
     },
-    "host": "localhost:3001",
+    "host": "marketplace-profesores-particulares-backend.vercel.app",
     "basePath": "/",
     "tags": [
         {
