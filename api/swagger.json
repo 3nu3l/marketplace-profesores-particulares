@@ -26,7 +26,34 @@
         "application/json"
     ],
     "paths": {
-        "/create-user": {
+        "/user": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Get an user in system",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "User that we want to obtain",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User exist"
+                    },
+                    "400": {
+                        "description": "Missing a mandatory field"
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "Users"

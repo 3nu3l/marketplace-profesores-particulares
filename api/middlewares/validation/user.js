@@ -46,3 +46,7 @@ exports.validateUserSignIn = [
     .isEmpty()
     .withMessage('email / password is required!'),
 ];
+
+exports.validateGetUser = [
+  check('email').trim().isEmail().withMessage('email is required!')
+];

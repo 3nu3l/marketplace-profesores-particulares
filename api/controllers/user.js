@@ -40,6 +40,32 @@ exports.createUser = async (req, res) => {
   res.json({ success: true, user });
 };
 
+exports.getUser = async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user)
+    return res.json({
+      success: false,
+      message: 'No se encuentra el usuario en la base de datos',
+    });
+
+  res.json({ success: true, user: user });
+};
+
+exports.getUsers = async (req, res) => {
+  const users = await User.find({});
+
+  if (!users)
+    return res.json({
+      success: false,
+      message: 'No se encuentran usuarios en la base de datos',
+    });
+
+  res.json({ success: true, user: users });
+};
+
 exports.userSignIn = async (req, res) => {
   const { email, password } = req.body;
 
