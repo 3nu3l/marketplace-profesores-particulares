@@ -54,6 +54,17 @@ exports.getUser = async (req, res) => {
   res.json({ success: true, user: user });
 };
 
+exports.getUsers = async (req, res) => {
+  const users = await User.find({});
+
+  if (!users)
+    return res.json({
+      success: false,
+      message: 'No se encuentran usuarios en la base de datos',
+    });
+
+  res.json({ success: true, user: users });
+};
 
 exports.userSignIn = async (req, res) => {
   const { email, password } = req.body;

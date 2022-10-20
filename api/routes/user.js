@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   createUser,
   getUser,
+  getUsers,
   userSignIn,
   signOut,
 } = require('../controllers/user');
@@ -17,6 +18,7 @@ const {
 
 router.post('/user', validateUserSignUp, userVlidation, createUser);
 router.get('/user', validateGetUser, getUser)
+router.get('/users', getUsers)
 router.post('/sign-in', validateUserSignIn, userVlidation, userSignIn);
 router.post('/sign-out', isAuth, signOut);
 
