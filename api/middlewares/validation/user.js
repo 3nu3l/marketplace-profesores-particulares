@@ -26,7 +26,9 @@ exports.validateUserSignUp = [
     .trim()
     .not()
     .isEmpty()
-    .withMessage('El rol (profesor/estudiante) es requerido'),
+    .withMessage('El rol (profesor/estudiante) es requerido')
+    .isIn(['teacher', 'student'])
+    .withMessage('El rol del usuario debe estar entre las opcione: "teacher", "student"'),
 ];
 
 exports.userVlidation = (req, res, next) => {
