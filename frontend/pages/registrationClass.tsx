@@ -25,6 +25,7 @@ export default function CreateClass() {
     const [subject, setSubject] = React.useState("");
     const [errorSubject, setErrorSubject] = React.useState(false);
 
+    const durationRegex = /^[1-9]+[0-9]*$/;
     const [duration, setDuration] = React.useState("");
     const [errorDuration, setErrorDuration] = React.useState(false);
 
@@ -52,7 +53,7 @@ export default function CreateClass() {
             setErrorSubject(true);
         else
             setErrorSubject(false);
-        if (duration.trim().length === 0 || !duration.match(costRegex))
+        if (duration.trim().length === 0 || !duration.match(durationRegex))
             setErrorDuration(true);
         else
             setErrorDuration(false);
