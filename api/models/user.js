@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
+  _id: {
+    type: Number
+  },
   firstName: {
     type: String,
     required: true,
@@ -38,8 +41,15 @@ const userSchema = new mongoose.Schema({
   },
   degreeLevelStudent: {
     type: String,
-  }
-});
+  },
+},
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  });
+
 userSchema.pre('save', function (next) {
   if (this.isModified('password')) {
     bcrypt.hash(this.password, 8, (err, hash) => {
@@ -64,4 +74,5 @@ userSchema.statics.isThisEmailInUse = async function (email) {
   }
 };
 
+userSchema.plugin(AutoIncrement, { id: 'user_seq', inc_field: '_id' });
 module.exports = mongoose.model('User', userSchema);
