@@ -5,14 +5,12 @@ const userRouter = require('./routes/user');
 const classRouter = require('./routes/class');
 
 const app = express();
-
 app.use(express.json());
 app.use(userRouter);
 app.use(classRouter);
 
 const swaggerUi = require('swagger-ui-express'),
   swaggerDocument = require('./swagger.json');
-
 app.use(
   '/api-docs',
   swaggerUi.serve,

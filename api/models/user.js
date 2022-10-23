@@ -62,6 +62,17 @@ userSchema.pre('save', function (next) {
   }
 });
 
+userSchema.methods.comparePassword = async function (password) {
+  if (!password) throw new Error('No se encuentra una contraseña para comparar');
+
+  try {
+    const result = await bcrypt.compare(password, this.password);
+    return result;
+  } catch (error) {
+    console.log('Error mientras se comparaba las contraseñas', error.message);
+  }
+};
+
 userSchema.statics.isThisEmailInUse = async function (email) {
   if (!email) throw new Error('Email inválido');
   try {

@@ -85,7 +85,7 @@ exports.userSignIn = async (req, res) => {
     });
 
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-    expiresIn: '1d',
+    expiresIn: '1h',
   });
 
   let oldTokens = user.tokens || [];
@@ -104,9 +104,8 @@ exports.userSignIn = async (req, res) => {
   });
 
   const userInfo = {
-    fullname: user.fullname,
+    fullname: user.firstName + ' ' + user.lastName,
     email: user.email,
-    avatar: user.avatar ? user.avatar : '',
   };
 
   res.json({ success: true, user: userInfo, token });
