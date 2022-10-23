@@ -2,13 +2,13 @@ const express = require('express');
 require('dotenv').config();
 require('./models/db');
 const userRouter = require('./routes/user');
-
-const User = require('./models/user');
+const classRouter = require('./routes/class');
 
 const app = express();
 
 app.use(express.json());
 app.use(userRouter);
+app.use(classRouter);
 
 const swaggerUi = require('swagger-ui-express'),
   swaggerDocument = require('./swagger.json');
