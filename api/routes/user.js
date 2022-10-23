@@ -17,8 +17,8 @@ const {
 } = require('../middlewares/validation/user');
 
 router.post('/user', validateUserSignUp, userVlidation, createUser);
-router.get('/user', validateGetUser, getUser)
-router.get('/users', getUsers)
+router.get('/user', validateGetUser, userVlidation, getUser)
+router.get('/users', userVlidation, getUsers)
 router.post('/sign-in', validateUserSignIn, userVlidation, userSignIn);
 router.post('/sign-out', isAuth, signOut);
 
