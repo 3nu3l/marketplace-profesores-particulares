@@ -21,7 +21,7 @@ exports.validateUserSignUp = [
     .trim()
     .not()
     .isEmpty()
-    .withMessage('Password is empty!')
+    .withMessage('La contraseña se encuentra vacía!')
     .matches(/^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/)
     .withMessage('Ingrese una contraseña válida. Debe poseer: entre 8 y 16 caracteres alfanuméricos, dos letras mayúsculas,un caracter especial, elegir entre: !@#$&*, tres letras minúsculas, dos números'),
   check('role')
@@ -30,7 +30,7 @@ exports.validateUserSignUp = [
     .isEmpty()
     .withMessage('El rol (profesor/estudiante) es requerido')
     .isIn(['teacher', 'student'])
-    .withMessage('El rol del usuario debe estar entre las opcione: "teacher", "student"'),
+    .withMessage('El rol del usuario debe estar entre las opciones: "teacher", "student"'),
 ];
 
 exports.userVlidation = (req, res, next) => {
@@ -43,14 +43,14 @@ exports.userVlidation = (req, res, next) => {
 };
 
 exports.validateUserSignIn = [
-  check('email').trim().isEmail().withMessage('email / password is required!'),
+  check('email').trim().isEmail().withMessage('email / password son requeridos!'),
   check('password')
     .trim()
     .not()
     .isEmpty()
-    .withMessage('email / password is required!'),
+    .withMessage('email / password son requeridos!'),
 ];
 
 exports.validateGetUser = [
-  check('email').trim().isEmail().withMessage('email is required!')
+  check('email').trim().isEmail().withMessage('El email no tiene el formato adecuado o se encuentra vacío.')
 ];

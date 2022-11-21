@@ -3,19 +3,18 @@ require('dotenv').config();
 require('./models/db');
 const userRouter = require('./routes/user');
 const classRouter = require('./routes/class');
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger.json');
+const swaggerConfig = require('./middlewares/config/swagger');
+const swaggerJsDoc = require('swagger-jsdoc');
 
 const app = express();
 app.use(express.json());
 app.use(userRouter);
 app.use(classRouter);
 
-const swaggerUi = require('swagger-ui-express'),
-  swaggerDocument = require('./swagger.json');
-app.use(
-  '/api-docs',
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument)
-);
+const swaggerSpec = (swaggerJsDoc(swaggerConfig));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile, swaggerSpec));
 
 app.get('/', (req, res) => {
   res.json({ success: true, message: 'Backend OK' });

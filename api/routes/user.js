@@ -8,7 +8,7 @@ const {
   userSignIn,
   signOut,
 } = require('../controllers/user');
-const { isAuth } = require('../middlewares/auth');
+const { isAuth } = require('../middlewares/config/auth');
 const {
   validateUserSignUp,
   userVlidation,
@@ -16,10 +16,10 @@ const {
   validateGetUser
 } = require('../middlewares/validation/user');
 
-router.post('/user', validateUserSignUp, userVlidation, createUser);
-router.get('/user', validateGetUser, userVlidation, getUser)
-router.get('/users', userVlidation, getUsers)
-router.post('/sign-in', validateUserSignIn, userVlidation, userSignIn);
-router.post('/sign-out', isAuth, signOut);
+router.post('/user', isAuth, validateUserSignUp, userVlidation, createUser);
+router.get('/user/:email', isAuth, validateGetUser, userVlidation, getUser)
+router.get('/users', isAuth, userVlidation, getUsers)
+router.post('/signIn', userSignIn, validateUserSignIn, userVlidation);
+router.post('/signOut', isAuth, signOut);
 
 module.exports = router;

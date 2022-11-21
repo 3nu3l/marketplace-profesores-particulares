@@ -1,139 +1,207 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "1.0.0",
-        "title": "marketplace-api",
-        "description": "Marketplace API de clases particulares - Only in localhost mode",
-        "license": {
-            "name": "ISC"
-        }
-    },
-    "host": "localhost:3001",
-    "basePath": "/",
-    "tags": [
-        {
-            "name": "Marketplace",
-            "description": "API for users in the system"
-        }
-    ],
-    "schemes": [
-        "http"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
-    "paths": {
-        "/user": {
-            "get": {
-                "tags": [
-                    "Users"
-                ],
-                "description": "Get an user in system",
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "body",
-                        "description": "User that we want to obtain",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User exist"
-                    },
-                    "400": {
-                        "description": "Missing a mandatory field"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Users"
-                ],
-                "description": "Create new user in system",
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "body",
-                        "description": "User that we want to create",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "New user is created"
-                    },
-                    "400": {
-                        "description": "Missing a mandatory field"
-                    },
-                    "409": {
-                        "description": "Email in use"
-                    }
-                }
-            }
-        }
-    },
-    "definitions": {
-        "User": {
-            "required": [
-                "firstName",
-                "lastName",
-                "email",
-                "phone",
-                "password",
-                "role",
-                "degreeTeacher",
-                "experienceTeacher",
-                "dateOfBirthStudent",
-                "degreeLevelStudent",
-                "lastModified"
-            ],
-            "properties": {
-                "firstName": {
-                    "type": "string"
-                },
-                "lastName": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string",
-                    "uniqueItems": true
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "role": {
-                    "type": "string"
-                },
-                "degreeTeacher": {
-                    "type": "string"
-                },
-                "experienceTeacher": {
-                    "type": "string"
-                },
-                "dateOfBirthStudent": {
-                    "type": "string"
-                },
-                "degreeLevelStudent": {
-                    "type": "string"
-                }
-            }
-        }
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "marketplace-api",
+    "description": "Marketplace API de clases particulares - Only in localhost mode",
+    "license": {
+      "name": "ISC"
     }
+  },
+  "host": "localhost:3001",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Marketplace",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/signIn": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Login in backend",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Login with user registered in backend",
+            "schema": {
+              "$ref": "#/definitions/UserLoginIn"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Login success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Email unregister"
+          }
+        }
+      }
+    },
+    "/user/{email}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Get an user in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User that we want to obtain"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User exist"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "description": "Email in use"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserLoginIn": {
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "required": [
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "password",
+        "role",
+        "degreeTeacher",
+        "experienceTeacher",
+        "dateOfBirthStudent",
+        "degreeLevelStudent"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "phone": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "degreeTeacher": {
+          "type": "string"
+        },
+        "experienceTeacher": {
+          "type": "string"
+        },
+        "dateOfBirthStudent": {
+          "type": "string"
+        },
+        "degreeLevelStudent": {
+          "type": "string"
+        }
+      }
+    }
+  }
 }

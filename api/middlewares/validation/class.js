@@ -22,14 +22,14 @@ exports.validateRegisterClass = [
     .isEmpty()
     .withMessage('La frecuencia de la clase es requerido')
     .isIn(['Única', 'Semanal', 'Mensual'])
-    .withMessage('La frecuencia de la clase debe estar entre las opcione: "Individual", "Grupal"'),
+    .withMessage('La frecuencia de la clase debe estar entre las opciones: "Única", "Semanal", "Mensual'),
   check('classType')
     .trim()
     .not()
     .isEmpty()
     .withMessage('El tipo de la clase es requerido')
     .isIn(['Individual', 'Grupal'])
-    .withMessage('El tipo de la clase debe estar entre las opcione: "Individual", "Grupal"'),
+    .withMessage('El tipo de la clase debe estar entre las opciones: "Individual", "Grupal"'),
   check('cost')
     .trim()
     .not()
@@ -41,7 +41,7 @@ exports.validateRegisterClass = [
     .isEmpty()
     .withMessage('El estado de la clase es requerido')
     .isIn(['Publicada', 'Despublicada', 'Eliminada'])
-    .withMessage('El estado de la clase debe estar entre las opcione: "Publicada", "Despublicada", "Eliminada"'),
+    .withMessage('El estado de la clase debe estar entre las opciones: "Publicada", "Despublicada", "Eliminada"'),
 ];
 
 exports.classValidation = (req, res, next) => {
