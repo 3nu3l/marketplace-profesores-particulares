@@ -12,8 +12,7 @@ exports.createUser = async (req, res) => {
     degreeTeacher,
     experienceTeacher,
     dateOfBirthStudent,
-    degreeLevelStudent,
-    lastModified
+    degreeLevelStudent
   } = req.body;
   const isNewUser = await User.isThisEmailInUse(email);
   if (!isNewUser) {
@@ -34,30 +33,29 @@ exports.createUser = async (req, res) => {
     experienceTeacher,
     dateOfBirthStudent,
     degreeLevelStudent,
-    lastModified
   });
   await user.save();
   res.json({ success: true, user });
 };
 
 exports.getUser = async (req, res) => {
-  const { email } = req.body;
+  const email = req.params.email;
 
   const user = await User.findOne({ email });
 
   if (!user)
-    return res.json({
+    return res.status(404).json({
       success: false,
-      message: 'No se encuentra el usuario en la base de datos',
+      message: 'No se encuentra el usuario ' + email + ' en la base de datos',
     });
 
-  res.json({ success: true, user: user });
+  res.status(200).json({ success: true, user: user });
 };
 
 exports.getUsers = async (req, res) => {
   const users = await User.find({});
 
-  if (!users)
+  if (users.length === 0)
     return res.json({
       success: false,
       message: 'No se encuentran usuarios en la base de datos',
@@ -81,12 +79,14 @@ exports.userSignIn = async (req, res) => {
   if (!isMatch)
     return res.json({
       success: false,
-      message: 'email / password no coinciden!',
+      message: 'La contraseña es invalida',
     });
 
-  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-    expiresIn: '1h',
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: '1800s',
   });
+
+  const bearerToken = "Bearer " + token
 
   let oldTokens = user.tokens || [];
 
@@ -108,7 +108,7 @@ exports.userSignIn = async (req, res) => {
     email: user.email,
   };
 
-  res.json({ success: true, user: userInfo, token });
+  res.json({ success: true, bearerToken, user: userInfo });
 };
 
 exports.signOut = async (req, res) => {

@@ -4,7 +4,7 @@ const router = express.Router();
 const {
   createClass
 } = require('../controllers/class');
-const { isAuth } = require('../middlewares/auth');
+const { isAuth } = require('../middlewares/config/auth');
 const {
   validateRegisterClass,
   classValidation
