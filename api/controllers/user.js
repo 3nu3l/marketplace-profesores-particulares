@@ -40,23 +40,23 @@ exports.createUser = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   const email = req.params.email;
-
   const user = await User.findOne({ email });
-
-  if (!user)
+  if (!user) {
     return res.status(404).json({
       success: false,
       message: 'No se encuentra el usuario ' + email + ' en la base de datos',
     });
-
-  res.status(200).json({ success: true, user: user });
+  }
+  else {
+    return res.status(200).json({ success: true, user: user });
+  }
 };
 
 exports.getUsers = async (req, res) => {
   const users = await User.find({});
 
   if (users.length === 0)
-    return res.json({
+    return res.status(404).json({
       success: false,
       message: 'No se encuentran usuarios en la base de datos',
     });
@@ -70,7 +70,7 @@ exports.userSignIn = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user)
-    return res.json({
+    return res.status(404).json({
       success: false,
       message: 'No se encuentra el usuario en la base de datos',
     });

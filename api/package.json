@@ -37,6 +37,7 @@
     "mongoose-sequence": "^5.3.1",
     "mongoose-timestamp": "^0.6.0",
     "multer": "^1.4.2",
+    "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
     "sharp": "^0.31.1",
     "swagger-autogen": "^2.22.0",
