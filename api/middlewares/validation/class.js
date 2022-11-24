@@ -42,13 +42,27 @@ exports.validateRegisterClass = [
     .withMessage('El estado de la clase es requerido')
     .isIn(['Publicada', 'Despublicada', 'Eliminada'])
     .withMessage('El estado de la clase debe estar entre las opciones: "Publicada", "Despublicada", "Eliminada"'),
+  check('rating', 'La calificación debe estar entre 0 y 5')
+    .isFloat({ min: 0, max: 5 })
 ];
 
-exports.classValidation = (req, res, next) => {
+exports.classVlidation = (req, res, next) => {
   const result = validationResult(req).array();
   if (!result.length) return next();
 
   const error = result[0].msg;
-  res.status(400)
-  res.json({ success: false, message: error });
+  res.status(400).json({ success: false, message: error });
 };
+
+exports.classValidationByClass = [
+  check('className').trim().not().isEmpty().withMessage('El nombre de la clase es requerida'),
+];
+
+exports.classValidationByNameAndSubject = [
+  check('className').trim().not().isEmpty().withMessage('El nombre de la clase es requerida'),
+  check('subject').trim().not().isEmpty().withMessage('El nombre de la materia es requerida'),
+];
+
+exports.classValidationById = [
+  check('_id').trim().not().isEmpty().withMessage('El ID de la clase es requerida'),
+];
