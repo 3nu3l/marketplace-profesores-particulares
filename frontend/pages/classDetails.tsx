@@ -7,7 +7,13 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Link from 'next/link'
+import Link from 'next/link';
+//import { Dialog, Transition } from '@headlessui/react';
+//import { Fragment, useState } from 'react'
+import SimpleClassComments from '../src/components/simpleClassComments'
+import ListItem from '@mui/material/ListItem'
+import List from '@mui/material/List'
+
 
 function handleCommentSend() {
     window.alert("Su comentario está pendiente de aprobación")
@@ -82,6 +88,23 @@ export default function ClassDetails({name, subject, price, rating, frequency, d
                 Comentarios de alumnos:
             </Typography>
             <br /><br />
+            <Grid item xs={9}>
+                    <List disablePadding style={{paddingTop:0, marginTop:-7}}>
+                        <ListItem>
+                            <SimpleClassComments name="Excelente clase!" publisher="Mauro López" />
+                        </ListItem>
+                        <ListItem>
+                            <SimpleClassComments name="Buena clase" publisher="Juan Perez"/>
+                        </ListItem>
+                        <ListItem>
+                            <SimpleClassComments name="Muy buena experiencia" publisher="Roberto Carlos"/>
+                        </ListItem>
+                        <ListItem>
+                            <SimpleClassComments name="Les agradezco su compromiso con esta hermosa tarea que es educar, y por hacerlo con la seriedad y el compromiso con que lo hacen. Estoy muy satisfecho con el curso y muy agradecido con todos y ustedes por el permanente contacto y buen trato. Ya estoy inscripto para el siguiente curso." publisher="Juan Fernando Quintero"/>
+                        </ListItem>
+                    </List>
+                </Grid>
+                <br></br><br></br>
         </Container>
     );
 }
