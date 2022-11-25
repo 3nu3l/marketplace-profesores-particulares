@@ -59,7 +59,7 @@ export default function ClassDetails({name, subject, price, rating, frequency, d
                 </Grid>
             </Paper>
             <br />
-            <Link href="/"><Button variant='contained' style={{marginLeft: "auto"}}>Contratar esta clase</Button></Link>
+            <Link href="/classBuy"><Button variant='contained' style={{marginLeft: "auto"}}>Contratar esta clase</Button></Link>
             <br /><br />
             <Typography variant="h5">
                 Calificá esta clase:
