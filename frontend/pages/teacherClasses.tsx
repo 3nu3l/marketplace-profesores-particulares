@@ -5,25 +5,10 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton'
-import Switch from '@mui/material/Switch';
 import Link from 'next/link';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-
-function CustomSwitch() {
-  const [checked, setChecked] = React.useState(true);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-  };
-
-  return (
-    <Switch
-      checked={checked}
-      onChange={handleChange}
-    />
-  );
-}
+import CustomSwitch from '../src/components/customSwitch';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
