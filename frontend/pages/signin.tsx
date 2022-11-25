@@ -13,40 +13,24 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import axios from 'axios';
 import useLocalStorage from '../src/hooks/useLocalStorage';
-// import { hasPointerEvents } from '@testing-library/user-event/dist/types/utils';
 
 const login = async (email, password) => {
-  // await fetch('http://localhost:3001/signIn', {
-  //   method: 'POST',
-  //   mode: 'cors',
-  //   headers: { 
-  //     'Content-Type': 'application/json', 
-  //     'Accept': 'application/json', 
-  //     'Access-Control-Allow-Origin': '*',
-  //     'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE',
-  //     'Access-Control-Request-Method': '*',
-  //     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  //   },
-  await fetch('http://localhost:3001/', {
-    method: 'GET',
-    mode: 'no-cors',
-    headers: { 
-      'Content-Type': 'application/json', 
-      'Accept': 'application/json'
-    }
-  }).then((response) => response.json())
-    .then((data) => {
-      console.log(data)
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-};
-
-function setCredentials({ token, fullName }) {
-  useLocalStorage(token, token)
-  useLocalStorage(fullName, fullName)
+  await axios.post('http://localhost:3001/signIn', {
+    emai: email,
+    password: password
+  }, {
+  headers: {
+    'Content-Type': 'application/json', 
+    'Accept': 'application/json',
+  }})
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
 };
 
 function handlePasswordRecovery() {
@@ -70,7 +54,8 @@ export default function SignIn() {
     let hasError: boolean = false;
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email')
+      email: data.get('email'),
+      // password: data.get('password')
     });
 
     if (password.trim().length === 0 || !password.match(passwordRegex)) {
