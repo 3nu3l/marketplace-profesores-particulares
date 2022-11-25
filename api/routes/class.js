@@ -6,7 +6,8 @@ const {
   getClass,
   getClassByName,
   getClasses,
-  updateClass
+  updateClass,
+  addComment
 } = require('../controllers/class');
 const { isAuth } = require('../middlewares/config/auth');
 const {
@@ -14,7 +15,9 @@ const {
   classVlidation,
   classValidationById,
   classValidationByClass,
-  classValidationByNameAndSubject
+  classValidationByNameAndSubject,
+  commentValidation,
+  validateUpdateClass
 } = require('../middlewares/validation/class');
 
 router.post('/class', isAuth, classVlidation, validateRegisterClass, createClass);
@@ -22,5 +25,6 @@ router.get('/class/:className/:subject', isAuth, classValidationByNameAndSubject
 router.get('/className/:className', isAuth, classValidationByClass, classVlidation, getClassByName);
 router.get('/classes', isAuth, classVlidation, getClasses);
 router.put('/classId/:_id', isAuth, classVlidation, classValidationById, updateClass);
+router.put('/class/addComment/:_id', isAuth, classVlidation, classValidationById, commentValidation, addComment);
 
 module.exports = router;

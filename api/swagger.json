@@ -176,7 +176,7 @@
     "/class": {
       "post": {
         "tags": [
-          "Class"
+          "Classes"
         ],
         "description": "Create a new class",
         "parameters": [
@@ -212,7 +212,7 @@
     "/classId/{_id}": {
       "put": {
         "tags": [
-          "Class"
+          "Classes"
         ],
         "description": "Update a class in system",
         "parameters": [
@@ -261,7 +261,7 @@
     "/className/{className}": {
       "get": {
         "tags": [
-          "Class"
+          "Classes"
         ],
         "description": "Get a class in system",
         "parameters": [
@@ -302,7 +302,7 @@
     "/classes": {
       "get": {
         "tags": [
-          "Class"
+          "Classes"
         ],
         "description": "Get all classes in system",
         "parameters": [
@@ -333,7 +333,7 @@
     "/class/{className}/{subject}": {
       "get": {
         "tags": [
-          "Class"
+          "Classes"
         ],
         "description": "Get a class in system",
         "parameters": [
@@ -374,6 +374,56 @@
           },
           "404": {
             "description": "Class don't exist"
+          }
+        }
+      }
+    },
+    "/class/addComment/{_id}": {
+      "put": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Add a comment to a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID for add a comment"
+          },
+          {
+            "name": "comment",
+            "in": "body",
+            "required": true,
+            "description": "Add a comment to a class",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment added"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Error added the comment"
           }
         }
       }
@@ -476,6 +526,24 @@
           "type": "string"
         },
         "rating": {
+          "type": "string"
+        }
+      }
+    },
+    "Comment": {
+      "required": [
+        "content",
+        "studentName",
+        "commentState"
+      ],
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "state": {
           "type": "string"
         }
       }
