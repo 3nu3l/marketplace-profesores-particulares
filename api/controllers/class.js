@@ -102,17 +102,39 @@ exports.addComment = async (req, res) => {
   });
 };
 
-exports.getComment = async (req, res) => {
-  const id = req.params._id;
-  const _class = await Class.findById({ id });
+exports.getComments = async (req, res) => {
+  const classParams = req.params;
+  const _class = await Class.find(classParams).select('comments');;
 
-  if (!_class) {
+  if (_class.length === 0) {
     return res.status(404).json({
       success: false,
-      message: 'No se encuentra la clase con id ' + id + ' en la base de datos',
+      message: 'No se encuentra la clase con nombre ' + classParams.className + ' y la materia ' + classParams.subject + ' en la base de datos',
     });
   }
   else {
     return res.status(200).json({ success: true, class: _class });
   }
-};
+}
+
+exports.changeStateComment = async (req, res) => {
+  const classParams = req.params;
+  const studentName = req.body.studentName;
+  const commentState = req.body.commentState;
+  const comments = {
+    "studentName": studentName,
+    "commentState": commentState
+  }
+
+  const _class = await Class.findOneAndUpdate(classParams, { $set: { "comments.$.commentState": comments.commentState } });
+
+  if (_class.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: 'No se encuentra la clase con nombre ' + classParams.className + ' y la materia ' + classParams.subject + ' en la base de datos',
+    });
+  }
+  else {
+    return res.status(200).json({ success: true, class: _class });
+  }
+}
