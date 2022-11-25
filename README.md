@@ -23,19 +23,19 @@
 
 ## Introducción
 
-Esta aplicación de un marketplace de clases particulares, siendo un proyecto integrador de la materia Aplicaciones Interactivas de UADE - 2022.
+Aplicación de un marketplace de clases particulares, proyecto integrador de la materia Aplicaciones Interactivas de UADE - Turno Viernes Noche - 2022.
 
 ## Arquitectura
 
 ![img](https://i.postimg.cc/RFdVnmC4/diagrama-tpo-apis.png)
 
 ## Requisitos
-
 - [NodeJS](https://nodejs.org/en/download/)
 - Poseer una <b>MONGODB_URI</b> válida para comunicarse con la base de datos
 - <b>Opcional:</b> [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Backend & Frontend
+Esta app corre el frontend y backend como dos módulos separados en paralelo. A continuación se detalla cómo instalar las dependencias y correr la aplicación.
 
 ### Descargar la aplicación e instalar dependencias
 
@@ -48,17 +48,21 @@ npm install
 cd ..
 ```
 
-### Ejecutar la app
-
+### Crear archivo de ambiente
 ```bash
 cd api
 cp .env.example .env
 cd ..
 ```
+
 <b>Agregar los datos que faltan dentro del .env</b>
 
 #### Por Terminal
 
+=======
+## Ejecutar la app
+### Por Terminal
+>>>>>>> develop
 ```bash
 cd api
 npm start &
@@ -92,5 +96,3 @@ Se pueden probar los endpoints a través de [Swagger](https://swagger.io/). La m
 
 
 ### Listado de endpoints
-
-TODO
