@@ -33,6 +33,9 @@ export default function CreateClass() {
 
     const [classType, setClassType] = React.useState("");
 
+    const [description, setDescription] = React.useState("");
+    const [errorDescription, setErrorDescription] = React.useState(false);
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -57,6 +60,10 @@ export default function CreateClass() {
             setErrorDuration(true);
         else
             setErrorDuration(false);
+        if (description.trim().length === 0)
+            setErrorDescription(true)
+        else
+            setErrorDescription(false);
     };
 
     return (
@@ -161,7 +168,6 @@ export default function CreateClass() {
                                 id="cost"
                                 label="Costo por hora"
                                 name="cost"
-                                type='number'
                                 error={errorCost}
                                 helperText={errorCost ?
                                     <>{<div>Ingrese un monto válido mayor a &#39;0&#39; (cero) y separando los centavos con &#39;.&#39; (punto) solo con dos decimales</div>}</> : <></>}
@@ -175,6 +181,21 @@ export default function CreateClass() {
                                         </InputAdornment>
                                     ),
                                 }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="description"
+                                label="Descripción"
+                                name="description"
+                                error={errorDescription}
+                                helperText={errorDescription ?
+                                    <>{<div>Ingrese una descripción</div>}</> : <></>}
+                                value={description}
+                                onChange={(event) => setDescription(event.target.value)}
                             />
                         </Grid>
                     </Grid>

@@ -14,7 +14,7 @@ function handleCommentSend() {
 
 }
 
-export default function ClassDetails({name, subject, price, rating, frequency, duration, type}) {
+export default function ClassDetails({name, subject, price, rating, frequency, duration, type, description}) {
     const [value, setValue] = React.useState<number | null>(2);
     
     return(
@@ -54,6 +54,12 @@ export default function ClassDetails({name, subject, price, rating, frequency, d
                     <Grid item xs={12}>
                     <Typography variant="body1" component="div" style={{textAlign: "left"}}>
                         Modalidad: {type}
+                    </Typography>
+                    </Grid>
+                    <br />
+                    <Grid item xs={12}>
+                    <Typography variant="body1" component="div" style={{textAlign: "left"}}>
+                        {description}
                     </Typography>
                     </Grid>
                 </Grid>
