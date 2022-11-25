@@ -1,4 +1,5 @@
 const express = require('express');
+var cors = require('cors')
 
 const router = express.Router();
 const {
@@ -16,10 +17,10 @@ const {
   validateGetUser
 } = require('../middlewares/validation/user');
 
-router.post('/signUp', validateUserSignUp, userVlidation, createUser);
-router.get('/user/:email', isAuth, validateGetUser, userVlidation, getUser)
-router.get('/users', isAuth, userVlidation, getUsers)
-router.post('/signIn', userSignIn, validateUserSignIn, userVlidation);
-router.post('/signOut', isAuth, signOut);
+router.post('/signUp', cors(), validateUserSignUp, userVlidation, createUser);
+router.get('/user/:email', cors(), isAuth, validateGetUser, userVlidation, getUser)
+router.get('/users', cors(), isAuth, userVlidation, getUsers)
+router.post('/signIn', cors(), userSignIn, validateUserSignIn, userVlidation);
+router.post('/signOut', cors(), isAuth, signOut);
 
 module.exports = router;
