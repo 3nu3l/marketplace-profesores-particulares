@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Marketplace API de clases particulares",
   "main": "index.js",
+  "proxy": "http://localhost:3000",
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js"
