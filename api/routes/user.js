@@ -16,7 +16,7 @@ const {
   validateGetUser
 } = require('../middlewares/validation/user');
 
-router.post('/user', validateUserSignUp, userVlidation, createUser);
+router.post('/signUp', validateUserSignUp, userVlidation, createUser);
 router.get('/user/:email', isAuth, validateGetUser, userVlidation, getUser)
 router.get('/users', isAuth, userVlidation, getUsers)
 router.post('/signIn', userSignIn, validateUserSignIn, userVlidation);

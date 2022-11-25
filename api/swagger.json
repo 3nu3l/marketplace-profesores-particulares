@@ -100,20 +100,13 @@
         }
       }
     },
-    "/user": {
+    "/signUp": {
       "post": {
         "tags": [
           "Users"
         ],
         "description": "Create new user in system",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": "Bearer Token for authorization"
-          },
           {
             "name": "user",
             "in": "body",
