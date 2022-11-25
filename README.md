@@ -1,10 +1,33 @@
-# Express React Starter
+# Marketplace de Clases Particulares :rocket:
+
+- [Integrantes](#integrantes)
+- [Introducción](#introducción)  
+- [Arquitectura](#arquitectura)
+- [Requisitos](#requisitos) 
+- [Backend & Frontend](#backend-frontend) 
+    * [Descargar la aplicación e instalar dependencias](#descargar-la-aplicación-e-instalar-dependencias) 
+    * [Ejecutar la app](#ejecutar-la-app) 
+        * [Por Terminal](#por-terminal) 
+        * [Por Docker Compose](#por-docker-compose) 
+            * [Start Containers](#start-containers) 
+            * [Stop Containers](#stop-containers) 
+- [Healthcheck](#healthcheck) 
+    * [Backend](#backend) 
+    * [Frontend](#frontend) 
+- [Uso del backend](#uso-del-backend) 
+
+## Integrantes 
+- Gordo, Juan Martin
+- Haedo, Joaquin Hector
+- Maidana, Emmanuel Carlos Leonel
+
+## Introducción
 
 Esta aplicación de un marketplace de clases particulares, siendo un proyecto integrador de la materia Aplicaciones Interactivas de UADE - 2022.
 
-# Arquitectura
+## Arquitectura
 
--- poner diagrama ---
+![img](https://i.postimg.cc/RFdVnmC4/diagrama-tpo-apis.png)
 
 ## Requisitos
 
@@ -12,9 +35,9 @@ Esta aplicación de un marketplace de clases particulares, siendo un proyecto in
 - Poseer una <b>MONGODB_URI</b> válida para comunicarse con la base de datos
 - <b>Opcional:</b> [Docker Compose](https://docs.docker.com/compose/install/)
 
-# Backend & Frontend
+## Backend & Frontend
 
-## Descargar la aplicación e instalar dependencias
+### Descargar la aplicación e instalar dependencias
 
 ```bash
 git clone git@github.com:enuelx/marketplace-profesores-particulares.git marketplace
@@ -25,7 +48,7 @@ npm install
 cd ..
 ```
 
-## Ejecutar la app
+### Ejecutar la app
 
 ```bash
 cd api
@@ -34,7 +57,7 @@ cd ..
 ```
 <b>Agregar los datos que faltan dentro del .env</b>
 
-### Por Terminal
+#### Por Terminal
 
 ```bash
 cd api
@@ -43,13 +66,13 @@ cd .. && cd frontend
 npm start &
 ```
 
-### Por Docker compose
+#### Por Docker Compose
 
-#### Start Containers
+##### Start Containers
 ```bash
 docker-compose up --build -d
 ```
-#### Stop Containers
+##### Stop Containers
 
 ```bash
 docker-compose down
@@ -62,4 +85,12 @@ docker-compose down
 ### Frontend
 ![img](https://i.postimg.cc/zGC4vMMz/Captura-de-pantalla-2022-11-25-a-la-s-16-29-22.png)
 
-<h5>Ahora tanto el backend como el frontend están listos para usar.</h5>
+## Uso del backend
+Ahora tanto el backend como el frontend están listos para usar.
+
+Se pueden probar los endpoints a través de [Swagger](https://swagger.io/). La misma se encuentra levantada en la ruta "/api-docs", por ejemplo, si el backend se encuentra en el puerto 3001, la ruta es: http://localhost:3001/api-docs
+
+
+### Listado de endpoints
+
+TODO
