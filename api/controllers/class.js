@@ -89,7 +89,7 @@ exports.addComment = async (req, res) => {
     commentState: req.body.commentState
   }];
 
-  Class.findByIdAndUpdate(id, {$push: { comments: paramComment }}, function (err, result) {
+  Class.findByIdAndUpdate(id, { $push: { comments: paramComment } }, function (err, result) {
     if (err) {
       return res.status(404).json({
         success: false,
@@ -97,7 +97,22 @@ exports.addComment = async (req, res) => {
       });
     }
     else {
-      return res.status(200).json({ success: true, message: 'Clase con id ' + id + ' modificada con éxito' });
+      return res.status(200).json({ success: true, message: 'Se agregó un comentario en la clase con id ' + id });
     }
   });
+};
+
+exports.getComment = async (req, res) => {
+  const id = req.params._id;
+  const _class = await Class.findById({ id });
+
+  if (!_class) {
+    return res.status(404).json({
+      success: false,
+      message: 'No se encuentra la clase con id ' + id + ' en la base de datos',
+    });
+  }
+  else {
+    return res.status(200).json({ success: true, class: _class });
+  }
 };

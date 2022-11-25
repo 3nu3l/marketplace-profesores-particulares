@@ -8,7 +8,8 @@ const {
   getClassByName,
   getClasses,
   updateClass,
-  addComment
+  addComment,
+  getComment
 } = require('../controllers/class');
 const { isAuth } = require('../middlewares/config/auth');
 const {
@@ -27,5 +28,6 @@ router.get('/className/:className', cors(), isAuth, classValidationByClass, clas
 router.get('/classes', cors(), isAuth, classVlidation, getClasses);
 router.put('/classId/:_id', cors(), isAuth, classVlidation, classValidationById, updateClass);
 router.put('/class/addComment/:_id', cors(), isAuth, classVlidation, classValidationById, commentValidation, addComment);
+router.get('/class/getComments/:_id', cors(), isAuth, classVlidation, getComment);
 
 module.exports = router;
