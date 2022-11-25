@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
+import Link from 'next/link'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -46,7 +47,7 @@ export default function SimpleClass({name, subject, price, rating, frequency, du
               <Rating name="read-only" value={rating} readOnly />
             </Grid>
             <Grid item xs={4} style={{display: "flex"}}>
-              <Button style={{marginLeft: "auto"}}>Ver más</Button>
+            <Link href="/classDetails"><Button style={{marginLeft: "auto"}}>Ver más</Button></Link>
             </Grid>
       </Grid>
     </Paper>
