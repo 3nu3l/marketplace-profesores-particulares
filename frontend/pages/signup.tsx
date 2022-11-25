@@ -17,6 +17,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 export default function SignUp() {
     var dateLessSixYear = new Date();
@@ -57,6 +60,12 @@ export default function SignUp() {
     const phoneRegex = /^[0-9,+]*$/
     const [errorPhone, setErrorPhone] = React.useState(false);
     const [phone, setPhone] = React.useState("");
+
+    const [studies, setStudies] = React.useState('');
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setStudies(event.target.value as string);
+    };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -125,67 +134,22 @@ export default function SignUp() {
                         <Typography component="span">
                             <br />Nivel de Estudios:<br /><br />
                         </Typography>
-
-
-                        <FormControl>
-                            <FormLabel id="elementary">Primario</FormLabel>
-                            <RadioGroup
-                                color="primary"
-                                aria-labelledby="elementary"
-                                name="elementary-radio-buttons-group"
-                                defaultValue="NAElementary"
+                        <FormControl fullWidth>
+                            <InputLabel id="studies-label">Máximo nivel alcanzado</InputLabel>
+                            <Select
+                                labelId="studies-label"
+                                id="studies"
+                                value={studies}
+                                label="Máximo nivel alcanzado"
+                                onChange={handleChange}
                             >
-                                <Grid item xs={12}>
-                                    <FormControlLabel value="currentElementary" control={<Radio />} label="En curso" />
-                                    <FormControlLabel value="finishedElementary" control={<Radio />} label="Finalizado" />
-                                    <FormControlLabel value="NAElementary" control={<Radio />} label="No Aplica" />
-                                </Grid>
-                            </RadioGroup>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel id="highSchool">Secundario</FormLabel>
-                            <RadioGroup
-                                color="primary"
-                                aria-labelledby="highSchool"
-                                name="highSchool-radio-buttons-group"
-                                defaultValue="NAHighSchool"
-                            >
-                                <Grid item xs={12}>
-                                    <FormControlLabel value="currentHighSchool" control={<Radio />} label="En curso" />
-                                    <FormControlLabel value="finishedHighSchool" control={<Radio />} label="Finalizado" />
-                                    <FormControlLabel value="NAHighSchool" control={<Radio />} label="No Aplica" />
-                                </Grid>
-                            </RadioGroup>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel id="tertiary">Terciario</FormLabel>
-                            <RadioGroup
-                                color="primary"
-                                aria-labelledby="tertiary"
-                                name="tertiary-radio-buttons-group"
-                                defaultValue="NATertiary"
-                            >
-                                <Grid item xs={12}>
-                                    <FormControlLabel value="currentTertiary" control={<Radio />} label="En curso" />
-                                    <FormControlLabel value="finishedTertiary" control={<Radio />} label="Finalizado" />
-                                    <FormControlLabel value="NATertiary" control={<Radio />} label="No Aplica" />
-                                </Grid>
-                            </RadioGroup>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel id="university">Universitario</FormLabel>
-                            <RadioGroup
-                                color="primary"
-                                aria-labelledby="university"
-                                name="university-radio-buttons-group"
-                                defaultValue="NAUniversity"
-                            >
-                                <Grid item xs={12}>
-                                    <FormControlLabel value="currentUniversity" control={<Radio />} label="En curso" />
-                                    <FormControlLabel value="finishedUniversity" control={<Radio />} label="Finalizado" />
-                                    <FormControlLabel value="NAUniversity" control={<Radio />} label="No Aplica" />
-                                </Grid>
-                            </RadioGroup>
+                                <MenuItem value={1}>Secundario Incompleto</MenuItem>
+                                <MenuItem value={2}>Secundario Completo</MenuItem>
+                                <MenuItem value={3}>Terciario Incompleto</MenuItem>
+                                <MenuItem value={4}>Terciario Completo</MenuItem>
+                                <MenuItem value={5}>Universitario Incompleto</MenuItem>
+                                <MenuItem value={6}>Universitario Completo</MenuItem>
+                            </Select>
                         </FormControl>
                     </Grid>}
             </>)
