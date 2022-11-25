@@ -17,23 +17,34 @@ import useLocalStorage from '../src/hooks/useLocalStorage';
 // import { hasPointerEvents } from '@testing-library/user-event/dist/types/utils';
 
 const login = async (email, password) => {
-  await fetch('http://localhost:3001/signIn', {
-    method: 'POST',
-    body: JSON.stringify({
-      email: email,
-      password: password
-    }),
-  })
-  .then((response) => response.json())
-  .then((data) => {
-     console.log(data)
-  })
-  .catch((err) => {
-     console.log(err.message);
-  });
+  // await fetch('http://localhost:3001/signIn', {
+  //   method: 'POST',
+  //   mode: 'cors',
+  //   headers: { 
+  //     'Content-Type': 'application/json', 
+  //     'Accept': 'application/json', 
+  //     'Access-Control-Allow-Origin': '*',
+  //     'Access-Control-Allow-Methods': 'POST, GET, PUT, DELETE',
+  //     'Access-Control-Request-Method': '*',
+  //     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  //   },
+  await fetch('http://localhost:3001/', {
+    method: 'GET',
+    mode: 'no-cors',
+    headers: { 
+      'Content-Type': 'application/json', 
+      'Accept': 'application/json'
+    }
+  }).then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 };
 
-function setCredentials({token, fullName}) {
+function setCredentials({ token, fullName }) {
   useLocalStorage(token, token)
   useLocalStorage(fullName, fullName)
 };
