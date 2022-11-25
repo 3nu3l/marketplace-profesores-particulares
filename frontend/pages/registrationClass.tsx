@@ -168,6 +168,7 @@ export default function CreateClass() {
                                 id="cost"
                                 label="Costo por hora"
                                 name="cost"
+                                type='number'
                                 error={errorCost}
                                 helperText={errorCost ?
                                     <>{<div>Ingrese un monto válido mayor a &#39;0&#39; (cero) y separando los centavos con &#39;.&#39; (punto) solo con dos decimales</div>}</> : <></>}
