@@ -5,7 +5,8 @@
 - [Arquitectura](#arquitectura)
 - [Requisitos](#requisitos) 
 - [Backend & Frontend](#backend-frontend) 
-    * [Descargar la aplicación e instalar dependencias](#descargar-la-aplicación-e-instalar-dependencias) 
+    * [Descargar la aplicación e instalar dependencias](#descargar-la-aplicación-e-instalar-dependencias)
+    * [Crear archivo de ambiente](#crear-archivo-de-ambiente) 
     * [Ejecutar la app](#ejecutar-la-app) 
         * [Por Terminal](#por-terminal) 
         * [Por Docker Compose](#por-docker-compose) 
@@ -14,7 +15,8 @@
 - [Healthcheck](#healthcheck) 
     * [Backend](#backend) 
     * [Frontend](#frontend) 
-- [Uso del backend](#uso-del-backend) 
+- [Uso del backend](#uso-del-backend)
+    * [Listado de endpoints](#listado-de-endpoints) 
 
 ## Integrantes 
 - Gordo, Juan Martin
@@ -57,12 +59,8 @@ cd ..
 
 <b>Agregar los datos que faltan dentro del .env</b>
 
+### Ejecutar la app
 #### Por Terminal
-
-=======
-## Ejecutar la app
-### Por Terminal
->>>>>>> develop
 ```bash
 cd api
 npm start &
