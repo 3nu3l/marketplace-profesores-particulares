@@ -66,3 +66,41 @@ exports.classValidationByNameAndSubject = [
 exports.classValidationById = [
   check('_id').trim().not().isEmpty().withMessage('El ID de la clase es requerida'),
 ];
+
+exports.commentValidation = [
+  check('content')
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage('El cuerpo del comentario es requerido'),
+  check('studentName')
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage('El nombre de el estudiante es requerido'),
+  check('commentState')
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage('El estado del comentario es requerido')
+    .isIn(['Pendiente', 'Aprobado', 'Rechazado'])
+    .withMessage('El estado del comentario debe estar entre las opciones: "Pendiente", "Aprobado", "Rechazado"'),
+];
+
+exports.validateUpdateClass = [
+  check('frequency')
+    .trim()
+    .isIn(['Única', 'Semanal', 'Mensual'])
+    .withMessage('La frecuencia de la clase debe estar entre las opciones: "Única", "Semanal", "Mensual'),
+  check('classType')
+    .trim()
+    .isIn(['Individual', 'Grupal'])
+    .withMessage('El tipo de la clase debe estar entre las opciones: "Individual", "Grupal"'),
+  check('classState')
+    .trim()
+    .isIn(['Publicada', 'Despublicada', 'Eliminada'])
+    .withMessage('El estado de la clase debe estar entre las opciones: "Publicada", "Despublicada", "Eliminada"'),
+  check('rating')
+    .isFloat({ min: 0, max: 5 })
+    .withMessage('La calificación debe estar entre 0 y 5'),
+];
