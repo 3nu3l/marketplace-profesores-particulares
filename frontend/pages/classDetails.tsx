@@ -8,8 +8,6 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
-//import { Dialog, Transition } from '@headlessui/react';
-//import { Fragment, useState } from 'react'
 import SimpleClassComments from '../src/components/simpleClassComments'
 import ListItem from '@mui/material/ListItem'
 import List from '@mui/material/List'

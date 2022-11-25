@@ -13,6 +13,30 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import useLocalStorage from '../src/hooks/useLocalStorage';
+// import { hasPointerEvents } from '@testing-library/user-event/dist/types/utils';
+
+const login = async (email, password) => {
+  await fetch('http://localhost:3001/signIn', {
+    method: 'POST',
+    body: JSON.stringify({
+      email: email,
+      password: password
+    }),
+  })
+  .then((response) => response.json())
+  .then((data) => {
+     console.log(data)
+  })
+  .catch((err) => {
+     console.log(err.message);
+  });
+};
+
+function setCredentials({token, fullName}) {
+  useLocalStorage(token, token)
+  useLocalStorage(fullName, fullName)
+};
 
 function handlePasswordRecovery() {
   let text
@@ -32,20 +56,31 @@ export default function SignIn() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    let hasError: boolean = false;
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email')
     });
 
-    if (password.trim().length === 0 || !password.match(passwordRegex))
+    if (password.trim().length === 0 || !password.match(passwordRegex)) {
+      hasError = true;
       setErrorPassword(true);
-    else
+    } else {
+      hasError = false;
       setErrorPassword(false);
+    };
 
-    if (email.trim().length === 0 || !email.match(emailRegex))
+    if (email.trim().length === 0 || !email.match(emailRegex)) {
+      hasError = true;
       setErrorEmail(true);
-    else
+    } else {
+      hasError = false;
       setErrorEmail(false);
+    };
+
+    if (!hasError) {
+      login(email, password)
+    }
   };
 
   return (
