@@ -33,7 +33,7 @@ exports.validateUserSignUp = [
     .withMessage('El rol del usuario debe estar entre las opciones: "teacher", "student"'),
 ];
 
-exports.userVlidation = (req, res, next) => {
+exports.userValidation = (req, res, next) => {
   const result = validationResult(req).array();
   if (!result.length) return next();
 

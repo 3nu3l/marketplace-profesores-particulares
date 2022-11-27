@@ -10,6 +10,7 @@ const swaggerConfig = require('./middlewares/config/swagger');
 const swaggerJsDoc = require('swagger-jsdoc');
 
 const app = express();
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cors());
 app.use(userRouter);
