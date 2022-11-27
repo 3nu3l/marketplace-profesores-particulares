@@ -59,7 +59,20 @@ const register = async (firstName, lastName, email, phone, password, role, degre
     })
     .catch(function (error) {
         console.log(error);
-        window.alert("Ocurrió un error. Por favor intente nuevamente en unos instantes.");
+        switch (error.response.status) {
+            case 409:
+                window.alert("Esa dirección de correo electrónico ya se encuentra en uso. Por favor, ingrese otra.")
+                break;
+            case 401:
+                window.alert("Unauthorized")
+                break;
+            case 400:
+                window.alert("Uno o más campos obligatorios están vacíos o son incorrectos, por favor revise la información proporcionada.")
+                break;
+            default:
+                window.alert("Error desconocido, póngase en contacto con el administrador")
+                break;
+        }
     })
 }};
 

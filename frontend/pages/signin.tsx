@@ -14,7 +14,6 @@ import Container from '@mui/material/Container';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
-import useLocalStorage from '../src/hooks/useLocalStorage';
 
 const login = async (email, password) => {
   axios.post('http://localhost:3001/signIn', {
@@ -26,8 +25,10 @@ const login = async (email, password) => {
     'accept': 'application/json',
   }})
   .then(function (response) {
-    // TODO: store data with useLocalStorage
     console.log(response);
+    localStorage["token"] = response.data.bearerToken.slice(7);
+    localStorage["fullName"] = response.data.user.fullname;
+    localStorage["role"] = response.data.user.role;
   })
   .catch(function (error) {
     console.log(error);
@@ -41,8 +42,8 @@ const login = async (email, password) => {
       default:
         window.alert("Error desconocido, póngase en contacto con el administrador")
         break;
-    }
-  })
+    };
+  });
 };
 
 function handlePasswordRecovery() {
