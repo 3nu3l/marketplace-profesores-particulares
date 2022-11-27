@@ -18,7 +18,7 @@ function handleCommentSend() {
 
 }
 
-export default function ClassDetails({name, subject, price, rating, frequency, duration, type}) {
+export default function ClassDetails({name, subject, price, rating, frequency, duration, type, teacherName, teacherExp}) {
     const [value, setValue] = React.useState<number | null>(2);
     
     return(
@@ -42,6 +42,9 @@ export default function ClassDetails({name, subject, price, rating, frequency, d
                     <Grid item xs={9}>
                         <Typography variant="h4" gutterBottom>
                             Clase de {subject}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Profesor {teacherName}, {teacherExp}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             {duration} horas | {frequency}
