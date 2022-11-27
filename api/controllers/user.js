@@ -106,6 +106,7 @@ exports.userSignIn = async (req, res) => {
   const userInfo = {
     fullname: user.firstName + ' ' + user.lastName,
     email: user.email,
+    role: user.role
   };
 
   res.json({ success: true, bearerToken, user: userInfo });
