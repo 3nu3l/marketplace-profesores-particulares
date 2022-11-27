@@ -17,7 +17,7 @@ import axios from 'axios';
 import useLocalStorage from '../src/hooks/useLocalStorage';
 
 const login = async (email, password) => {
-  await axios.post('http://localhost:3001/signIn', {
+  axios.post('http://localhost:3001/signIn', {
     emai: email,
     password: password
   }, {
@@ -26,6 +26,7 @@ const login = async (email, password) => {
     'Accept': 'application/json',
   }})
   .then(function (response) {
+    // TODO: store data with useLocalStorage
     console.log(response);
   })
   .catch(function (error) {
