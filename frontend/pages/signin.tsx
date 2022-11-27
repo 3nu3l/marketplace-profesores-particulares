@@ -18,7 +18,7 @@ import useLocalStorage from '../src/hooks/useLocalStorage';
 
 const login = async (email, password) => {
   axios.post('http://localhost:3001/signIn', {
-    emai: email,
+    email: email,
     password: password
   }, {
   headers: {
