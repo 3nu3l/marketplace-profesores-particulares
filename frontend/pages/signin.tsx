@@ -51,10 +51,18 @@ const Login = async (email, password) => {
 };
 
 function handlePasswordRecovery() {
-  let text
   let email = prompt("Ingrese el correo electrónico con el que se registró:", "example@mail.com")
   window.alert("Si su dirección se encuentra en nuestra base de datos, le enviaremos un correo de recuperación.")
-  // TODO: request password recovery
+  axios.get(`http://localhost:3001/request-reset-password/${email}`)
+  .then(function (response) {
+    console.log(response)
+  })
+  .catch(function (error) {
+    switch (error.response.status) {
+      default:
+        break;
+    }
+  })
 }
 
 export default function SignIn() {
