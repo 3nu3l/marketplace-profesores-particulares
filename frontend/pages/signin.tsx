@@ -52,7 +52,6 @@ const Login = async (email, password) => {
 
 function handlePasswordRecovery() {
   let email = prompt("Ingrese el correo electrónico con el que se registró:", "example@mail.com")
-  window.alert("Si su dirección se encuentra en nuestra base de datos, le enviaremos un correo de recuperación.")
   axios.get(`http://localhost:3001/request-reset-password/${email}`)
   .then(function (response) {
     console.log(response)
@@ -60,9 +59,11 @@ function handlePasswordRecovery() {
   .catch(function (error) {
     switch (error.response.status) {
       default:
+        window.alert("Ocurrió un error. Intente nuevamente en unos momentos.")
         break;
     }
   })
+  window.alert("Si su dirección se encuentra en nuestra base de datos, le enviaremos un correo de recuperación.")
 }
 
 export default function SignIn() {
