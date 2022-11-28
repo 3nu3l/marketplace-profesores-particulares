@@ -37,7 +37,6 @@ const classSchema = new mongoose.Schema({
   },
   rating: {
     type: String,
-    required: true,
   },
   comments: {
     type: [Comment.schema]
