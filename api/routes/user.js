@@ -8,19 +8,23 @@ const {
   getUsers,
   userSignIn,
   signOut,
+  passwordReset,
+  requestPasswordReset
 } = require('../controllers/user');
-const { isAuth } = require('../middlewares/config/auth');
+const { isAuth, isAuthResetPassword } = require('../middlewares/config/auth');
 const {
   validateUserSignUp,
-  userVlidation,
+  userValidation,
   validateUserSignIn,
   validateGetUser
 } = require('../middlewares/validation/user');
 
-router.post('/signUp', cors(), validateUserSignUp, userVlidation, createUser);
-router.get('/user/:email', cors(), isAuth, validateGetUser, userVlidation, getUser)
-router.get('/users', cors(), isAuth, userVlidation, getUsers)
-router.post('/signIn', cors(), userSignIn, validateUserSignIn, userVlidation);
+router.post('/signUp', cors(), validateUserSignUp, userValidation, createUser);
+router.get('/user/:email', cors(), isAuth, validateGetUser, userValidation, getUser)
+router.get('/users', cors(), isAuth, userValidation, getUsers)
+router.post('/signIn', cors(), userSignIn, validateUserSignIn, userValidation);
 router.post('/signOut', cors(), isAuth, signOut);
+router.post('/reset-password', cors(), isAuthResetPassword, passwordReset)
+router.get('/request-reset-password/:email', cors(), requestPasswordReset)
 
 module.exports = router;

@@ -20,6 +20,61 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import axios from 'axios';
+
+const register = async (firstName, lastName, email, phone, password, role, degreeTeacher, experienceTeacher, dateOfBirthStudent, degreeLevelStudent) => {
+    if (role === "student") {
+        axios.post('http://localhost:3001/signUp', {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phone: phone,
+            password: password,
+            role: role,
+            dateOfBirthStudent: dateOfBirthStudent,
+            degreeLevelStudent: degreeLevelStudent
+        })
+        .then(function (response) {
+            console.log(response);
+            window.location.href = "/registerSuccess"
+        })
+        .catch(function (error) {
+            console.log(error);
+            window.alert("Ocurrió un error. Por favor intente nuevamente en unos instantes.")
+        })
+    } else {
+    axios.post('http://localhost:3001/signUp', {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        password: password,
+        role: role,
+        degreeTeacher: degreeTeacher,
+        experienceTeacher: experienceTeacher
+    })
+    .then(function (response) {
+        console.log(response);
+        window.location.href = "/registerSuccess"
+    })
+    .catch(function (error) {
+        console.log(error);
+        switch (error.response.status) {
+            case 409:
+                window.alert("Esa dirección de correo electrónico ya se encuentra en uso. Por favor, ingrese otra.")
+                break;
+            case 401:
+                window.alert("Unauthorized")
+                break;
+            case 400:
+                window.alert("Uno o más campos obligatorios están vacíos o son incorrectos, por favor revise la información proporcionada.")
+                break;
+            default:
+                window.alert("Error desconocido, póngase en contacto con el administrador")
+                break;
+        }
+    })
+}};
 
 export default function SignUp() {
     var dateLessSixYear = new Date();
@@ -69,45 +124,71 @@ export default function SignUp() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let hasError: boolean = false;
         const data = new FormData(event.currentTarget);
         console.log({
             email: data.get('email'),
         });
 
-        if (password.trim().length === 0 || !password.match(passwordRegex))
+        if (password.trim().length === 0 || !password.match(passwordRegex)) {
+            hasError = true;
             setErrorPassword(true);
-        else
+        } else {
+            hasError = false;
             setErrorPassword(false);
+        }
 
-        if (email.trim().length === 0 || !email.match(emailRegex))
+        if (email.trim().length === 0 || !email.match(emailRegex)) {
+            hasError = true;
             setErrorEmail(true);
-        else
+        } else {
+            hasError = false;
             setErrorEmail(false);
+        }
 
-        if (teacherTitle.trim().length === 0)
+        if (teacherTitle.trim().length === 0) {
+            hasError = true;
             setErrorTeacherTitle(true);
-        else
+        } else {
+            hasError = false;
             setErrorTeacherTitle(false);
+        }
 
-        if (teacherExp.trim().length === 0 || !teacherExp.match(teacherExpRegex))
+        if (teacherExp.trim().length === 0 || !teacherExp.match(teacherExpRegex)) {
+            hasError = true;
             setErrorTeacherExp(true);
-        else
+        } else {
+            hasError = false;
             setErrorTeacherExp(false);
+        }
 
-        if (name.trim().length === 0)
+        if (name.trim().length === 0) {
+            hasError = true;
             setErrorName(true);
-        else
+        } else {
+            hasError = false;
             setErrorName(false);
+        }
 
-        if (lastName.trim().length === 0)
+        if (lastName.trim().length === 0) {
+            hasError = true;
             setErrorLastName(true);
-        else
+        } else {
+            hasError = false;
             setErrorLastName(false);
+        }
 
-        if (phone.trim().length === 0 || !phone.match(phoneRegex))
+        if (phone.trim().length === 0 || !phone.match(phoneRegex)) {
+            hasError = true;
             setErrorPhone(true);
-        else
+        } else {
+            hasError = false;
             setErrorPhone(false);
+        }
+
+        if (!hasError) {
+            register(name, lastName, email, phone, password, registeredUserRole, teacherTitle, teacherExp, date, studies)
+        }
     };
 
     const [registeredUserRole, setRegisteredUserRole] = React.useState("")

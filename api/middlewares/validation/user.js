@@ -33,7 +33,7 @@ exports.validateUserSignUp = [
     .withMessage('El rol del usuario debe estar entre las opciones: "teacher", "student"'),
 ];
 
-exports.userVlidation = (req, res, next) => {
+exports.userValidation = (req, res, next) => {
   const result = validationResult(req).array();
   if (!result.length) return next();
 
@@ -52,4 +52,14 @@ exports.validateUserSignIn = [
 
 exports.validateGetUser = [
   check('email').trim().isEmail().withMessage('El email no tiene el formato adecuado o se encuentra vacío.')
+];
+
+exports.validateResetPassword = [
+  check('password')
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage('La contraseña se encuentra vacía!')
+    .matches(/^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/)
+    .withMessage('Ingrese una contraseña válida. Debe poseer: entre 8 y 16 caracteres alfanuméricos, dos letras mayúsculas,un caracter especial, elegir entre: !@#$&*, tres letras minúsculas, dos números'),
 ];
