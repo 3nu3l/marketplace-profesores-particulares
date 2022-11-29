@@ -34,8 +34,8 @@ exports.isAuth = async (req, res, next) => {
 };
 
 exports.isAuthResetPassword = async (req, res, next) => {
-  if (req.headers && req.headers.authorization) {
-    const token = req.headers.authorization.split(' ')[1];
+  if (req.headers && req.headers.recoveryToken) {
+    const token = req.headers.recoveryToken.split(' ')[1];
     if (token == null) return res.sendStatus(401).json({ success: false, message: 'Token inválido' })
 
     try {
