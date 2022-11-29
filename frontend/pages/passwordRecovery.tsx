@@ -10,50 +10,66 @@ import Container from '@mui/material/Container';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
 
-const resetPassword = async (newPassword) => {
-    await axios.post('** ENDPOINT ACÁ **', {
-      newPassword: newPassword,
-    }, {
-    headers: {
-      'Content-Type': 'application/json', 
-      'Accept': 'application/json',
-      // si no es necesario, borrar la sección de headers
-    }})
-    .then(function (response) {
-        // Success
-      console.log(response);
-      window.alert("Contraseña restablecida con éxito, ya puede iniciar sesión.")
-    })
-    .catch(function (error) {
-        // Failure
-      console.log(error);
-      window.alert("Ocurrió un error.")
-    })
-  };
+const resetPassword = async (email, newPassword) => {
+  if (typeof window !== "undefined") {
+    const url = window.location.href
+    const params = new URLSearchParams(url.match(/\?.*/)[0]);
+
+  await axios.post('http://localhost:3001/reset-password',  {
+    email: email,
+    newPassword: newPassword,
+  }, {
+  headers: {
+    'Content-Type': 'application/json', 
+    'Accept': 'application/json',
+    'authorization': params.get("recoveryToken")
+  }})
+  .then(function (response) {
+    console.log(response);
+    window.alert("Contraseña restablecida con éxito, ya puede iniciar sesión.")
+  })
+  .catch(function (error) {
+    console.log(error);
+    window.alert("Ocurrió un error.")
+  })
+  }
+};
 
 export default function PasswordRecovery() {
   if (typeof window !== "undefined") {
     const url = window.location.href
     const params = new URLSearchParams(url.match(/\?.*/)[0]);
     console.log(params)
-    console.log(params.get("token"))
+    console.log(params.get("recoveryToken"))
   }
 
-  const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/
-  const [password, setPassword] = React.useState("");
-  const [errorPassword, setErrorPassword] = React.useState(false);
-  const [showPassword, setShowPassword] = React.useState(false);
+  const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [email, setEmail] = useState("");
 
-  const [repeatPassword, setRepeatPassword] = React.useState("");
-  const [errorRepeatPassword, setErrorRepeatPassword] = React.useState(false);
-  const [showRepeatPassword, setShowRepeatPassword] = React.useState(false);
+  const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,16}$/
+  const [password, setPassword] = useState("");
+  const [errorPassword, setErrorPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [errorRepeatPassword, setErrorRepeatPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       let hasError: boolean = false;
       const data = new FormData(event.currentTarget);
+
+      if (email.trim().length === 0 || !email.match(emailRegex)) {
+        hasError = true;
+        setErrorEmail(true);
+      } else {
+        hasError = false;
+        setErrorEmail(false);
+      };
   
       if (password.trim().length === 0 || !password.match(passwordRegex)) {
         hasError = true;
@@ -72,7 +88,7 @@ export default function PasswordRecovery() {
       };
   
       if (!hasError) {
-        resetPassword(password)
+        resetPassword(email, password)
       }
     };
 
@@ -96,6 +112,20 @@ export default function PasswordRecovery() {
               Restablecer contraseña
           </Typography>
           <br /><br />
+          <TextField
+              required
+              fullWidth
+              name="email"
+              label="Dirección de correo"
+              id="email"
+              autoComplete="email"
+              error={errorEmail}
+              helperText={errorEmail ?
+                  <>Ingrese una dirección de correo válida</> : <></>}
+              onChange={(event) => setEmail(event.target.value)}
+              value={email}
+              />
+          <br />  
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
               <TextField
               InputProps={{
@@ -113,7 +143,7 @@ export default function PasswordRecovery() {
               required
               fullWidth
               name="password"
-              label="Contraseña"
+              label="Nueva contraseña"
               type={showPassword ? 'text' : 'password'}
               id="password"
               autoComplete="new-password"
