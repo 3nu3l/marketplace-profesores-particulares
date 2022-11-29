@@ -24,7 +24,7 @@ const resetPassword = async (email, newPassword) => {
   headers: {
     'Content-Type': 'application/json', 
     'Accept': 'application/json',
-    'authorization': params.get("recoveryToken")
+    'authorization': ("Bearer " + params.get("recoveryToken"))
   }})
   .then(function (response) {
     console.log(response);
