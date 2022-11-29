@@ -25,10 +25,12 @@ const registerClass = async (cost, className, subject, duration, frequency, clas
         classType: classType,
         cost: cost,
         classState: "Despublicada",
-        rating: 0
+        'rating': "0"
     },
     { headers: {
-        authorization: localStorage.getItem("token")
+        'Content-Type': 'application/json', 
+        'accept': 'application/json',
+        'authorization': (localStorage.getItem("token"))
     }})
     .then(function (response) {
         console.log(response)

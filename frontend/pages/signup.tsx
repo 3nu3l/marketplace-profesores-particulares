@@ -55,7 +55,7 @@ const register = async (firstName, lastName, email, phone, password, role, degre
     })
     .then(function (response) {
         console.log(response);
-        window.location.href = "/registerSuccess"
+        window.location.href = "/registerSuccess?registrationType=user"
     })
     .catch(function (error) {
         console.log(error);
