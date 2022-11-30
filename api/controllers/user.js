@@ -42,7 +42,7 @@ exports.createUser = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   const email = req.params.email;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select('-password');
   if (!user) {
     return res.status(404).json({
       success: false,
@@ -55,7 +55,7 @@ exports.getUser = async (req, res) => {
 };
 
 exports.getUsers = async (req, res) => {
-  const users = await User.find({});
+  const users = await User.find({}).select('-password');
 
   if (users.length === 0)
     return res.status(404).json({
@@ -63,7 +63,6 @@ exports.getUsers = async (req, res) => {
       message: 'No se encuentran usuarios en la base de datos',
     });
 
-  users.password = "No Visible";
   res.json({ success: true, user: users });
 };
 
@@ -107,8 +106,8 @@ exports.userSignIn = async (req, res) => {
     tokens: [...oldTokens, { token, signedAt: Date.now().toString() }],
   });
 
-  user.password = "No Visible";
-  res.status(200).json({ success: true, bearerToken, user: user });
+  user.password = undefined;
+  return res.status(200).json({ success: true, bearerToken, user: user });
 };
 
 exports.signOut = async (req, res) => {

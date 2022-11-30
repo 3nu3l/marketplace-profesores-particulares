@@ -104,7 +104,7 @@ exports.addComment = async (req, res) => {
 
 exports.getComments = async (req, res) => {
   const classParams = req.params;
-  const _class = await Class.find(classParams).select('comments');;
+  const _class = await Class.find(classParams).select('comments');
 
   if (_class.length === 0) {
     return res.status(404).json({
