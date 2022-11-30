@@ -40,7 +40,20 @@ const register = async (firstName, lastName, email, phone, password, role, degre
         })
         .catch(function (error) {
             console.log(error);
-            window.alert("Ocurrió un error. Por favor intente nuevamente en unos instantes.")
+            switch (error.response.status) {
+                case 409:
+                  window.alert("La dirección de correo electrónico ingresada ya se encuentra en uso.")
+                  break;
+                case 401:
+                  window.alert("Unauthorized")
+                  break;
+                case 400:
+                    window.alert("Falta llenar uno o más campos. Por favor revise la información proporcionada.")
+                    break;
+                default:
+                  window.alert("Error desconocido, póngase en contacto con el administrador")
+                  break;
+              };
         })
     } else {
     axios.post('http://localhost:3001/signUp', {
