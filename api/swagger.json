@@ -615,11 +615,7 @@
         "email",
         "phone",
         "password",
-        "role",
-        "degreeTeacher",
-        "experienceTeacher",
-        "dateOfBirthStudent",
-        "degreeLevelStudent"
+        "role"
       ],
       "properties": {
         "firstName": {
@@ -678,8 +674,7 @@
         "frequency",
         "classType",
         "cost",
-        "classState",
-        "rating"
+        "classState"
       ],
       "properties": {
         "className": {
@@ -704,7 +699,7 @@
           "type": "string"
         },
         "rating": {
-          "type": "string"
+          "type": "number"
         }
       }
     },
