@@ -21,75 +21,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import axios from 'axios';
-
-const register = async (firstName, lastName, email, phone, password, role, degreeTeacher, experienceTeacher, dateOfBirthStudent, degreeLevelStudent) => {
-    if (role === "student") {
-        axios.post('http://localhost:3001/signUp', {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phone: phone,
-            password: password,
-            role: role,
-            dateOfBirthStudent: dateOfBirthStudent,
-            degreeLevelStudent: degreeLevelStudent
-        })
-        .then(function (response) {
-            console.log(response);
-            window.location.href = "/registerSuccess"
-        })
-        .catch(function (error) {
-            console.log(error);
-            switch (error.response.status) {
-                case 409:
-                  window.alert("La dirección de correo electrónico ingresada ya se encuentra en uso.")
-                  break;
-                case 401:
-                  window.alert("Unauthorized")
-                  break;
-                case 400:
-                    window.alert("Falta llenar uno o más campos. Por favor revise la información proporcionada.")
-                    break;
-                default:
-                  window.alert("Error desconocido, póngase en contacto con el administrador")
-                  break;
-              };
-        })
-    } else {
-    axios.post('http://localhost:3001/signUp', {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phone: phone,
-        password: password,
-        role: role,
-        degreeTeacher: degreeTeacher,
-        experienceTeacher: experienceTeacher
-    })
-    .then(function (response) {
-        console.log(response);
-        window.location.href = "/registerSuccess?registrationType=user"
-    })
-    .catch(function (error) {
-        console.log(error);
-        switch (error.response.status) {
-            case 409:
-                window.alert("Esa dirección de correo electrónico ya se encuentra en uso. Por favor, ingrese otra.")
-                break;
-            case 401:
-                window.alert("Unauthorized")
-                break;
-            case 400:
-                window.alert("Uno o más campos obligatorios están vacíos o son incorrectos, por favor revise la información proporcionada.")
-                break;
-            default:
-                window.alert("Error desconocido, póngase en contacto con el administrador")
-                break;
-        }
-    })
-}};
+import { useRouter } from 'next/dist/client/router';
 
 export default function SignUp() {
+    const router = useRouter()
     var dateLessSixYear = new Date();
     dateLessSixYear.setDate(dateLessSixYear.getDate() - 2192);
     var formatDateLessSixYear = dateLessSixYear.toISOString().substring(0, 10);
@@ -203,6 +138,81 @@ export default function SignUp() {
             register(name, lastName, email, phone, password, registeredUserRole, teacherTitle, teacherExp, date, studies)
         }
     };
+
+    const register = async (firstName, lastName, email, phone, password, role, degreeTeacher, experienceTeacher, dateOfBirthStudent, degreeLevelStudent) => {
+        if (role === "student") {
+            axios.post('http://localhost:3001/signUp', {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phone: phone,
+                password: password,
+                role: role,
+                dateOfBirthStudent: dateOfBirthStudent,
+                degreeLevelStudent: degreeLevelStudent
+            })
+            .then(function (response) {
+                console.log(response);
+                router.push(
+                    {
+                        pathname: '/registerSuccess',
+                        query: {
+                            successMessage: 'Se ha registrado con éxito. Ya puede ingresar al sitio.'
+                        },
+                    },
+                    '/registerSuccess'
+                )
+            })
+            .catch(function (error) {
+                console.log(error);
+                switch (error.response.status) {
+                    case 409:
+                      window.alert("La dirección de correo electrónico ingresada ya se encuentra en uso.")
+                      break;
+                    case 401:
+                      window.alert("Unauthorized")
+                      break;
+                    case 400:
+                        window.alert("Falta llenar uno o más campos. Por favor revise la información proporcionada.")
+                        break;
+                    default:
+                      window.alert("Error desconocido, póngase en contacto con el administrador")
+                      break;
+                  };
+            })
+        } else {
+        axios.post('http://localhost:3001/signUp', {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phone: phone,
+            password: password,
+            role: role,
+            degreeTeacher: degreeTeacher,
+            experienceTeacher: experienceTeacher
+        })
+        .then(function (response) {
+            console.log(response);
+            window.location.href = "/registerSuccess?registrationType=user"
+        })
+        .catch(function (error) {
+            console.log(error);
+            switch (error.response.status) {
+                case 409:
+                    window.alert("Esa dirección de correo electrónico ya se encuentra en uso. Por favor, ingrese otra.")
+                    break;
+                case 401:
+                    window.alert("Unauthorized")
+                    break;
+                case 400:
+                    window.alert("Uno o más campos obligatorios están vacíos o son incorrectos, por favor revise la información proporcionada.")
+                    break;
+                default:
+                    window.alert("Error desconocido, póngase en contacto con el administrador")
+                    break;
+            }
+        })
+    }};
 
     const [registeredUserRole, setRegisteredUserRole] = React.useState("")
     function handleUserRole(registeredUserRole) {

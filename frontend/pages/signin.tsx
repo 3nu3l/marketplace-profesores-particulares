@@ -36,7 +36,7 @@ const Login = async (email, password) => {
   })
   .catch(function (error) {
     console.log(error);
-    /* switch (error.response.status) {
+    switch (error.response.status) {
       case 404:
         window.alert("El usuario no existe, por favor revise sus credenciales.")
         break;
@@ -46,7 +46,7 @@ const Login = async (email, password) => {
       default:
         window.alert("Error desconocido, póngase en contacto con el administrador")
         break;
-    }; */
+    };
   });
 };
 

@@ -15,41 +15,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import axios from 'axios';
-
-const registerClass = async (cost, className, subject, duration, frequency, classType, classDescription) => {
-    axios.post('http://localhost:3001/class', {
-        className: className,
-        subject: subject,
-        duration: duration,
-        frequency: frequency,
-        classType: classType,
-        cost: cost,
-        classState: "Despublicada",
-        'rating': "0"
-    },
-    { headers: {
-        'Content-Type': 'application/json', 
-        'accept': 'application/json',
-        'authorization': (localStorage.getItem("token"))
-    }})
-    .then(function (response) {
-        console.log(response)
-        window.location.href = "/registerSuccess?registrationType=class"
-    })
-    .catch(function (error) {
-        console.log(error)
-        switch (error.response.status) {
-            case 401:
-                window.alert("Unauthorized")
-                break;
-            default:
-                window.alert("Error desconocido, póngase en contacto con el administrador")
-                break;
-        }
-    })
-}
+import { useRouter } from 'next/dist/client/router';
 
 export default function CreateClass() {
+    const router = useRouter()
+
     const costRegex = /^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/
     const [errorCost, setErrorCost] = useState(false);
     const [cost, setCost] = useState("");
@@ -120,6 +90,47 @@ export default function CreateClass() {
             registerClass(cost, className, subject, duration, frequency, classType, classDescription)
         }
     };
+
+    const registerClass = async (cost, className, subject, duration, frequency, classType, classDescription) => {
+        axios.post('http://localhost:3001/class', {
+            className: className,
+            subject: subject,
+            duration: duration,
+            frequency: frequency,
+            classType: classType,
+            cost: cost,
+            classState: "Despublicada",
+            'rating': "0"
+        },
+        { headers: {
+            'Content-Type': 'application/json', 
+            'accept': 'application/json',
+            'authorization': (localStorage.getItem("token"))
+        }})
+        .then(function (response) {
+            console.log(response)
+            router.push(
+                {
+                    pathname: '/registerSuccess',
+                    query: {
+                        successMessage: 'Clase registrada con éxito.'
+                    },
+                },
+                '/registerSuccess'
+            )
+        })
+        .catch(function (error) {
+            console.log(error)
+            switch (error.response.status) {
+                case 401:
+                    window.alert("Unauthorized")
+                    break;
+                default:
+                    window.alert("Error desconocido, póngase en contacto con el administrador")
+                    break;
+            }
+        })
+    }
 
     return (
         <Container component="main" maxWidth="xs">
