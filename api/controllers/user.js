@@ -63,6 +63,7 @@ exports.getUsers = async (req, res) => {
       message: 'No se encuentran usuarios en la base de datos',
     });
 
+  users.password = "No Visible";
   res.json({ success: true, user: users });
 };
 
