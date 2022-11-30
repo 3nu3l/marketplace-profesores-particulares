@@ -106,13 +106,8 @@ exports.userSignIn = async (req, res) => {
     tokens: [...oldTokens, { token, signedAt: Date.now().toString() }],
   });
 
-  const userInfo = {
-    fullname: user.firstName + ' ' + user.lastName,
-    email: user.email,
-    role: user.role
-  };
-
-  res.status(200).json({ success: true, bearerToken, user: userInfo });
+  user.password = "No Visible";
+  res.status(200).json({ success: true, bearerToken, user: user });
 };
 
 exports.signOut = async (req, res) => {
