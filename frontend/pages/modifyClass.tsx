@@ -67,6 +67,10 @@ export default function ModifyClass() {
             console.log(response)
             router.push({pathname: "/teacherClasses", query: {}}, "/teacherClasses")
         })
+        .catch(function (error) {
+            console.log(error)
+            window.alert("Ocurrió un error.")
+        })
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

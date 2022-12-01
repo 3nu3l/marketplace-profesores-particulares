@@ -13,9 +13,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/dist/client/router';
+import Switch from '@mui/material/Switch';
 
-function Row(id: number, className: string, subject: string, duration: number, frecuency: string, status: boolean, classType: string, ownerId: number, description: string) {
-  return ({ id: id, className: className, subject: subject, duration: duration, frecuency: frecuency, status: status, classType: classType, ownerId: ownerId, description: description })
+function Row(id: number, className: string, subject: string, duration: number, frecuency: string, classState: boolean, classType: string, ownerId: number, description: string) {
+  return ({ id: id, className: className, subject: subject, duration: duration, frecuency: frecuency, classState: classState, classType: classType, ownerId: ownerId, description: description })
 }
 
 export default function DataTable() {
@@ -75,7 +76,7 @@ export default function DataTable() {
           fetchedClass.subject,
           fetchedClass.duration,
           fetchedClass.frequency,
-          fetchedClass.status,
+          fetchedClass.classState,
           fetchedClass.classType,
           fetchedClass.ownerId,
           fetchedClass.description)
@@ -87,6 +88,24 @@ export default function DataTable() {
     .catch(function (error) {
       console.log(error)
     })
+  }
+
+  async function handlePublishChange(id: number, currentStatus) {
+    let newStatus = (currentStatus === "Despublicada" ? "Publicada" : "Despublicada")
+    axios.put(`http://localhost:3001/classId/${id}`, {
+      classState: newStatus,
+  },
+  { headers: {
+      'authorization': localStorage.getItem("token")
+  }})
+  .then(function (response) {
+      console.log(response)
+      getClasses()
+  })
+  .catch(function (error) {
+    console.log(error)
+    window.alert("Ocurrió un error.")
+  })
   }
   
   const columns: GridColDef[] = [
@@ -107,8 +126,8 @@ export default function DataTable() {
       width: 160
     },
     {
-      field: 'status', headerName: 'Publicada', width: 100, renderCell: () => {
-        return (<CustomSwitch></CustomSwitch>)
+      field: 'classState', headerName: 'Publicada', width: 100, renderCell: (params) => {
+        return (<Switch checked={params.row.classState === "Publicada" ? true : false} onChange={() => handlePublishChange(params.row.id, params.row.classState)}></Switch>)
       }
     },
     {
@@ -116,7 +135,7 @@ export default function DataTable() {
         return (
           <div>
             <IconButton color="error" onClick={() => deleteClass(params.row.id)}><DeleteOutlineIcon /></IconButton>
-            <Link color="inherit" href="/modifyClass"><IconButton color="secondary" onClick={() => goToModify(params.row.id, params.row.status)}><EditOutlinedIcon /></IconButton></Link>
+            <Link color="inherit" href="/modifyClass"><IconButton color="secondary" onClick={() => goToModify(params.row.id, params.row.classState)}><EditOutlinedIcon /></IconButton></Link>
           </div>);
       }
     }
