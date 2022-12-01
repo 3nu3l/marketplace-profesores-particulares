@@ -35,7 +35,14 @@ const classSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
   rating: {
+    type: Number,
+  },
+  ownerId: {
     type: Number,
   },
   comments: {
