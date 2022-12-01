@@ -157,3 +157,18 @@ exports.changeStateComment = async (req, res) => {
     return res.status(200).json({ success: true, class: _class });
   }
 }
+
+exports.deleteClass = async (req, res) => {
+  const idClass = req.params._id;
+  const _class = await Class.findByIdAndDelete(idClass, function (err, msg) {
+    if (!err) {
+      return res.status(202).json({ success: true, message: msg });
+    }
+    else {
+      return res.status(404).json({
+        success: false,
+        message: err,
+      });
+    }
+  });
+}
