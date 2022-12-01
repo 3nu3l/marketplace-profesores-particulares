@@ -39,6 +39,25 @@ export default function DataTable() {
   )
   }
 
+  async function deleteClass(id: number) {
+    axios.delete(`http://localhost:3001/deleteClass/${id}`,
+    {
+      headers: {
+        'Content-Type': 'application/json', 
+        'accept': 'application/json',
+        'authorization': localStorage.getItem("token")
+    }})
+    .then(function (response) {
+      console.log(response)
+      window.alert("Clase eliminada con éxito")
+      getClasses()
+    })
+    .catch(function (error) {
+      console.log(error)
+      window.alert("Ocurrió un error.")
+    })
+  }
+
   async function getClasses() {
     axios.get(`http://localhost:3001/classOwner/${localStorage.getItem("userId")}`, {
       headers: {
@@ -96,7 +115,7 @@ export default function DataTable() {
       field: 'actions', headerName: 'Acciones', renderCell: (params) => {
         return (
           <div>
-            <IconButton color="error"><DeleteOutlineIcon /></IconButton>
+            <IconButton color="error" onClick={() => deleteClass(params.row.id)}><DeleteOutlineIcon /></IconButton>
             <Link color="inherit" href="/modifyClass"><IconButton color="secondary" onClick={() => goToModify(params.row.id, params.row.status)}><EditOutlinedIcon /></IconButton></Link>
           </div>);
       }
