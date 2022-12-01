@@ -318,6 +318,47 @@
         }
       }
     },
+    "/deleteClass/{_id}": {
+      "delete": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Delete a class in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID we want to update"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "202": {
+            "description": "Class updated"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class don't exist"
+          }
+        }
+      }
+    },
     "/className/{className}": {
       "get": {
         "tags": [
