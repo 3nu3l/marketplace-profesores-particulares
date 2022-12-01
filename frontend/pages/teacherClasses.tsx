@@ -12,27 +12,32 @@ import CustomSwitch from '../src/components/customSwitch';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
-
-const rows = [
-  Row(1, 'Introducción a trigonometría', 'Matemática', 35, 'Semanal', true),
-  Row(2, 'MRU, MRUV, Tiro vertical', 'Física', 42, 'Única', true),
-  Row(3, 'Entendiendio el Martín Fierro', 'Lengua y Literatura', 45, 'Única', false),
-  Row(4, 'Uniones covalentes', 'Química', 16, 'Semanal', true),
-  Row(5, 'Redes y Telecomunicaciones 1', 'Sistemas de Comuncaciones', 24, 'Semanal', false),
-  Row(6, 'Introducción a trigonometría', 'Matemática', 150, 'Semanal', false),
-  Row(7, 'MRU, MRUV, Tiro vertical', 'Física', 44, 'Única', true),
-  Row(8, 'Entendiendio el Martín Fierro', 'Lengua y Literatura', 36, 'Semanal', true),
-  Row(9, 'Uniones covalentes', 'Química', 65, 'Semanal', true),
-];
+import { useRouter } from 'next/dist/client/router';
 
 function Row(id: number, className: string, subject: string, duration: number, frecuency: string, status: boolean, classType: string, ownerId: number, description: string) {
   return ({ id: id, className: className, subject: subject, duration: duration, frecuency: frecuency, status: status, classType: classType, ownerId: ownerId, description: description })
 }
 
 export default function DataTable() {
+  const router = useRouter()
+
   const [classes, setClasses] = useState([])
 
-  useEffect(() => {getClasses()}, []) 
+  useEffect(() => {getClasses()}, [])
+  
+  function goToModify(id: number, status: string) {
+    router.push(
+      {
+          pathname: '/modifyClass',
+          query: {
+              id: id,
+              ownerId:  localStorage.getItem("userId"),
+              currentStatus: status
+          },
+      },
+      '/modifyClass'
+  )
+  }
 
   async function getClasses() {
     axios.get(`http://localhost:3001/classOwner/${localStorage.getItem("userId")}`, {
@@ -88,11 +93,11 @@ export default function DataTable() {
       }
     },
     {
-      field: 'actions', headerName: 'Acciones', renderCell: () => {
+      field: 'actions', headerName: 'Acciones', renderCell: (params) => {
         return (
           <div>
             <IconButton color="error"><DeleteOutlineIcon /></IconButton>
-            <Link color="inherit" href="/modifyClass"><IconButton color="secondary"><EditOutlinedIcon /></IconButton></Link>
+            <Link color="inherit" href="/modifyClass"><IconButton color="secondary" onClick={() => goToModify(params.row.id, params.row.status)}><EditOutlinedIcon /></IconButton></Link>
           </div>);
       }
     }
