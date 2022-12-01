@@ -16,6 +16,16 @@ exports.validateRegisterClass = [
     .not()
     .isEmpty()
     .withMessage('La duración de la clase es requerida'),
+  check('description')
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage('La descripción de la clase requerida'),
+  check('ownerId')
+    .trim()
+    .not()
+    .isEmpty()
+    .withMessage('El ID del owner es obligatorio'),
   check('frequency')
     .trim()
     .not()
@@ -64,7 +74,11 @@ exports.classValidationByNameAndSubject = [
 ];
 
 exports.classValidationById = [
-  check('_id').trim().not().isEmpty().withMessage('El ID de la clase es requerida'),
+  check('_id').trim().not().isEmpty().withMessage('El ID de la clase es requerido'),
+];
+
+exports.classValidationByOwner = [
+  check('ownerId').trim().not().isEmpty().withMessage('El ID del owner de la clase es requerido'),
 ];
 
 exports.commentValidation = [

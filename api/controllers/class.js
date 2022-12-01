@@ -8,7 +8,9 @@ exports.createClass = async (req, res) => {
     frequency,
     classType,
     cost,
-    classState
+    classState,
+    ownerId,
+    description,
   } = req.body;
   const _class = await Class({
     className,
@@ -17,7 +19,9 @@ exports.createClass = async (req, res) => {
     frequency,
     classType,
     cost,
-    classState
+    classState,
+    ownerId,
+    description
   });
   await _class.save();
   res.status(200).json({ success: true, _class });
@@ -31,6 +35,21 @@ exports.getClass = async (req, res) => {
     return res.status(404).json({
       success: false,
       message: 'No se encuentra la clase con nombre ' + classParams.className + ' y la materia ' + classParams.subject + ' en la base de datos',
+    });
+  }
+  else {
+    return res.status(200).json({ success: true, class: _class });
+  }
+};
+
+exports.getClassByOwner = async (req, res) => {
+  const ownerId = req.params.ownerId
+  const _class = await Class.find({ ownerId });
+
+  if (_class.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: 'No se encuentran clases creadas por el usuario ' + ownerId
     });
   }
   else {
