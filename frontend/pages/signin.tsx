@@ -31,6 +31,8 @@ const Login = async (email, password) => {
     localStorage["token"] = response.data.bearerToken;
     localStorage["fullName"] = response.data.user.fullname;
     localStorage["role"] = response.data.user.role;
+    localStorage["userId"] = response.data.user._id;
+    localStorage["email"] = response.data.user.email;
 
     location.href = "/"
   })

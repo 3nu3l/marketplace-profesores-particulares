@@ -92,44 +92,48 @@ export default function CreateClass() {
     };
 
     const registerClass = async (cost, className, subject, duration, frequency, classType, classDescription) => {
-        axios.post('http://localhost:3001/class', {
+        if (localStorage.getItem("role") === "teacher") {
+            axios.post('http://localhost:3001/class', {
             className: className,
             subject: subject,
             duration: duration,
             frequency: frequency,
             classType: classType,
             cost: cost,
+            description: classDescription,
             classState: "Despublicada",
-            'rating': "0"
-        },
-        { headers: {
-            'Content-Type': 'application/json', 
-            'accept': 'application/json',
-            'authorization': (localStorage.getItem("token"))
-        }})
-        .then(function (response) {
-            console.log(response)
-            router.push(
-                {
-                    pathname: '/registerSuccess',
-                    query: {
-                        successMessage: 'Clase registrada con éxito.'
+            'rating': 0,
+            ownerId: localStorage.getItem("userId")
+            },
+            { headers: {
+                'Content-Type': 'application/json', 
+                'accept': 'application/json',
+                'authorization': (localStorage.getItem("token"))
+            }})
+            .then(function (response) {
+                console.log(response)
+                router.push(
+                    {
+                        pathname: '/registerSuccess',
+                        query: {
+                            successMessage: 'Clase registrada con éxito.'
+                        },
                     },
-                },
-                '/registerSuccess'
-            )
-        })
-        .catch(function (error) {
-            console.log(error)
-            switch (error.response.status) {
-                case 401:
-                    window.alert("Unauthorized")
-                    break;
-                default:
-                    window.alert("Error desconocido, póngase en contacto con el administrador")
-                    break;
-            }
-        })
+                    '/registerSuccess'
+                )
+            })
+            .catch(function (error) {
+                console.log(error)
+                switch (error.response.status) {
+                    case 401:
+                        window.alert("Unauthorized")
+                        break;
+                    default:
+                        window.alert("Error desconocido, póngase en contacto con el administrador")
+                        break;
+                }
+            })
+        }
     }
 
     return (

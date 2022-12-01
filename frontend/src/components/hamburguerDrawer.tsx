@@ -175,6 +175,19 @@ export default function HamburguerDrawer() {
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
         >
+        <Link color="inherit" href="/teacherClasses">
+                <ListItem key={'myClasses'} disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon>
+                        <LibraryBooksIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={'Mis clases'} />
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+
+            <Divider />
+
             <List>
                 <Link color="inherit" href="/registrationClass">
                     <ListItem key={'registerClass'} disablePadding>
@@ -183,17 +196,6 @@ export default function HamburguerDrawer() {
                             <LibraryBooksIcon />
                             </ListItemIcon>
                             <ListItemText primary={'Registrar clase'} />
-                        </ListItemButton>
-                    </ListItem>
-                </Link>
-    
-                <Link color="inherit" href="/modifyClass">
-                    <ListItem key={'modifyClass'} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                            <EditIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={'Modificar clase'} />
                         </ListItemButton>
                     </ListItem>
                 </Link>
