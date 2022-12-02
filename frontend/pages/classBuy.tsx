@@ -13,9 +13,7 @@ import axios from 'axios';
 export default function ClassBuy() {
     const router = useRouter()
     const data = router.query
-
-    const [classId, setClassId] = useState(0)
-
+    
     const phoneRegex = /^[0-9,+]*$/
     const [phoneNumber, setPhoneNumber] = React.useState("");
     const [errorphoneNumber, setErrorPhoneNumber] = React.useState(false);
@@ -60,8 +58,7 @@ export default function ClassBuy() {
 
     async function buyClass() {
         if (localStorage.getItem("role") === "student") {
-            setClassId(data.classId)
-            axios.put(`http://localhost:3001/enrollments/${classId}`,
+            axios.put(`http://localhost:3001/enrollments/${data.classId}`,
             {
                 "studentId": localStorage.getItem("userId")
             },
