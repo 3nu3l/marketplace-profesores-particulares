@@ -5,8 +5,18 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useEffect } from 'react'
 
 export default function ClassBuy() {
+    const router = useRouter()
+    const data = router.query
+
+    const [classId, setClassId] = useState(data.classId)
+
+    useEffect(() => {setClassId(data.searchTerm)}, [])
+
     const phoneRegex = /^[0-9,+]*$/
     const [phoneNumber, setPhoneNumber] = React.useState("");
     const [errorphoneNumber, setErrorPhoneNumber] = React.useState(false);
@@ -19,23 +29,38 @@ export default function ClassBuy() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let hasError: boolean = false;
         const data = new FormData(event.currentTarget);
 
-        if (phoneNumber.trim().length === 0 || !phoneNumber.match(phoneRegex))
+        if (phoneNumber.trim().length === 0 || !phoneNumber.match(phoneRegex)) {
+            hasError = true;
             setErrorPhoneNumber(true);
-        else
+        } else {
+            hasError = false;
             setErrorPhoneNumber(false);
-
-        if (schedule.trim().length === 0)
+        }
+        if (schedule.trim().length === 0) {
+            hasError = true;
             setErrorSchedule(true);
-        else
+        } else {
+            hasError = false;
             setErrorSchedule(false);
-
-        if (message.trim().length === 0)
+        }
+        if (message.trim().length === 0) {
+            hasError = true;
             setErrorMessage(true);
-        else
+        } else {
+            hasError = false;
             setErrorMessage(false);
+        }
+            if (!hasError) {
+                buyClass()
+            }
     };
+
+    async function buyClass() {
+        // TODO: buy class with id
+    }
 
     return (
         <Container component="main" maxWidth="xs">

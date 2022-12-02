@@ -69,7 +69,20 @@ export default function ModifyClass() {
         })
         .catch(function (error) {
             console.log(error)
-            window.alert("Ocurrió un error.")
+            switch (error.response.status) {
+                case 401:
+                    window.alert("Por favor, vuelva a iniciar sesión.")
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("fullName");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("email");
+                    window.location.href = "/";
+                    break;
+                default:
+                    window.alert("Ocurrió un error.")
+                    break;
+            }
         })
     }
 

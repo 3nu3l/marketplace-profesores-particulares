@@ -11,15 +11,109 @@ import Link from 'next/link';
 import SimpleClassComments from '../src/components/simpleClassComments'
 import ListItem from '@mui/material/ListItem'
 import List from '@mui/material/List'
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 
+export default function ClassDetails() {
+    const [value, setValue] = useState<number | null>(2);
 
-function handleCommentSend() {
-    window.alert("Su comentario está pendiente de aprobación")
+    const[classId, setClassId] = useState(0)
 
-}
+    const [name, setName] = useState("")
+    const [subject, setSubject] = useState("")
+    const [price, setPrice] = useState(0)
+    const [rating, setRating] = useState(0)
+    const [frequency, setFrequency] = useState("")
+    const [duration, setDuration] = useState(0)
+    const [type, setType] = useState("")
+    const [teacherName, setTeacherName] = useState("")
+    const [teacherExp, setTeacherExp] = useState("")
 
-export default function ClassDetails({name, subject, price, rating, frequency, duration, type, teacherName, teacherExp}) {
-    const [value, setValue] = React.useState<number | null>(2);
+    const [commentText, setCommentText] = useState("")
+
+    const router = useRouter()
+    const data = router.query
+
+    useEffect(() => {getClassDetails("string")}, [])
+
+    function goToHire() {
+        if (localStorage.getItem("role") === "student") {
+            router.push({
+                pathname: "/classBuy",
+                query: {
+                    classId: classId
+                }},
+                "/classBuy")
+        } else {
+            window.alert("No tiene los permisos necesarios para realizar esta acción. Inicie sesión con una cuenta de estudiante.")
+        }
+    }
+
+    async function getClassDetails(className) {
+        axios.get(`http://localhost:3001/className/${className}`,{
+            headers: {
+                'authorization': localStorage.getItem("token")
+            },
+        })
+        .then(function (response) {
+            console.log(response.data)
+            const classDetails = response.data.class
+            setClassId(classDetails._id)
+            setName(classDetails.name)
+            setSubject(classDetails.subject)
+            setPrice(classDetails.cost)
+            setRating(classDetails.rating)
+            setFrequency(classDetails.frequency)
+            setDuration(classDetails.duration)
+            setType(classDetails.classType)
+            setTeacherName(classDetails.teacherName)
+            setTeacherExp(classDetails.teacherExp)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+    }
+
+    async function handleCommentSend() {
+        if (localStorage.getItem("role") === "student") {
+            axios.put(`http://localhost:3001/comments/addComment/${classId}`, {
+                "content": commentText,
+                "studentName": localStorage.getItem("fullName"),
+                "commentState": "Pendiente"
+            },
+            {
+                headers: {
+                    'authorization': localStorage.getItem("token")
+                }
+            })
+            .then(function (response) {
+                console.log(response.data)
+                setCommentText("")
+                window.alert("Su comentario está pendiente de aprobación")
+            })
+            .catch(function (error) {
+                console.log(error)
+                switch (error.response.status) {
+                    case 401:
+                        window.alert("Por favor, vuelva a iniciar sesión.")
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("role");
+                        localStorage.removeItem("fullName");
+                        localStorage.removeItem("userId");
+                        localStorage.removeItem("email");
+                        window.location.href = "/";
+                        break;
+                    default:
+                        window.alert("Error desconocido, póngase en contacto con el administrador")
+                        break;
+                }
+            })
+        } else {
+            window.alert("No tiene los permisos necesarios para realizar esta acción. Inicie sesión con una cuenta de estudiante.")
+        }
+    }
     
     return(
         <Container
@@ -55,7 +149,7 @@ export default function ClassDetails({name, subject, price, rating, frequency, d
                     </Grid>
                     <Grid item xs={12}>
                     <Typography variant="h5" component="div" style={{textAlign: "left"}} color="green">
-                        $ {price}
+                        $ {price}/h
                     </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -82,7 +176,7 @@ export default function ClassDetails({name, subject, price, rating, frequency, d
             <Typography variant="h5">
                 Dejá tu comentario:
             </Typography>
-            <TextField id="class-comment" label="Comentario..." variant="standard" style={{width: 600, maxWidth: 1000, flexGrow: 1}} /><br /><br />
+            <TextField id="class-comment" label="Comentario..." variant="standard" value={commentText} style={{width: 600, maxWidth: 1000, flexGrow: 1}} onChange={(event) => setCommentText(event.target.value)}/><br /><br />
             <Link href="#"><a onClick={handleCommentSend}><Button variant='outlined' style={{marginLeft: "auto"}}>Enviar</Button></a></Link>
             <br /><br />
             <Typography variant="h5">

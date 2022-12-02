@@ -14,7 +14,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
+import { useState } from 'react'
 import Link from "next/link";
 import HamburguerDrawer from '../../src/components/hamburguerDrawer'
 
@@ -59,6 +60,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function SearchComponent() {
+  const router = useRouter()
+
+  const [searchTerm, setSearchTerm] = useState("")
+
+  function search() {
+    router.push({pathname: '/searchResults',
+    query: {
+      searchTerm:  searchTerm
+    }},
+    "/searchResults")
+  }
+
   return (
     <Search>
       <SearchIconWrapper>
@@ -67,6 +80,12 @@ function SearchComponent() {
       <StyledInputBase
         placeholder="Buscar…"
         inputProps={{ 'aria-label': 'search' }}
+        onChange={(event) => setSearchTerm(event.target.value)}
+        onKeyPress= {(e) => {
+          if (e.key === 'Enter') {
+            search()
+          }
+        }}
       />
     </Search>
   )
@@ -105,6 +124,10 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleSearch = () => {
+    
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
