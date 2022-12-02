@@ -9,7 +9,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
 import SimpleClassComments from '../src/components/simpleClassComments'
-import ListItem from '@mui/material/ListItem'
 import List from '@mui/material/List'
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -30,13 +29,20 @@ export default function ClassDetails() {
     const [type, setType] = useState("")
     const [teacherName, setTeacherName] = useState("")
     const [teacherExp, setTeacherExp] = useState("")
+    const [description, setDescription] = useState("")
+
+    const [comments, setComments] = useState([])
 
     const [commentText, setCommentText] = useState("")
 
     const router = useRouter()
     const data = router.query
 
-    useEffect(() => {getClassDetails("string")}, [])
+    const approvedComments = comments.filter(comment => comment.commentState === "Aprobado").map((comment) =>
+    <div><SimpleClassComments text={comment.content} publisher={comment.studentName}></SimpleClassComments><br /></div>
+    )
+    
+    useEffect(() => {getClassDetails()}, [])
 
     function goToHire() {
         if (localStorage.getItem("role") === "student") {
@@ -51,17 +57,17 @@ export default function ClassDetails() {
         }
     }
 
-    async function getClassDetails(className) {
-        axios.get(`http://localhost:3001/className/${className}`,{
+    async function getClassDetails() {
+        axios.get(`http://localhost:3001/class/${data.className}/${data.classSubject}`,{
             headers: {
                 'authorization': localStorage.getItem("token")
             },
         })
         .then(function (response) {
             console.log(response.data)
-            const classDetails = response.data.class
+            const classDetails = response.data.class[0]
             setClassId(classDetails._id)
-            setName(classDetails.name)
+            setName(classDetails.className)
             setSubject(classDetails.subject)
             setPrice(classDetails.cost)
             setRating(classDetails.rating)
@@ -70,9 +76,11 @@ export default function ClassDetails() {
             setType(classDetails.classType)
             setTeacherName(classDetails.teacherName)
             setTeacherExp(classDetails.teacherExp)
+            setDescription(classDetails.description)
+            setComments(classDetails.comments)
         })
         .catch(function (error) {
-            console.log(error)
+            console.log(error.response)
         })
     }
 
@@ -157,10 +165,16 @@ export default function ClassDetails() {
                         Modalidad: {type}
                     </Typography>
                     </Grid>
+                    <br /><br />
+                    <Grid item xs={12}>
+                    <Typography variant="body1" component="div" style={{textAlign: "left"}}>
+                        {description}
+                    </Typography>
+                    </Grid>
                 </Grid>
             </Paper>
             <br />
-            <Link href="/classBuy"><Button variant='contained' style={{marginLeft: "auto"}}>Contratar esta clase</Button></Link>
+            <Button variant='contained' style={{marginLeft: "auto"}} onClick={goToHire}>Contratar esta clase</Button>
             <br /><br />
             <Typography variant="h5">
                 Calificá esta clase:
@@ -185,18 +199,7 @@ export default function ClassDetails() {
             <br /><br />
             <Grid item xs={9}>
                     <List disablePadding style={{paddingTop:0, marginTop:-7}}>
-                        <ListItem>
-                            <SimpleClassComments name="Excelente clase!" publisher="Mauro López" />
-                        </ListItem>
-                        <ListItem>
-                            <SimpleClassComments name="Buena clase" publisher="Juan Perez"/>
-                        </ListItem>
-                        <ListItem>
-                            <SimpleClassComments name="Muy buena experiencia" publisher="Roberto Carlos"/>
-                        </ListItem>
-                        <ListItem>
-                            <SimpleClassComments name="Les agradezco su compromiso con esta hermosa tarea que es educar, y por hacerlo con la seriedad y el compromiso con que lo hacen. Estoy muy satisfecho con el curso y muy agradecido con todos y ustedes por el permanente contacto y buen trato. Ya estoy inscripto para el siguiente curso." publisher="Juan Fernando Quintero"/>
-                        </ListItem>
+                        {approvedComments}
                     </List>
                 </Grid>
                 <br></br><br></br>

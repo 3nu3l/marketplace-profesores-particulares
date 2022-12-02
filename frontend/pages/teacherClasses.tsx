@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton'
 import Link from 'next/link';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import CustomSwitch from '../src/components/customSwitch';
+import CommentIcon from '@mui/icons-material/Comment';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -87,6 +87,17 @@ export default function DataTable() {
     )
     .catch(function (error) {
       console.log(error)
+      switch (error.response.status) {
+        case 401:
+          window.alert("Por favor, vuelva a iniciar sesión.")
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
+          localStorage.removeItem("fullName");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("email");
+          window.location.href = "/";
+          break;
+      }
     })
   }
 
@@ -106,6 +117,18 @@ export default function DataTable() {
     console.log(error)
     window.alert("Ocurrió un error.")
   })
+  }
+
+  // TODO: change to id
+  function goToComments(name, subject) {
+    router.push(
+      { 
+        pathname: "/pendingComments",
+    query: {
+      className: name,
+      classSubject: subject
+    }},
+    "/pendingComments")
   }
   
   const columns: GridColDef[] = [
@@ -137,6 +160,14 @@ export default function DataTable() {
             <IconButton color="error" onClick={() => deleteClass(params.row.id)}><DeleteOutlineIcon /></IconButton>
             <Link color="inherit" href="/modifyClass"><IconButton color="secondary" onClick={() => goToModify(params.row.id, params.row.classState)}><EditOutlinedIcon /></IconButton></Link>
           </div>);
+      }
+    },
+    {
+      field: 'comments', headerName: 'Ver comentarios', renderCell: (params) => {
+        return(
+        <div>
+        <IconButton onClick={() => goToComments(params.row.className, params.row.subject)}><CommentIcon color='primary'/></IconButton>
+        </div>)
       }
     }
   ]
