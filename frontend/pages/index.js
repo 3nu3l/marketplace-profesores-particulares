@@ -4,8 +4,25 @@ import { Button, Divider, Grid } from '@mui/material';
 import FeatureBox from '../src/components/featureBox'
 import { faCheck, faTrophy, faMagnifyingGlass, faChalkboardUser, faFilePen, faCommentDollar } from "@fortawesome/free-solid-svg-icons";
 import Link from 'next/link'
+import { useState } from 'react'
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import SearchIcon from '@mui/icons-material/Search';
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter()
+
+  const [searchTerm, setSearchTerm] = useState("")
+
+  function search() {
+    router.push({pathname: '/searchResults',
+    query: {
+      searchTerm:  searchTerm
+    }},
+    "/searchResults")
+  }
+
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -22,10 +39,21 @@ export default function Home() {
             alignItems="center"
             justifyContent="center">
             <Grid item>
-              <SubjectSearchBar />
+              <Stack spacing={2} sx={{ width: 300 }}>
+                <TextField
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                  placeholder="Buscá materias y clases..."
+                  InputProps={{
+                    startAdornment: (
+                        <SearchIcon style={{marginRight: 10}}/>
+                    ),
+                    type: 'search',
+                  }}
+                />
+              </Stack>
             </Grid>
             <Grid item>
-              <Link href="/searchResults"><Button variant='outlined'>Buscar</Button></Link>
+              <Button variant='outlined' onClick={() => search()}>Buscar</Button>
             </Grid>
           </Grid>
         </div>
@@ -46,7 +74,8 @@ export default function Home() {
             spacing={2}
             direction="row"
             justify="space-between"
-            alignItems="center">
+            alignItems="center"
+            justifyContent="center">
               <Grid item>
                 <FeatureBox title="BUSCÁ" description="La materia en la que necesitás ayuda" icon={faMagnifyingGlass} pageLink="signin" />
               </Grid>
@@ -71,7 +100,8 @@ export default function Home() {
             spacing={2}
             direction="row"
             justify="space-between"
-            alignItems="center">
+            alignItems="center"
+            justifyContent="center">
               <Grid item>
                 <FeatureBox title="REGISTRÁ" description="Tus asignaturas y horarios para los alumnos" icon={faFilePen} pageLink="teacherClasses" />
               </Grid>

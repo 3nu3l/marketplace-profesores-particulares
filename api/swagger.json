@@ -1,0 +1,1114 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "marketplace-api",
+    "description": "Marketplace API de clases particulares - Only in localhost mode",
+    "license": {
+      "name": "ISC"
+    }
+  },
+  "host": "localhost:3001",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Marketplace",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/signIn": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Login in backend",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Login with user registered in backend",
+            "schema": {
+              "$ref": "#/definitions/UserLoginIn"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Login success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Email unregister"
+          }
+        }
+      }
+    },
+    "/user/{email}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Get an user in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User that we want to obtain"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User exist"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User don't exist"
+          }
+        }
+      }
+    },
+    "/signUp": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "New user is created"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "description": "Email in use"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Get all users in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "There are users"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "there are no users in the system"
+          }
+        }
+      }
+    },
+    "/request-reset-password/{email}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Request change password",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "User that we want to obtain"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Send email with token"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/reset-password": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create a new class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Login with user registered in backend",
+            "schema": {
+              "$ref": "#/definitions/UserResetPassword"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Password reset successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "User don't exist"
+          }
+        }
+      }
+    },
+    "/class": {
+      "post": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Create a new class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "class",
+            "in": "body",
+            "description": "Create a new class",
+            "schema": {
+              "$ref": "#/definitions/Class"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Class created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/classId/{_id}": {
+      "put": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Update a class in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID we want to update"
+          },
+          {
+            "name": "class",
+            "in": "body",
+            "description": "Create a new class",
+            "schema": {
+              "$ref": "#/definitions/Class"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Class updated"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class don't exist"
+          }
+        }
+      }
+    },
+    "/deleteClass/{_id}": {
+      "delete": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Delete a class in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID we want to update"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "202": {
+            "description": "Class updated"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class don't exist"
+          }
+        }
+      }
+    },
+    "/className/{className}": {
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Get a class in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "className",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class name we want to obtain"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Class exist"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class don't exist"
+          }
+        }
+      }
+    },
+    "/classOwner/{ownerId}": {
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Get a class in system by owner",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "ownerId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "OwnerId we want to obtain"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Class exist"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class don't exist"
+          }
+        }
+      }
+    },
+    "/classes": {
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Get all classes in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "There are users"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "there are no classes in the system"
+          }
+        }
+      }
+    },
+    "/classes/search/{filter}": {
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Get classes from a search query",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "filter",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Data we want to obtain"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "There are comments"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Error getting the comments"
+          }
+        }
+      }
+    },
+    "/class/{className}/{subject}": {
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Get a class in system",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "className",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class name we want to obtain"
+          },
+          {
+            "name": "subject",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class subject we want to obtain"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Class exist"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class don't exist"
+          }
+        }
+      }
+    },
+    "/comments/addComment/{_id}": {
+      "put": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Add a comment to a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID for add a comment"
+          },
+          {
+            "name": "comment",
+            "in": "body",
+            "required": true,
+            "description": "Add a comment to a class",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment added"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Error added the comment"
+          }
+        }
+      }
+    },
+    "/comments/{_id}": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Get comments from a class ID",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID we want to obtain"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "There are comments"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Error getting the comments"
+          }
+        }
+      }
+    },
+    "/comments/changeState/{_id}": {
+      "put": {
+        "tags": [
+          "Comments"
+        ],
+        "description": "Change state of comments from a class ID and a comment",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID we want to obtain"
+          },
+          {
+            "name": "comment",
+            "in": "body",
+            "required": true,
+            "description": "Change status of a comment from a class",
+            "schema": {
+              "$ref": "#/definitions/CommentState"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Change state of acomments"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class or comment not found"
+          }
+        }
+      }
+    },
+    "/enrollments/{_id}": {
+      "put": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Add student to a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID"
+          },
+          {
+            "name": "studentId",
+            "in": "body",
+            "required": true,
+            "description": "Enrollments students",
+            "schema": {
+              "$ref": "#/definitions/Enrollments"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Student added to the class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class not found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Get student enrollment in a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Student ID"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get student enrollment in a class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No active enrollment"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Delete student enrollment in a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID"
+          },
+          {
+            "name": "studentId",
+            "in": "body",
+            "required": true,
+            "description": "Enrollments students",
+            "schema": {
+              "$ref": "#/definitions/Enrollments"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "202": {
+            "description": "Get student enrollment in a class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No active enrollment"
+          }
+        }
+      }
+    },
+    "/rating/{_id}": {
+      "put": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Add rating to a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID"
+          },
+          {
+            "name": "rating",
+            "in": "body",
+            "required": true,
+            "description": "Enrollments students",
+            "schema": {
+              "$ref": "#/definitions/RatingClass"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Rating added to the class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class not found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Get rating in a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get rating in a class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No active enrollment"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserLoginIn": {
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "required": [
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "password",
+        "role"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "phone": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "degreeTeacher": {
+          "type": "string"
+        },
+        "experienceTeacher": {
+          "type": "string"
+        },
+        "dateOfBirthStudent": {
+          "type": "string"
+        },
+        "degreeLevelStudent": {
+          "type": "string"
+        }
+      }
+    },
+    "UserResetPassword": {
+      "required": [
+        "email",
+        "newPassword"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "newPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "Class": {
+      "required": [
+        "className",
+        "subject",
+        "duration",
+        "frequency",
+        "classType",
+        "cost",
+        "classState",
+        "ownerId",
+        "description"
+      ],
+      "properties": {
+        "className": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "frequency": {
+          "type": "string"
+        },
+        "classType": {
+          "type": "string"
+        },
+        "cost": {
+          "type": "number"
+        },
+        "classState": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "number"
+        },
+        "ownerId": {
+          "type": "number"
+        }
+      }
+    },
+    "Comment": {
+      "required": [
+        "content",
+        "studentName",
+        "commentState",
+        "studentEmail"
+      ],
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "commentState": {
+          "type": "string"
+        },
+        "studentEmail": {
+          "type": "string"
+        }
+      }
+    },
+    "CommentState": {
+      "required": [
+        "studentName",
+        "commentState"
+      ],
+      "properties": {
+        "studentName": {
+          "type": "string"
+        },
+        "commentState": {
+          "type": "string"
+        },
+        "studentEmail": {
+          "type": "string"
+        },
+        "descriptionState": {
+          "type": "string"
+        }
+      }
+    },
+    "Enrollments": {
+      "required": [
+        "studentId"
+      ],
+      "properties": {
+        "studentId": {
+          "type": "number"
+        }
+      }
+    },
+    "RatingClass": {
+      "required": [
+        "rating"
+      ],
+      "properties": {
+        "rating": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}

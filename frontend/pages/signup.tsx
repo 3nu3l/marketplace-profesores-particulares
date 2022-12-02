@@ -17,8 +17,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import axios from 'axios';
+import { useRouter } from 'next/dist/client/router';
 
 export default function SignUp() {
+    const router = useRouter()
     var dateLessSixYear = new Date();
     dateLessSixYear.setDate(dateLessSixYear.getDate() - 2192);
     var formatDateLessSixYear = dateLessSixYear.toISOString().substring(0, 10);
@@ -58,48 +64,167 @@ export default function SignUp() {
     const [errorPhone, setErrorPhone] = React.useState(false);
     const [phone, setPhone] = React.useState("");
 
+    const [studies, setStudies] = React.useState('');
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setStudies(event.target.value as string);
+    };
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let hasError: boolean = false;
         const data = new FormData(event.currentTarget);
         console.log({
             email: data.get('email'),
         });
 
-        if (password.trim().length === 0 || !password.match(passwordRegex))
+        if (password.trim().length === 0 || !password.match(passwordRegex)) {
+            hasError = true;
             setErrorPassword(true);
-        else
+        } else {
+            hasError = false;
             setErrorPassword(false);
+        }
 
-        if (email.trim().length === 0 || !email.match(emailRegex))
+        if (email.trim().length === 0 || !email.match(emailRegex)) {
+            hasError = true;
             setErrorEmail(true);
-        else
+        } else {
+            hasError = false;
             setErrorEmail(false);
+        }
 
-        if (teacherTitle.trim().length === 0)
+        if (teacherTitle.trim().length === 0) {
+            hasError = true;
             setErrorTeacherTitle(true);
-        else
+        } else {
+            hasError = false;
             setErrorTeacherTitle(false);
+        }
 
-        if (teacherExp.trim().length === 0 || !teacherExp.match(teacherExpRegex))
+        if (teacherExp.trim().length === 0 || !teacherExp.match(teacherExpRegex)) {
+            hasError = true;
             setErrorTeacherExp(true);
-        else
+        } else {
+            hasError = false;
             setErrorTeacherExp(false);
+        }
 
-        if (name.trim().length === 0)
+        if (name.trim().length === 0) {
+            hasError = true;
             setErrorName(true);
-        else
+        } else {
+            hasError = false;
             setErrorName(false);
+        }
 
-        if (lastName.trim().length === 0)
+        if (lastName.trim().length === 0) {
+            hasError = true;
             setErrorLastName(true);
-        else
+        } else {
+            hasError = false;
             setErrorLastName(false);
+        }
 
-        if (phone.trim().length === 0 || !phone.match(phoneRegex))
+        if (phone.trim().length === 0 || !phone.match(phoneRegex)) {
+            hasError = true;
             setErrorPhone(true);
-        else
+        } else {
+            hasError = false;
             setErrorPhone(false);
+        }
+
+        if (!hasError) {
+            register(name, lastName, email, phone, password, registeredUserRole, teacherTitle, teacherExp, date, studies)
+        }
     };
+
+    const register = async (firstName, lastName, email, phone, password, role, degreeTeacher, experienceTeacher, dateOfBirthStudent, degreeLevelStudent) => {
+        if (role === "student") {
+            axios.post('http://localhost:3001/signUp', {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phone: phone,
+                password: password,
+                role: role,
+                dateOfBirthStudent: dateOfBirthStudent,
+                degreeLevelStudent: degreeLevelStudent
+            })
+            .then(function (response) {
+                console.log(response);
+                router.push(
+                    {
+                        pathname: '/registerSuccess',
+                        query: {
+                            successMessage: 'Se ha registrado con éxito. Ya puede ingresar al sitio.'
+                        },
+                    },
+                    '/registerSuccess'
+                )
+            })
+            .catch(function (error) {
+                console.log(error);
+                switch (error.response.status) {
+                    case 409:
+                      window.alert("La dirección de correo electrónico ingresada ya se encuentra en uso.")
+                      break;
+                    case 401:
+                        window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("role");
+                        localStorage.removeItem("fullName");
+                        localStorage.removeItem("userId");
+                        localStorage.removeItem("email");
+                        window.location.href = "/signIn";
+                        break;
+                    case 400:
+                        window.alert("Falta llenar uno o más campos. Por favor revise la información proporcionada.")
+                        break;
+                    default:
+                      window.alert("Error desconocido, póngase en contacto con el administrador")
+                      break;
+                  };
+            })
+        } else {
+        axios.post('http://localhost:3001/signUp', {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phone: phone,
+            password: password,
+            role: role,
+            degreeTeacher: degreeTeacher,
+            experienceTeacher: experienceTeacher
+        })
+        .then(function (response) {
+            console.log(response);
+            window.location.href = "/registerSuccess?registrationType=user"
+        })
+        .catch(function (error) {
+            console.log(error);
+            switch (error.response.status) {
+                case 409:
+                    window.alert("Esa dirección de correo electrónico ya se encuentra en uso. Por favor, ingrese otra.")
+                    break;
+                case 401:
+                    window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("fullName");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("email");
+                    window.location.href = "/signIn";
+                    break;
+                case 400:
+                    window.alert("Uno o más campos obligatorios están vacíos o son incorrectos, por favor revise la información proporcionada.")
+                    break;
+                default:
+                    window.alert("Error desconocido, póngase en contacto con el administrador")
+                    break;
+            }
+        })
+    }};
 
     const [registeredUserRole, setRegisteredUserRole] = React.useState("")
     function handleUserRole(registeredUserRole) {
@@ -125,67 +250,22 @@ export default function SignUp() {
                         <Typography component="span">
                             <br />Nivel de Estudios:<br /><br />
                         </Typography>
-
-
-                        <FormControl>
-                            <FormLabel id="elementary">Primario</FormLabel>
-                            <RadioGroup
-                                color="primary"
-                                aria-labelledby="elementary"
-                                name="elementary-radio-buttons-group"
-                                defaultValue="NAElementary"
+                        <FormControl fullWidth>
+                            <InputLabel id="studies-label">Máximo nivel alcanzado</InputLabel>
+                            <Select
+                                labelId="studies-label"
+                                id="studies"
+                                value={studies}
+                                label="Máximo nivel alcanzado"
+                                onChange={handleChange}
                             >
-                                <Grid item xs={12}>
-                                    <FormControlLabel value="currentElementary" control={<Radio />} label="En curso" />
-                                    <FormControlLabel value="finishedElementary" control={<Radio />} label="Finalizado" />
-                                    <FormControlLabel value="NAElementary" control={<Radio />} label="No Aplica" />
-                                </Grid>
-                            </RadioGroup>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel id="highSchool">Secundario</FormLabel>
-                            <RadioGroup
-                                color="primary"
-                                aria-labelledby="highSchool"
-                                name="highSchool-radio-buttons-group"
-                                defaultValue="NAHighSchool"
-                            >
-                                <Grid item xs={12}>
-                                    <FormControlLabel value="currentHighSchool" control={<Radio />} label="En curso" />
-                                    <FormControlLabel value="finishedHighSchool" control={<Radio />} label="Finalizado" />
-                                    <FormControlLabel value="NAHighSchool" control={<Radio />} label="No Aplica" />
-                                </Grid>
-                            </RadioGroup>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel id="tertiary">Terciario</FormLabel>
-                            <RadioGroup
-                                color="primary"
-                                aria-labelledby="tertiary"
-                                name="tertiary-radio-buttons-group"
-                                defaultValue="NATertiary"
-                            >
-                                <Grid item xs={12}>
-                                    <FormControlLabel value="currentTertiary" control={<Radio />} label="En curso" />
-                                    <FormControlLabel value="finishedTertiary" control={<Radio />} label="Finalizado" />
-                                    <FormControlLabel value="NATertiary" control={<Radio />} label="No Aplica" />
-                                </Grid>
-                            </RadioGroup>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel id="university">Universitario</FormLabel>
-                            <RadioGroup
-                                color="primary"
-                                aria-labelledby="university"
-                                name="university-radio-buttons-group"
-                                defaultValue="NAUniversity"
-                            >
-                                <Grid item xs={12}>
-                                    <FormControlLabel value="currentUniversity" control={<Radio />} label="En curso" />
-                                    <FormControlLabel value="finishedUniversity" control={<Radio />} label="Finalizado" />
-                                    <FormControlLabel value="NAUniversity" control={<Radio />} label="No Aplica" />
-                                </Grid>
-                            </RadioGroup>
+                                <MenuItem value={1}>Secundario Incompleto</MenuItem>
+                                <MenuItem value={2}>Secundario Completo</MenuItem>
+                                <MenuItem value={3}>Terciario Incompleto</MenuItem>
+                                <MenuItem value={4}>Terciario Completo</MenuItem>
+                                <MenuItem value={5}>Universitario Incompleto</MenuItem>
+                                <MenuItem value={6}>Universitario Completo</MenuItem>
+                            </Select>
                         </FormControl>
                     </Grid>}
             </>)

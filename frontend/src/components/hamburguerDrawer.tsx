@@ -15,9 +15,32 @@ import Link from 'next/link';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import EditIcon from '@mui/icons-material/Edit';
 import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
+import { useState } from 'react';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const anchor = 'left'
+
+function isUserLoggedIn() {
+    if (typeof window !== "undefined") {
+        return (localStorage.getItem("role") === null) ? false : true
+    }
+}
+
+function getUserRole() {
+    if (typeof window !== "undefined") {
+        return localStorage.getItem("role")
+    }
+}
+
+function logOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("fullName");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("email");
+    location.reload();
+}
 
 export default function HamburguerDrawer() {
     const [state, setState] = React.useState({
@@ -42,7 +65,18 @@ export default function HamburguerDrawer() {
         setState({ ...state, [anchor]: open });
     };
 
-    const list = () => (
+    const getList = () => {
+        switch (getUserRole()) {
+            case "student":
+                return studentList()
+            case "teacher":
+                return teacherList()
+            default:
+                return visitorList()
+        }
+    }
+
+    const visitorList = () => (
     <Box
         sx={{ width: 250 }}
         role="presentation"
@@ -50,6 +84,19 @@ export default function HamburguerDrawer() {
         onKeyDown={toggleDrawer(anchor, false)}
     >
         <List>
+            <Link color="inherit" href="/">
+                <ListItem key={'home'} disablePadding>
+                    <ListItemButton>
+                        <ListItemIcon>
+                        <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={'Inicio'} />
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+
+            <Divider />
+
             <Link color="inherit" href="/signin">
                 <ListItem key={'signin'} disablePadding>
                     <ListItemButton>
@@ -71,44 +118,103 @@ export default function HamburguerDrawer() {
                     </ListItemButton>
                 </ListItem>
             </Link>
+        </List>
+    </Box>
+    );
+
+    const studentList = () => (
+        <Box
+            sx={{ width: 250 }}
+            role="presentation"
+            onClick={toggleDrawer(anchor, false)}
+            onKeyDown={toggleDrawer(anchor, false)}
+        >
+            <List>
+                <Link color="inherit" href="/">
+                    <ListItem key={'home'} disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                            <HomeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={'Inicio'} />
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
+    
+                <Divider />
+    
+                <Link color="inherit" href="/studentClasses">
+                    <ListItem key={'myClasses'} disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                            <LibraryBooksIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={'Mis clases'} />
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
+            </List>
 
             <Divider />
 
-            <Link color="inherit" href="/registrationClass">
-                <ListItem key={'registerClass'} disablePadding>
+            <Link color="inherit" href="/">
+                <ListItem key={'logout'} disablePadding>
+                    <ListItemButton onClick={logOut}>
+                        <ListItemIcon>
+                            <LogoutIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={'Cerrar sesión'} />
+                    </ListItemButton>
+                </ListItem>
+            </Link>
+        </Box>
+    );
+
+    const teacherList = () => (
+        <Box
+            sx={{ width: 250 }}
+            role="presentation"
+            onClick={toggleDrawer(anchor, false)}
+            onKeyDown={toggleDrawer(anchor, false)}
+        >
+        <Link color="inherit" href="/teacherClasses">
+                <ListItem key={'myClasses'} disablePadding>
                     <ListItemButton>
                         <ListItemIcon>
                         <LibraryBooksIcon />
                         </ListItemIcon>
-                        <ListItemText primary={'Registrar clase'} />
+                        <ListItemText primary={'Mis clases'} />
                     </ListItemButton>
                 </ListItem>
             </Link>
 
-            <Link color="inherit" href="/modifyClass">
-                <ListItem key={'modifyClass'} disablePadding>
-                    <ListItemButton>
+            <Divider />
+
+            <List>
+                <Link color="inherit" href="/registrationClass">
+                    <ListItem key={'registerClass'} disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                            <LibraryBooksIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={'Registrar clase'} />
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
+            </List>
+    
+            <Divider />
+            <Link color="inherit" href="/">
+                <ListItem key={'logout'} disablePadding>
+                    <ListItemButton onClick={logOut}>
                         <ListItemIcon>
-                        <EditIcon />
+                            <LogoutIcon />
                         </ListItemIcon>
-                        <ListItemText primary={'Modificar clase'} />
+                        <ListItemText primary={'Cerrar sesión'} />
                     </ListItemButton>
                 </ListItem>
             </Link>
-        </List>
-
-        <Divider />
-        <Link color="inherit" href="/">
-            <ListItem key={'logout'} disablePadding>
-                <ListItemButton>
-                    <ListItemIcon>
-                        <LogoutIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'Cerrar sesión'} />
-                </ListItemButton>
-            </ListItem>
-        </Link>
-    </Box>
+        </Box>
     );
 
     return (
@@ -130,7 +236,7 @@ export default function HamburguerDrawer() {
                 onOpen={toggleDrawer(anchor, true)}
                 ModalProps={{ onBackdropClick: toggleDrawer(anchor, false) }}
             >
-                {list()}
+                {getList()}
             </SwipeableDrawer>
         </React.Fragment>
     );

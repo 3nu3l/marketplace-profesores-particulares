@@ -1,17 +1,15 @@
 version: "3.9"
 
 services:
-  # backend:
-  #   build: ./backend
-  #   ports:
-  #     - "3100:3100"
-
+  backend:
+    build: ./api
+    ports:
+      - "3001:3001"
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
     stdin_open: true
     tty: true
-
-    # depends_on:
-    #   - backend
+    depends_on:
+      - backend
