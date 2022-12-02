@@ -92,5 +92,7 @@ Ahora tanto el backend como el frontend están listos para usar.
 
 Se pueden probar los endpoints a través de [Swagger](https://swagger.io/). La misma se encuentra levantada en la ruta "/api-docs", por ejemplo, si el backend se encuentra en el puerto 3001, la ruta es: http://localhost:3001/api-docs
 
-
-### Listado de endpoints
+### Listado de endpoints from swagger
+![img](https://i.postimg.cc/d3QjrZMM/Captura-de-pantalla-2022-12-02-a-la-s-17-51-14.png)
+![img](https://i.postimg.cc/Nfzk20pV/Captura-de-pantalla-2022-12-02-a-la-s-17-51-31.png)
+![img](https://i.postimg.cc/BZNgspDJ/Captura-de-pantalla-2022-12-02-a-la-s-17-51-48.png)
