@@ -35,14 +35,14 @@ export default function DataTable() {
     }
 
   async function deleteClass(id: number) {
-    axios.put(`http://localhost:3001/enrollments/${id}`,
-    {
+    axios.delete(`http://localhost:3001/enrollments/${id}`, {
+        headers: {
+          'authorization': localStorage.getItem("token")
+      },
+      data: {
         "studentId": localStorage.getItem("userId")
-    },
-    {
-      headers: {
-        'authorization': localStorage.getItem("token")
-    }})
+      }
+    })
     .then(function (response) {
       console.log(response)
       window.alert("Clase dada de baja con éxito")

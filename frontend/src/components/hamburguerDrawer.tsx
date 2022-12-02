@@ -37,6 +37,8 @@ function logOut() {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("fullName");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("email");
     location.reload();
 }
 
@@ -141,7 +143,7 @@ export default function HamburguerDrawer() {
     
                 <Divider />
     
-                <Link color="inherit" href="/">
+                <Link color="inherit" href="/studentClasses">
                     <ListItem key={'myClasses'} disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
