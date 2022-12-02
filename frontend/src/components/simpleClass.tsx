@@ -5,17 +5,8 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Rating from '@mui/material/Rating';
-import Link from 'next/link'
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-
-export default function SimpleClass({name, subject, price, rating, frequency, duration}) {
+export default function SimpleClass({name, subject, price, rating, frequency, duration, onClickHandler}) {
   return (
     <Paper
       sx={{
@@ -47,7 +38,7 @@ export default function SimpleClass({name, subject, price, rating, frequency, du
               <Rating name="read-only" value={rating} readOnly />
             </Grid>
             <Grid item xs={4} style={{display: "flex"}}>
-            <Link href="/classDetails"><Button style={{marginLeft: "auto"}}>Ver más</Button></Link>
+            <Button style={{marginLeft: "auto"}}>Ver más</Button>
             </Grid>
       </Grid>
     </Paper>

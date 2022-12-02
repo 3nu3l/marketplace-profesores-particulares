@@ -13,51 +13,134 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import { useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/dist/client/router';
 
 export default function CreateClass() {
+    const router = useRouter()
+
     const costRegex = /^[+]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/
-    const [errorCost, setErrorCost] = React.useState(false);
-    const [cost, setCost] = React.useState("");
+    const [errorCost, setErrorCost] = useState(false);
+    const [cost, setCost] = useState("");
 
-    const [className, setClassName] = React.useState("");
-    const [errorClassName, setErrorClassName] = React.useState(false);
+    const [className, setClassName] = useState("");
+    const [errorClassName, setErrorClassName] = useState(false);
 
-    const [subject, setSubject] = React.useState("");
-    const [errorSubject, setErrorSubject] = React.useState(false);
+    const [subject, setSubject] = useState("");
+    const [errorSubject, setErrorSubject] = useState(false);
 
     const durationRegex = /^[1-9]+[0-9]*$/;
-    const [duration, setDuration] = React.useState("");
-    const [errorDuration, setErrorDuration] = React.useState(false);
+    const [duration, setDuration] = useState("");
+    const [errorDuration, setErrorDuration] = useState(false);
 
-    const [frequency, setFrequency] = React.useState("");
+    const [frequency, setFrequency] = useState("");
 
-    const [classType, setClassType] = React.useState("");
+    const [classType, setClassType] = useState("");
+
+    const [classDescription, setClassDescription] = useState("");
+    const [errorClassDescription, setClassDescriptionError] = useState(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let hasError: boolean = false
         const data = new FormData(event.currentTarget);
         console.log({
             className: data.get('className'),
             subject: data.get('subject'),
         });
 
-        if (cost.trim().length === 0 || !cost.match(costRegex))
+        if (cost.trim().length === 0 || !cost.match(costRegex)) {
+            hasError = true;
             setErrorCost(true);
-        else
+        } else {
+            hasError = false;
             setErrorCost(false);
-        if (className.trim().length === 0)
+        }
+        if (className.trim().length === 0) {
+            hasError = true;
             setErrorClassName(true);
-        else
+        } else {
+            hasError = false;
             setErrorClassName(false);
-        if (subject.trim().length === 0)
+        } 
+        if (subject.trim().length === 0) {
+            hasError = true;
             setErrorSubject(true);
-        else
+        } else {
+            hasError = false;
             setErrorSubject(false);
-        if (duration.trim().length === 0 || !duration.match(durationRegex))
+        }    
+        if (duration.trim().length === 0 || !duration.match(durationRegex)) {
+            hasError = true;
             setErrorDuration(true);
-        else
+        } else {
+            hasError = false;
             setErrorDuration(false);
+        }
+        if (classDescription.trim().length === 0) {
+            hasError = true;
+            setClassDescriptionError(true);
+        } else {
+            hasError = false;
+            setClassDescriptionError(false);
+        }
+
+        if (!hasError) {
+            registerClass(cost, className, subject, duration, frequency, classType, classDescription)
+        }
     };
+
+    const registerClass = async (cost, className, subject, duration, frequency, classType, classDescription) => {
+        if (localStorage.getItem("role") === "teacher") {
+            axios.post('http://localhost:3001/class', {
+            className: className,
+            subject: subject,
+            duration: duration,
+            frequency: frequency,
+            classType: classType,
+            cost: cost,
+            description: classDescription,
+            classState: "Despublicada",
+            'rating': 0,
+            ownerId: localStorage.getItem("userId")
+            },
+            { headers: {
+                'Content-Type': 'application/json', 
+                'accept': 'application/json',
+                'authorization': (localStorage.getItem("token"))
+            }})
+            .then(function (response) {
+                console.log(response)
+                router.push(
+                    {
+                        pathname: '/registerSuccess',
+                        query: {
+                            successMessage: 'Clase registrada con éxito.'
+                        },
+                    },
+                    '/registerSuccess'
+                )
+            })
+            .catch(function (error) {
+                console.log(error)
+                switch (error.response.status) {
+                    case 401:
+                        window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("role");
+                        localStorage.removeItem("fullName");
+                        localStorage.removeItem("userId");
+                        localStorage.removeItem("email");
+                        window.location.href = "/signIn";
+                        break;
+                    default:
+                        window.alert("Error desconocido, póngase en contacto con el administrador")
+                        break;
+                }
+            })
+        }
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -81,7 +164,7 @@ export default function CreateClass() {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
-                                name="firstName"
+                                name="className"
                                 required
                                 fullWidth
                                 id="className"
@@ -177,6 +260,21 @@ export default function CreateClass() {
                                 }}
                             />
                         </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField
+                                name="classDescription"
+                                required
+                                fullWidth
+                                id="classDescription"
+                                label="Descripción"
+                                error={errorClassDescription}
+                                helperText={errorClassDescription ? <>No debe estar vacío.</> : <></>}
+                                onChange={(event) => setClassDescription(event.target.value)}
+                                value={classDescription}
+                            />
+                        </Grid>
+                        
                     </Grid>
                     <Button
                         type="submit"

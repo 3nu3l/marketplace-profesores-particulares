@@ -28,9 +28,11 @@ const Login = async (email, password) => {
   .then(function (response) {
     console.log(response);
 
-    localStorage["token"] = response.data.bearerToken.slice(7);
+    localStorage["token"] = response.data.bearerToken;
     localStorage["fullName"] = response.data.user.fullname;
     localStorage["role"] = response.data.user.role;
+    localStorage["userId"] = response.data.user._id;
+    localStorage["email"] = response.data.user.email;
 
     location.href = "/"
   })
@@ -41,7 +43,13 @@ const Login = async (email, password) => {
         window.alert("El usuario no existe, por favor revise sus credenciales.")
         break;
       case 401:
-        window.alert("Unauthorized")
+        window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        localStorage.removeItem("fullName");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("email");
+        window.location.href = "/signIn";
         break;
       default:
         window.alert("Error desconocido, póngase en contacto con el administrador")

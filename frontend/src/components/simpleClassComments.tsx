@@ -12,7 +12,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function SimpleClass({name, publisher}) {
+export default function SimpleClass({text, publisher}) {
   return (
     <Paper
       sx={{
@@ -24,19 +24,15 @@ export default function SimpleClass({name, publisher}) {
       }}
     >
       <Grid container spacing={2}>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
             <Typography gutterBottom variant="subtitle1" component="div">
                 {publisher}
               </Typography>
-              <Typography gutterBottom variant="body2" component="div">
-                {name}
+            </Grid>
+            <Grid item xs={12}>
+            <Typography gutterBottom variant="body2" component="div">
+                {text}
               </Typography>
-            </Grid>
-            <Grid item xs={4}>
-            </Grid>
-            <Grid item xs={8}>
-            </Grid>
-            <Grid item xs={4} style={{display: "flex"}}>
             </Grid>
       </Grid>
     </Paper>

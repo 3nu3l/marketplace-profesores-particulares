@@ -5,8 +5,13 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 export default function ClassBuy() {
+    const router = useRouter()
+    const data = router.query
+
     const phoneRegex = /^[0-9,+]*$/
     const [phoneNumber, setPhoneNumber] = React.useState("");
     const [errorphoneNumber, setErrorPhoneNumber] = React.useState(false);
@@ -19,23 +24,71 @@ export default function ClassBuy() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let hasError: boolean = false;
         const data = new FormData(event.currentTarget);
 
-        if (phoneNumber.trim().length === 0 || !phoneNumber.match(phoneRegex))
+        if (phoneNumber.trim().length === 0 || !phoneNumber.match(phoneRegex)) {
+            hasError = true;
             setErrorPhoneNumber(true);
-        else
+        } else {
+            hasError = false;
             setErrorPhoneNumber(false);
-
-        if (schedule.trim().length === 0)
+        }
+        if (schedule.trim().length === 0) {
+            hasError = true;
             setErrorSchedule(true);
-        else
+        } else {
+            hasError = false;
             setErrorSchedule(false);
-
-        if (message.trim().length === 0)
+        }
+        if (message.trim().length === 0) {
+            hasError = true;
             setErrorMessage(true);
-        else
+        } else {
+            hasError = false;
             setErrorMessage(false);
+        }
+            if (!hasError) {
+                buyClass()
+            }
     };
+
+
+    async function buyClass() {
+        if (localStorage.getItem("role") === "student") {
+            axios.put(`http://localhost:3001/enrollments/${data.classId}`,
+            {
+                "studentId": localStorage.getItem("userId")
+            },
+            {
+            headers: {
+                'authorization': localStorage.getItem("token")
+            }})
+            .then(function (response) {
+            console.log(response)
+            window.alert("Clase contrtada con éxito")
+            window.location.href = "/studentClasses"
+            })
+            .catch(function (error) {
+            console.log(error)
+            switch (error.response.status) {
+                case 401:
+                    window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("fullName");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("email");
+                    window.location.href = "/signIn";
+                    break;
+                default:
+                    window.alert("Ocurrió un error.")
+                    break;
+            }})
+        } else {
+            window.alert("No tiene los permisos necesarios para realizar esta acción. Inicie sesión con una cuenta de estudiante.")
+        }
+    }
 
     return (
         <Container component="main" maxWidth="xs">
