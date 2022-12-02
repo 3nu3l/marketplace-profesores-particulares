@@ -44,6 +44,9 @@ const classSchema = new mongoose.Schema({
   enrolledStudent: [
     {
       _id: Number,
+    },
+    {
+      rating: Number,
     }
   ],
   ownerId: {

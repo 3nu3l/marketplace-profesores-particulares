@@ -213,8 +213,7 @@ exports.setEnrollments = async (req, res) => {
 
   var enrollments = {
     'enrolledStudent': {
-      _id: req.body.studentId,
-      requestDate: Date.now()
+      _id: req.body.studentId
     }
   };
 
@@ -229,4 +228,26 @@ exports.setEnrollments = async (req, res) => {
       });
     }
   });
+}
+
+exports.getEnrollments = async (req, res) => {
+  const id = req.params._id;
+
+  const _class = await Class.find({ "enrolledStudent._id": id },
+    {
+      "_id": 1,
+      "className": 1,
+      "subject": 1,
+      "enrolledStudent._id": 1
+    });
+
+  if (_class.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: 'No se encuentran inscripciones activas',
+    });
+  }
+  else {
+    return res.status(200).json({ success: true, classes: _class });
+  }
 }
