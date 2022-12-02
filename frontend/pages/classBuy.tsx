@@ -7,15 +7,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { useEffect } from 'react'
+import { useEffect } from 'react';
+import axios from 'axios';
 
 export default function ClassBuy() {
     const router = useRouter()
     const data = router.query
 
-    const [classId, setClassId] = useState(data.classId)
-
-    useEffect(() => {setClassId(data.searchTerm)}, [])
+    const [classId, setClassId] = useState(0)
 
     const phoneRegex = /^[0-9,+]*$/
     const [phoneNumber, setPhoneNumber] = React.useState("");
@@ -58,8 +57,42 @@ export default function ClassBuy() {
             }
     };
 
+
     async function buyClass() {
-        // TODO: buy class with id
+        if (localStorage.getItem("role") === "student") {
+            setClassId(data.classId)
+            axios.put(`http://localhost:3001/enrollments/${classId}`,
+            {
+                "studentId": localStorage.getItem("userId")
+            },
+            {
+            headers: {
+                'authorization': localStorage.getItem("token")
+            }})
+            .then(function (response) {
+            console.log(response)
+            window.alert("Clase contrtada con éxito")
+            window.location.href = "/studentClasses"
+            })
+            .catch(function (error) {
+            console.log(error)
+            switch (error.response.status) {
+                case 401:
+                    window.alert("Por favor, vuelva a iniciar sesión.")
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("fullName");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("email");
+                    window.location.href = "/";
+                    break;
+                default:
+                    window.alert("Ocurrió un error.")
+                    break;
+            }})
+        } else {
+            window.alert("No tiene los permisos necesarios para realizar esta acción. Inicie sesión con una cuenta de estudiante.")
+        }
     }
 
     return (

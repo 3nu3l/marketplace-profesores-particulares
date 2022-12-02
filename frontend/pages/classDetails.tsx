@@ -43,6 +43,7 @@ export default function ClassDetails() {
     useEffect(() => {getClassDetails()}, [])
 
     function goToHire() {
+        console.log(classId)
         if (localStorage.getItem("role") === "student") {
             router.push({
                 pathname: "/classBuy",

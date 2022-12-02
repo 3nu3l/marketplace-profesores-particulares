@@ -7,16 +7,14 @@ import { Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton'
 import Link from 'next/link';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import CommentIcon from '@mui/icons-material/Comment';
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/dist/client/router';
-import Switch from '@mui/material/Switch';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
-function Row(id: number, className: string, subject: string, duration: number, frecuency: string, classState: boolean, classType: string, ownerId: number, description: string) {
-  return ({ id: id, className: className, subject: subject, duration: duration, frecuency: frecuency, classState: classState, classType: classType, ownerId: ownerId, description: description })
+function Row(id: number, className: string, subject: string, duration: number, frecuency: string, classType: string, description: string) {
+  return ({ id: id, className: className, subject: subject, duration: duration, frecuency: frecuency, classType: classType, description: description })
 }
 
 export default function DataTable() {
@@ -25,61 +23,67 @@ export default function DataTable() {
   const [classes, setClasses] = useState([])
 
   useEffect(() => {getClasses()}, [])
-  
-  function goToModify(id: number, status: string) {
-    router.push(
-      {
-          pathname: '/modifyClass',
-          query: {
-              id: id,
-              ownerId:  localStorage.getItem("userId"),
-              currentStatus: status
-          },
-      },
-      '/modifyClass'
-  )
-  }
+
+    function goToClass(className, classSubject) {
+        router.push({
+            pathname: "/classDetails",
+        query: {
+            'className': className,
+            'classSubject': classSubject
+        }},
+        "/classDetails")
+    }
 
   async function deleteClass(id: number) {
-    axios.delete(`http://localhost:3001/deleteClass/${id}`,
+    axios.put(`http://localhost:3001/enrollments/${id}`,
+    {
+        "studentId": localStorage.getItem("userId")
+    },
     {
       headers: {
-        'Content-Type': 'application/json', 
-        'accept': 'application/json',
         'authorization': localStorage.getItem("token")
     }})
     .then(function (response) {
       console.log(response)
-      window.alert("Clase eliminada con éxito")
+      window.alert("Clase dada de baja con éxito")
       getClasses()
     })
     .catch(function (error) {
       console.log(error)
-      window.alert("Ocurrió un error.")
-    })
+      switch (error.response.status) {
+        case 401:
+            window.alert("Por favor, vuelva a iniciar sesión.")
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            localStorage.removeItem("fullName");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("email");
+            window.location.href = "/";
+            break;
+        default:
+            window.alert("Ocurrió un error.")
+            break;
+    }})
   }
 
   async function getClasses() {
-    axios.get(`http://localhost:3001/classOwner/${localStorage.getItem("userId")}`, {
+    axios.get(`http://localhost:3001/enrollments/${localStorage.getItem("userId")}`, {
       headers: {
         'authorization': localStorage.getItem("token"),
-        'ownerId': localStorage.getItem("userId")
       }
     })
     .then(function (response) {
       console.log(response.data.class)
       let classes = []
-      for (let i = 0; i < response.data.class.length; i++) {
-        let fetchedClass = response.data.class[i]
+      for (let i = 0; i < response.data.classes.length; i++) {
+        let fetchedClass = response.data.classes[i]
         let convertedClass = Row(fetchedClass._id,
           fetchedClass.className,
           fetchedClass.subject,
           fetchedClass.duration,
           fetchedClass.frequency,
           fetchedClass.classState,
-          fetchedClass.classType,
-          fetchedClass.ownerId,
-          fetchedClass.description)
+          fetchedClass.classType)
           classes.push(convertedClass)
       }
       setClasses(classes)
@@ -100,34 +104,6 @@ export default function DataTable() {
       }
     })
   }
-
-  async function handlePublishChange(id: number, currentStatus) {
-    let newStatus = (currentStatus === "Despublicada" ? "Publicada" : "Despublicada")
-    axios.put(`http://localhost:3001/classId/${id}`, {
-      classState: newStatus,
-  },
-  { headers: {
-      'authorization': localStorage.getItem("token")
-  }})
-  .then(function (response) {
-      console.log(response)
-      getClasses()
-  })
-  .catch(function (error) {
-    console.log(error)
-    window.alert("Ocurrió un error.")
-  })
-  }
-
-  function goToComments(classId) {
-    router.push(
-      { 
-        pathname: "/pendingComments",
-    query: {
-      classId: classId
-    }},
-    "/pendingComments")
-  }
   
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -147,25 +123,12 @@ export default function DataTable() {
       width: 160
     },
     {
-      field: 'classState', headerName: 'Publicada', width: 100, renderCell: (params) => {
-        return (<Switch checked={params.row.classState === "Publicada" ? true : false} onChange={() => handlePublishChange(params.row.id, params.row.classState)}></Switch>)
-      }
-    },
-    {
       field: 'actions', headerName: 'Acciones', renderCell: (params) => {
         return (
           <div>
             <IconButton color="error" onClick={() => deleteClass(params.row.id)}><DeleteOutlineIcon /></IconButton>
-            <Link color="inherit" href="/modifyClass"><IconButton color="secondary" onClick={() => goToModify(params.row.id, params.row.classState)}><EditOutlinedIcon /></IconButton></Link>
+            <IconButton color="primary" onClick={() => goToClass(params.row.className, params.row.subject)}><VisibilityIcon /></IconButton>
           </div>);
-      }
-    },
-    {
-      field: 'comments', headerName: 'Ver comentarios', renderCell: (params) => {
-        return(
-        <div>
-        <IconButton onClick={() => goToComments(params.row.id)}><CommentIcon color='primary'/></IconButton>
-        </div>)
       }
     }
   ]
