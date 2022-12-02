@@ -1,5 +1,13 @@
 const Class = require('../models/class');
 
+function diacriticSensitiveRegex(string = '') {
+  return string.replace(/a/g, '[a,á,à,ä,â]')
+    .replace(/e/g, '[e,é,ë,è]')
+    .replace(/i/g, '[i,í,ï,ì]')
+    .replace(/o/g, '[o,ó,ö,ò]')
+    .replace(/u/g, '[u,ü,ú,ù]');
+}
+
 exports.createClass = async (req, res) => {
   const {
     className,
@@ -171,4 +179,26 @@ exports.deleteClass = async (req, res) => {
       });
     }
   });
+}
+
+exports.searchByAnyFilter = async (req, res) => {
+  const criteria = new RegExp(diacriticSensitiveRegex(req.params.filter), "i")
+  const _class = await Class.find({
+    "$or": [
+      { "className": { $regex: criteria } },
+      { "subject": { $regex: criteria } },
+      { "description": { $regex: criteria } },
+      { "frequency": { $regex: criteria } }
+    ]
+  });
+
+  if (_class.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: 'No se encuentran datos con ese criterio de búsqueda',
+    });
+  }
+  else {
+    return res.status(200).json({ success: true, class: _class });
+  }
 }

@@ -12,7 +12,8 @@ const {
   getComments,
   changeStateComment,
   getClassByOwner,
-  deleteClass
+  deleteClass,
+  searchByAnyFilter
 } = require('../controllers/class');
 const { isAuth } = require('../middlewares/config/auth');
 const {
@@ -30,6 +31,7 @@ router.get('/class/:className/:subject', cors(), isAuth, classValidationByNameAn
 router.get('/className/:className', cors(), isAuth, classValidationByClass, classVlidation, getClassByName);
 router.get('/classOwner/:ownerId', cors(), isAuth, classValidationByOwner, classVlidation, getClassByOwner);
 router.get('/classes', cors(), isAuth, classVlidation, getClasses);
+router.get('/classes/search/:filter', cors(), isAuth, classVlidation, searchByAnyFilter);
 router.put('/classId/:_id', cors(), isAuth, classVlidation, classValidationById, updateClass);
 router.put('/comments/addComment/:_id', cors(), isAuth, classVlidation, classValidationById, commentValidation, addComment);
 router.get('/comments/:className/:subject', cors(), isAuth, classVlidation, classValidationByNameAndSubject, getComments);
