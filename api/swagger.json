@@ -936,9 +936,7 @@
     "CommentState": {
       "required": [
         "studentName",
-        "commentState",
-        "studentEmail",
-        "descriptionState"
+        "commentState"
       ],
       "properties": {
         "studentName": {
