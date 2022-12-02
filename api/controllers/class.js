@@ -114,7 +114,9 @@ exports.addComment = async (req, res) => {
   var paramComment = [{
     content: req.body.content,
     studentName: req.body.studentName,
-    commentState: req.body.commentState
+    commentState: req.body.commentState,
+    studentEmail: req.body.studentEmail,
+    descriptionState: req.body.descriptionState
   }];
 
   Class.findByIdAndUpdate(id, { $push: { comments: paramComment } }, function (err, result) {
