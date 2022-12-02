@@ -71,13 +71,13 @@ export default function ModifyClass() {
             console.log(error)
             switch (error.response.status) {
                 case 401:
-                    window.alert("Por favor, vuelva a iniciar sesión.")
+                    window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
                     localStorage.removeItem("token");
                     localStorage.removeItem("role");
                     localStorage.removeItem("fullName");
                     localStorage.removeItem("userId");
                     localStorage.removeItem("email");
-                    window.location.href = "/";
+                    window.location.href = "/signIn";
                     break;
                 default:
                     window.alert("Ocurrió un error.")

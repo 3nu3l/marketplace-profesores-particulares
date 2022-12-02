@@ -98,7 +98,7 @@ export default function SearchResults() {
             console.log(error.response)
             switch (error.response.status) {
                 case 401:
-                    window.alert("Por favor, vuelva a iniciar sesión.")
+                    window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
                     localStorage.removeItem("token");
                     localStorage.removeItem("role");
                     localStorage.removeItem("fullName");

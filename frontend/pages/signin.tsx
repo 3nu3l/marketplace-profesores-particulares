@@ -43,7 +43,13 @@ const Login = async (email, password) => {
         window.alert("El usuario no existe, por favor revise sus credenciales.")
         break;
       case 401:
-        window.alert("Unauthorized")
+        window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        localStorage.removeItem("fullName");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("email");
+        window.location.href = "/signIn";
         break;
       default:
         window.alert("Error desconocido, póngase en contacto con el administrador")

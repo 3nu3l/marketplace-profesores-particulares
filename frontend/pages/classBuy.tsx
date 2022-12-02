@@ -6,14 +6,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import axios from 'axios';
 
 export default function ClassBuy() {
     const router = useRouter()
     const data = router.query
-    
+
     const phoneRegex = /^[0-9,+]*$/
     const [phoneNumber, setPhoneNumber] = React.useState("");
     const [errorphoneNumber, setErrorPhoneNumber] = React.useState(false);
@@ -75,13 +73,13 @@ export default function ClassBuy() {
             console.log(error)
             switch (error.response.status) {
                 case 401:
-                    window.alert("Por favor, vuelva a iniciar sesión.")
+                    window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
                     localStorage.removeItem("token");
                     localStorage.removeItem("role");
                     localStorage.removeItem("fullName");
                     localStorage.removeItem("userId");
                     localStorage.removeItem("email");
-                    window.location.href = "/";
+                    window.location.href = "/signIn";
                     break;
                 default:
                     window.alert("Ocurrió un error.")

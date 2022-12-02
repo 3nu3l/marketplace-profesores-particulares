@@ -170,8 +170,14 @@ export default function SignUp() {
                       window.alert("La dirección de correo electrónico ingresada ya se encuentra en uso.")
                       break;
                     case 401:
-                      window.alert("Unauthorized")
-                      break;
+                        window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("role");
+                        localStorage.removeItem("fullName");
+                        localStorage.removeItem("userId");
+                        localStorage.removeItem("email");
+                        window.location.href = "/signIn";
+                        break;
                     case 400:
                         window.alert("Falta llenar uno o más campos. Por favor revise la información proporcionada.")
                         break;
@@ -202,7 +208,13 @@ export default function SignUp() {
                     window.alert("Esa dirección de correo electrónico ya se encuentra en uso. Por favor, ingrese otra.")
                     break;
                 case 401:
-                    window.alert("Unauthorized")
+                    window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("role");
+                    localStorage.removeItem("fullName");
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("email");
+                    window.location.href = "/signIn";
                     break;
                 case 400:
                     window.alert("Uno o más campos obligatorios están vacíos o son incorrectos, por favor revise la información proporcionada.")
