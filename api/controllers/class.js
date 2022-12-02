@@ -1,4 +1,5 @@
 const Class = require('../models/class');
+const sendMail = require('./email');
 
 function diacriticSensitiveRegex(string = '') {
   return string.replace(/a/g, '[a,á,à,ä,â]')
@@ -130,13 +131,13 @@ exports.addComment = async (req, res) => {
 };
 
 exports.getComments = async (req, res) => {
-  const classParams = req.params;
-  const _class = await Class.find(classParams).select('comments');
+  const _id = req.params._id;
+  const _class = await Class.findOne({ _id }).select('comments');
 
-  if (_class.length === 0) {
+  if (!_class) {
     return res.status(404).json({
       success: false,
-      message: 'No se encuentra la clase con nombre ' + classParams.className + ' y la materia ' + classParams.subject + ' en la base de datos',
+      message: 'No se encuentra la clase con ID ' + _id,
     });
   }
   else {
@@ -144,21 +145,25 @@ exports.getComments = async (req, res) => {
   }
 }
 
-exports.changeStateComment = async (req, res) => {
-  const classParams = req.params;
+exports.changeCommentState = async (req, res) => {
+  const _id = req.params._id;
   const studentName = req.body.studentName;
   const commentState = req.body.commentState;
-  const comments = {
-    "studentName": studentName,
-    "commentState": commentState
+  const studentEmail = req.body.studentEmail;
+  const descriptionState = req.body.descriptionState;
+
+  const _class = await Class.findOneAndUpdate({ _id, "comments.studentName": studentName }, { $set: { "comments.$.commentState": commentState } });
+
+  if (commentState === "Rechazado") {
+    const subject = "Comentario rechazado en la clase con ID " + _id
+    sendMail.send(studentEmail, subject, "Motivo del Rechazo: " + descriptionState)
+    console.log("e-mail enviado al usuario " + studentEmail + " con el subject " + subject + " y descripción: " + descriptionState)
   }
 
-  const _class = await Class.findOneAndUpdate(classParams, { $set: { "comments.$.commentState": comments.commentState } });
-
-  if (_class.length === 0) {
+  if (!_class) {
     return res.status(404).json({
       success: false,
-      message: 'No se encuentra la clase con nombre ' + classParams.className + ' y la materia ' + classParams.subject + ' en la base de datos',
+      message: 'No se encuentra la clase con ID ' + _id + ' o un comentario del estudiante ' + studentName
     });
   }
   else {
@@ -192,7 +197,7 @@ exports.searchByAnyFilter = async (req, res) => {
     ]
   });
 
-  if (_class.length === 0) {
+  if (!_class) {
     return res.status(404).json({
       success: false,
       message: 'No se encuentran datos con ese criterio de búsqueda',
@@ -200,5 +205,48 @@ exports.searchByAnyFilter = async (req, res) => {
   }
   else {
     return res.status(200).json({ success: true, class: _class });
+  }
+}
+
+exports.setEnrollments = async (req, res) => {
+  const id = req.params._id;
+
+  var enrollments = {
+    'enrolledStudent': {
+      _id: req.body.studentId
+    }
+  };
+
+  Class.update({ _id: id }, { $push: enrollments }, { upsert: true }, function (err, result) {
+    if (!err && result) {
+      return res.status(200).json({ success: true, message: "Estudiante agregado" });
+    }
+    else {
+      return res.status(404).json({
+        success: false,
+        message: "La clase " + id + " no existe."
+      });
+    }
+  });
+}
+
+exports.getEnrollments = async (req, res) => {
+  const id = req.params._id;
+
+  const _class = await Class.find({ "enrolledStudent._id": id },
+    {
+      "_id": 1,
+      "className": 1,
+      "subject": 1
+    });
+
+  if (_class.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: 'No se encuentran inscripciones activas',
+    });
+  }
+  else {
+    return res.status(200).json({ success: true, classes: _class });
   }
 }

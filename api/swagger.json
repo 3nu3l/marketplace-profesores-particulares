@@ -611,12 +611,12 @@
         }
       }
     },
-    "/comments/{className}/{subject}": {
+    "/comments/{_id}": {
       "get": {
         "tags": [
           "Comments"
         ],
-        "description": "Get comments from a class and subject",
+        "description": "Get comments from a class ID",
         "parameters": [
           {
             "name": "authorization",
@@ -626,18 +626,11 @@
             "description": "Bearer Token for authorization"
           },
           {
-            "name": "className",
+            "name": "_id",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Class name we want to obtain"
-          },
-          {
-            "name": "subject",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Class subject we want to obtain"
+            "description": "Class ID we want to obtain"
           }
         ],
         "produces": [
@@ -657,12 +650,14 @@
             "description": "Error getting the comments"
           }
         }
-      },
+      }
+    },
+    "/comments/changeState/{_id}": {
       "put": {
         "tags": [
           "Comments"
         ],
-        "description": "Change state of comments from a class and subject",
+        "description": "Change state of comments from a class ID and a comment",
         "parameters": [
           {
             "name": "authorization",
@@ -672,18 +667,11 @@
             "description": "Bearer Token for authorization"
           },
           {
-            "name": "className",
+            "name": "_id",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Class name we want to obtain"
-          },
-          {
-            "name": "subject",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Class subject we want to obtain"
+            "description": "Class ID we want to obtain"
           },
           {
             "name": "comment",
@@ -691,7 +679,7 @@
             "required": true,
             "description": "Change status of a comment from a class",
             "schema": {
-              "$ref": "#/definitions/CommentStatus"
+              "$ref": "#/definitions/CommentState"
             }
           }
         ],
@@ -709,7 +697,96 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Error getting the comments"
+            "description": "Class or comment not found"
+          }
+        }
+      }
+    },
+    "/enrollments/{_id}": {
+      "put": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Add student to a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID"
+          },
+          {
+            "name": "studentId",
+            "in": "body",
+            "required": true,
+            "description": "Change status of a comment from a class",
+            "schema": {
+              "$ref": "#/definitions/Enrollments"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Student added to the class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class not found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Get student enrollment in a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Student ID"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get student enrollment in a class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No active enrollment"
           }
         }
       }
@@ -838,7 +915,8 @@
       "required": [
         "content",
         "studentName",
-        "commentState"
+        "commentState",
+        "studentEmail"
       ],
       "properties": {
         "content": {
@@ -849,13 +927,18 @@
         },
         "commentState": {
           "type": "string"
+        },
+        "studentEmail": {
+          "type": "string"
         }
       }
     },
-    "CommentStatus": {
+    "CommentState": {
       "required": [
         "studentName",
-        "commentState"
+        "commentState",
+        "studentEmail",
+        "descriptionState"
       ],
       "properties": {
         "studentName": {
@@ -863,6 +946,22 @@
         },
         "commentState": {
           "type": "string"
+        },
+        "studentEmail": {
+          "type": "string"
+        },
+        "descriptionState": {
+          "type": "string"
+        }
+      }
+    },
+    "Enrollments": {
+      "required": [
+        "studentId"
+      ],
+      "properties": {
+        "studentId": {
+          "type": "number"
         }
       }
     }

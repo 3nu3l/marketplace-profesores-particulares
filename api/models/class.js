@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
 var AutoIncrement = require('mongoose-sequence')(mongoose);
-const Comment = require('./comment')
 
 const classSchema = new mongoose.Schema({
   _id: {
@@ -42,12 +41,49 @@ const classSchema = new mongoose.Schema({
   rating: {
     type: Number,
   },
+  enrolledStudent: [
+    {
+      _id: Number,
+    },
+    {
+      rating: Number,
+    }
+  ],
   ownerId: {
     type: Number,
   },
-  comments: {
-    type: [Comment.schema]
-  }
+  comments: [
+    {
+      type: new mongoose.Schema({
+        content: {
+          type: String,
+          required: true
+        },
+        studentEmail: {
+          type: String,
+          required: true
+        },
+        studentName: {
+          type: String,
+          required: true
+        },
+        commentState: {
+          type: String,
+          required: true
+        },
+        studentEmail: {
+          type: String,
+          required: true
+        }
+      },
+        {
+          timestamps: {
+            createdAt: 'created_at',
+            updatedAt: 'updated_at'
+          }
+        })
+    }
+  ]
 },
   {
     timestamps: {
