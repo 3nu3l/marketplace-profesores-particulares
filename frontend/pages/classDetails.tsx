@@ -16,14 +16,13 @@ import { useEffect } from 'react';
 import axios from 'axios';
 
 export default function ClassDetails() {
-    const [value, setValue] = useState<number | null>(2);
+    const [rating, setRating] = useState<number | null>(2);
 
     const[classId, setClassId] = useState(0)
 
     const [name, setName] = useState("")
     const [subject, setSubject] = useState("")
     const [price, setPrice] = useState(0)
-    const [rating, setRating] = useState(0)
     const [frequency, setFrequency] = useState("")
     const [duration, setDuration] = useState(0)
     const [type, setType] = useState("")
@@ -79,6 +78,30 @@ export default function ClassDetails() {
         .catch(function (error) {
             console.log(error.response)
         })
+    }
+
+    async function handleRating(rating) {
+        if (localStorage.getItem("role") === "student") {
+            axios.put(`http://localhost:3001/rating/${classId}`, 
+            {
+                "rating": rating
+            }, {
+                headers: {
+                    "authorization": localStorage.getItem("token")
+                }
+            })
+            .then(function (response) {
+                console.log(response.data)
+                window.alert("Clase calificada con éxito")
+                getClassDetails()
+            })
+            .catch(function (error) {
+                console.log(error.response)
+            })
+        } else {
+            window.alert("No tiene los permisos necesarios para realizar esta acción. Inicie sesión con una cuenta de estudiante.")
+        }
+        
     }
 
     async function handleCommentSend() {
@@ -176,9 +199,9 @@ export default function ClassDetails() {
             </Typography>
             <Rating
             name="controlled-rating"
-            value={value}
-            onChange={(event, newValue) => {
-                setValue(newValue);
+            value={rating}
+            onChange={(event, newRating) => {
+                handleRating(newRating)
             }}
             />
             <br /><br />
