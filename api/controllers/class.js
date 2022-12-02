@@ -20,6 +20,7 @@ exports.createClass = async (req, res) => {
     classState,
     ownerId,
     description,
+    rating
   } = req.body;
   const _class = await Class({
     className,
@@ -30,7 +31,8 @@ exports.createClass = async (req, res) => {
     cost,
     classState,
     ownerId,
-    description
+    description,
+    rating
   });
   await _class.save();
   res.status(200).json({ success: true, _class });
@@ -272,5 +274,51 @@ exports.getEnrollments = async (req, res) => {
   }
   else {
     return res.status(200).json({ success: true, classes: _class });
+  }
+}
+
+exports.setRating = async (req, res) => {
+  const _id = req.params._id;
+  const rating = req.body.rating;
+
+  const _rating = await Class.findById({ _id }).select('rating');
+  var localRating;
+  if (_rating != null) {
+    if (!_rating.rating) {
+      localRating = rating;
+    }
+    else {
+      localRating = (_rating.rating + rating) / 2;
+      console.log(_rating.rating)
+      console.log(rating)
+      console.log(localRating)
+    }
+  }
+
+  Class.findByIdAndUpdate(_id, { rating: localRating }, function (err, result) {
+    if (err || _rating == null) {
+      return res.status(409).json({
+        success: false,
+        message: 'No se pudo grabar el rating correctamente',
+      });
+    }
+    else {
+      return res.status(200).json({ success: true, message: 'Se guardó el rating correctamente para la clase ' + _id + ' con valor de rating ' + localRating });
+    }
+  });
+}
+
+exports.getRating = async (req, res) => {
+  const _id = req.params._id;
+
+  const _rating = await Class.findById({ _id }).select('rating');
+  if (!_rating.rating) {
+    return res.status(404).json({
+      success: false,
+      message: 'No se pudo encontrar puntuación para esta clase',
+    });
+  }
+  else {
+    return res.status(200).json({ success: true, message: _rating });
   }
 }

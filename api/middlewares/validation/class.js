@@ -118,3 +118,12 @@ exports.validateUpdateClass = [
     .isFloat({ min: 0, max: 5 })
     .withMessage('La calificación debe estar entre 0 y 5'),
 ];
+
+exports.validateRating = [
+  check('rating')
+    .trim()
+    .isEmpty()
+    .withMessage('El rating de la clase es requerida')
+    .isFloat({ min: 0, max: 5 })
+    .withMessage('La calificación debe estar entre 0 y 5'),
+];
