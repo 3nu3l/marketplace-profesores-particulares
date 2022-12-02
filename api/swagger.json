@@ -701,6 +701,56 @@
           }
         }
       }
+    },
+    "/enrollments/{_id}": {
+      "put": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Add student to a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID"
+          },
+          {
+            "name": "studentId",
+            "in": "body",
+            "required": true,
+            "description": "Change status of a comment from a class",
+            "schema": {
+              "$ref": "#/definitions/Enrollments"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Student added to the class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class not found"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -857,14 +907,22 @@
         },
         "commentState": {
           "type": "string"
-        }
-        ,
+        },
         "studentEmail": {
           "type": "string"
-        }
-        ,
+        },
         "descriptionState": {
           "type": "string"
+        }
+      }
+    },
+    "Enrollments": {
+      "required": [
+        "studentId"
+      ],
+      "properties": {
+        "studentId": {
+          "type": "number"
         }
       }
     }

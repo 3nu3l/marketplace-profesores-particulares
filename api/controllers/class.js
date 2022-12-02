@@ -213,7 +213,7 @@ exports.setEnrollments = async (req, res) => {
 
   var enrollments = {
     'enrolledStudent': {
-      studentId: req.body.studentId,
+      _id: req.body.studentId,
       requestDate: Date.now()
     }
   };
@@ -225,7 +225,7 @@ exports.setEnrollments = async (req, res) => {
     else {
       return res.status(404).json({
         success: false,
-        message: err
+        message: "La clase " + id + " no existe."
       });
     }
   });

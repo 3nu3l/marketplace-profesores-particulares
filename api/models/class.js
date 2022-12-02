@@ -43,7 +43,7 @@ const classSchema = new mongoose.Schema({
   },
   enrolledStudent: [
     {
-      studentId: String,
+      _id: Number,
     }
   ],
   ownerId: {
