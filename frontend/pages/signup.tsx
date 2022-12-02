@@ -423,12 +423,6 @@ export default function SignUp() {
                                 value={password}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                label="Quiero recibir emails de la plataforma"
-                            />
-                        </Grid>
                         <Grid item xs={12}
                             container
                             direction="row"
@@ -466,7 +460,7 @@ export default function SignUp() {
                     <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Link href="/signin" variant="body2">
-                                Ya tiene cuenta? Ingrese con su usuario
+                                ¿Ya tiene cuenta? Ingrese con su usuario
                             </Link>
                         </Grid>
                     </Grid>
