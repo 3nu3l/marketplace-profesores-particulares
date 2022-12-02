@@ -838,6 +838,95 @@
           }
         }
       }
+    },
+    "/rating/{_id}": {
+      "put": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Add rating to a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID"
+          },
+          {
+            "name": "rating",
+            "in": "body",
+            "required": true,
+            "description": "Enrollments students",
+            "schema": {
+              "$ref": "#/definitions/RatingClass"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Rating added to the class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Class not found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Classes"
+        ],
+        "description": "Get rating in a class",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Bearer Token for authorization"
+          },
+          {
+            "name": "_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Class ID"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get rating in a class"
+          },
+          "400": {
+            "description": "Missing a mandatory field"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No active enrollment"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1007,6 +1096,16 @@
       ],
       "properties": {
         "studentId": {
+          "type": "number"
+        }
+      }
+    },
+    "RatingClass": {
+      "required": [
+        "rating"
+      ],
+      "properties": {
+        "rating": {
           "type": "number"
         }
       }
