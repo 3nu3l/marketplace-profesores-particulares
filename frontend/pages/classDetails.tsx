@@ -27,8 +27,6 @@ export default function ClassDetails() {
     const [frequency, setFrequency] = useState("")
     const [duration, setDuration] = useState(0)
     const [type, setType] = useState("")
-    const [teacherName, setTeacherName] = useState("")
-    const [teacherExp, setTeacherExp] = useState("")
     const [description, setDescription] = useState("")
 
     const [comments, setComments] = useState([])
@@ -74,8 +72,6 @@ export default function ClassDetails() {
             setFrequency(classDetails.frequency)
             setDuration(classDetails.duration)
             setType(classDetails.classType)
-            setTeacherName(classDetails.teacherName)
-            setTeacherExp(classDetails.teacherExp)
             setDescription(classDetails.description)
             setComments(classDetails.comments)
         })
@@ -144,9 +140,6 @@ export default function ClassDetails() {
                     <Grid item xs={9}>
                         <Typography variant="h4" gutterBottom>
                             Clase de {subject}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Profesor {teacherName}, {teacherExp}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             {duration} horas | {frequency}
