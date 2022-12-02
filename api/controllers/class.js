@@ -232,6 +232,28 @@ exports.setEnrollments = async (req, res) => {
   });
 }
 
+exports.deleteEnrollments = async (req, res) => {
+  const id = req.params._id;
+
+  var enrollments = {
+    'enrolledStudent': {
+      _id: req.body.studentId
+    }
+  };
+
+  Class.update({ _id: id }, { $pull: enrollments }, { upsert: true }, function (err, result) {
+    if (!err && result) {
+      return res.status(200).json({ success: true, message: "Estudiante eliminado" });
+    }
+    else {
+      return res.status(404).json({
+        success: false,
+        message: "La clase " + id + " no existe."
+      });
+    }
+  });
+}
+
 exports.getEnrollments = async (req, res) => {
   const id = req.params._id;
 
