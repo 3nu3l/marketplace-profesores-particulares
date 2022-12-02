@@ -657,7 +657,9 @@
             "description": "Error getting the comments"
           }
         }
-      },
+      }
+    },
+    "/comments/{_id}": {
       "put": {
         "tags": [
           "Comments"
@@ -672,18 +674,11 @@
             "description": "Bearer Token for authorization"
           },
           {
-            "name": "className",
+            "name": "_id",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "Class name we want to obtain"
-          },
-          {
-            "name": "subject",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "Class subject we want to obtain"
+            "description": "Class ID we want to obtain"
           },
           {
             "name": "comment",
