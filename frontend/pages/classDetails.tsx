@@ -35,6 +35,8 @@ export default function ClassDetails() {
     const router = useRouter()
     const data = router.query
 
+    const [classIsHired, setClassIsHired] = useState(false)
+
     const approvedComments = comments.filter(comment => comment.commentState === "Aprobado").map((comment) =>
     <div><SimpleClassComments text={comment.content} publisher={comment.studentName}></SimpleClassComments><br /></div>
     )
@@ -55,6 +57,46 @@ export default function ClassDetails() {
         }
     }
 
+    async function getClassHiredStatus() {
+        axios.get(`http://localhost:3001/enrollments/${localStorage.getItem("userId")}`, {
+          headers: {
+            'authorization': localStorage.getItem("token"),
+          }
+        })
+        .then(function (response) {
+          console.log(response.data.classes)
+          let classIds = []
+          for (let i = 0; i < response.data.classes.length; i++) {
+            const fetchedClass = response.data.classes[i]
+            classIds.push(fetchedClass._id)
+          }
+          if (classIds.includes(classId)) {
+            setClassIsHired(true)
+          } else {
+            setClassIsHired(false)
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+          switch (error.response.status) {
+            case 401:
+                window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                localStorage.removeItem("fullName");
+                localStorage.removeItem("userId");
+                localStorage.removeItem("email");
+                window.location.href = "/signIn";
+                break;
+            case 404:
+                break;
+            default:
+                window.alert("Ocurrió un error.")
+                break;
+          }
+        })
+      }
+
     async function getClassDetails() {
         axios.get(`http://localhost:3001/class/${data.className}/${data.classSubject}`,{
             headers: {
@@ -74,6 +116,7 @@ export default function ClassDetails() {
             setType(classDetails.classType)
             setDescription(classDetails.description)
             setComments(classDetails.comments)
+            getClassHiredStatus()
         })
         .catch(function (error) {
             console.log(error.response)
@@ -82,63 +125,71 @@ export default function ClassDetails() {
 
     async function handleRating(rating) {
         if (localStorage.getItem("role") === "student") {
-            axios.put(`http://localhost:3001/rating/${classId}`, 
-            {
-                "rating": rating
-            }, {
-                headers: {
-                    "authorization": localStorage.getItem("token")
+            if (classIsHired) {
+                axios.put(`http://localhost:3001/rating/${classId}`, 
+                {
+                    "rating": rating
+                }, {
+                    headers: {
+                        "authorization": localStorage.getItem("token")
+                    }
+                })
+                .then(function (response) {
+                    console.log(response.data)
+                    window.alert("Clase calificada con éxito")
+                    getClassDetails()
+                })
+                .catch(function (error) {
+                    console.log(error.response)
+                })
+                } else {
+                    window.alert("No ha contratado esta clase, por lo tanto no puede puntuarla.")
                 }
-            })
-            .then(function (response) {
-                console.log(response.data)
-                window.alert("Clase calificada con éxito")
-                getClassDetails()
-            })
-            .catch(function (error) {
-                console.log(error.response)
-            })
         } else {
             window.alert("No tiene los permisos necesarios para realizar esta acción. Inicie sesión con una cuenta de estudiante.")
         }
-        
     }
 
     async function handleCommentSend() {
         if (localStorage.getItem("role") === "student") {
-            axios.put(`http://localhost:3001/comments/addComment/${classId}`, {
+            if (classIsHired) {
+                axios.put(`http://localhost:3001/comments/addComment/${classId}`, {
                 "content": commentText,
                 "studentName": localStorage.getItem("fullName"),
                 "studentEmail": localStorage.getItem("email"),
                 "commentState": "Pendiente"
-            },
-            {
-                headers: {
-                    'authorization': localStorage.getItem("token")
-                }
-            })
-            .then(function (response) {
-                console.log(response.data)
-                setCommentText("")
-                window.alert("Su comentario está pendiente de aprobación")
-            })
-            .catch(function (error) {
-                console.log(error)
-                switch (error.response.status) {
-                    case 401:
-                        window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
-                        localStorage.removeItem("token");
-                        localStorage.removeItem("role");
-                        localStorage.removeItem("fullName");
-                        localStorage.removeItem("userId");
-                        localStorage.removeItem("email");
-                        window.location.href = "/signIn";
-                        break;
-                    default:
-                        window.alert("Error desconocido, póngase en contacto con el administrador")
-                        break;
-                }
-            })
+                },
+                {
+                    headers: {
+                        'authorization': localStorage.getItem("token")
+                    }
+                })
+                .then(function (response) {
+                    console.log(response.data)
+                    setCommentText("")
+                    window.alert("Su comentario está pendiente de aprobación")
+                })
+                .catch(function (error) {
+                    console.log(error)
+                    switch (error.response.status) {
+                        case 401:
+                            window.alert("Su sesión ha expirado. Por favor, vuelva a ingresar al sistema.")
+                            localStorage.removeItem("token");
+                            localStorage.removeItem("role");
+                            localStorage.removeItem("fullName");
+                            localStorage.removeItem("userId");
+                            localStorage.removeItem("email");
+                            window.location.href = "/signIn";
+                            break;
+                        default:
+                            window.alert("Error desconocido, póngase en contacto con el administrador")
+                            break;
+                    }
+                })
+            } else {
+                window.alert("No ha contratado esta clase, por lo tanto no puede comentar.")
+            }
+            
         } else {
             window.alert("No tiene los permisos necesarios para realizar esta acción. Inicie sesión con una cuenta de estudiante.")
         }

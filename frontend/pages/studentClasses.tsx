@@ -74,7 +74,7 @@ export default function DataTable() {
     })
     .then(function (response) {
       console.log(response.data.class)
-      let classes = []
+      let fetchedClasses = []
       for (let i = 0; i < response.data.classes.length; i++) {
         let fetchedClass = response.data.classes[i]
         let convertedClass = Row(fetchedClass._id,
@@ -84,9 +84,9 @@ export default function DataTable() {
           fetchedClass.frequency,
           fetchedClass.classState,
           fetchedClass.classType)
-          classes.push(convertedClass)
+          fetchedClasses.push(convertedClass)
       }
-      setClasses(classes)
+      setClasses(fetchedClasses)
     }
     )
     .catch(function (error) {
