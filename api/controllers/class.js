@@ -1,4 +1,5 @@
 const Class = require('../models/class');
+const sendMail = require('./email');
 
 function diacriticSensitiveRegex(string = '') {
   return string.replace(/a/g, '[a,á,à,ä,â]')
@@ -130,13 +131,13 @@ exports.addComment = async (req, res) => {
 };
 
 exports.getComments = async (req, res) => {
-  const classParams = req.params;
-  const _class = await Class.find(classParams).select('comments');
+  const _id = req.params._id;
+  const _class = await Class.findOne({ _id }).select('comments');
 
-  if (_class.length === 0) {
+  if (!_class) {
     return res.status(404).json({
       success: false,
-      message: 'No se encuentra la clase con nombre ' + classParams.className + ' y la materia ' + classParams.subject + ' en la base de datos',
+      message: 'No se encuentra la clase con ID ' + _id,
     });
   }
   else {
@@ -148,8 +149,16 @@ exports.changeCommentState = async (req, res) => {
   const _id = req.params._id;
   const studentName = req.body.studentName;
   const commentState = req.body.commentState;
+  const studentEmail = req.body.studentEmail;
+  const descriptionState = req.body.descriptionState;
 
-  const _class = await Class.findOneAndUpdate({_id, "comments.studentName": studentName}, { $set: { "comments.$.commentState": commentState } });
+  const _class = await Class.findOneAndUpdate({ _id, "comments.studentName": studentName }, { $set: { "comments.$.commentState": commentState } });
+
+  if (commentState === "Rechazado") {
+    const subject = "Comentario rechazado en la clase con ID " + _id
+    sendMail.send(studentEmail, subject, "Motivo del Rechazo: " + descriptionState)
+    console.log("e-mail enviado al usuario " + studentEmail + " con el subject " + subject + " y descripción: " + descriptionState)
+  }
 
   if (!_class) {
     return res.status(404).json({

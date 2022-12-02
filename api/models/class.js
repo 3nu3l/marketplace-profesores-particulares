@@ -49,12 +49,23 @@ const classSchema = new mongoose.Schema({
       type: new mongoose.Schema({
         content: {
           type: String,
+          required: true
+        },
+        studentEmail: {
+          type: String,
+          required: true
         },
         studentName: {
           type: String,
+          required: true
         },
         commentState: {
           type: String,
+          required: true
+        },
+        studentEmail: {
+          type: String,
+          required: true
         }
       },
         {
