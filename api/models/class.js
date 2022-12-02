@@ -41,6 +41,11 @@ const classSchema = new mongoose.Schema({
   rating: {
     type: Number,
   },
+  enrolledStudent: [
+    {
+      studentId: String,
+    }
+  ],
   ownerId: {
     type: Number,
   },

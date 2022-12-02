@@ -197,7 +197,7 @@ exports.searchByAnyFilter = async (req, res) => {
     ]
   });
 
-  if (_class.length === 0) {
+  if (!_class) {
     return res.status(404).json({
       success: false,
       message: 'No se encuentran datos con ese criterio de búsqueda',
@@ -206,4 +206,27 @@ exports.searchByAnyFilter = async (req, res) => {
   else {
     return res.status(200).json({ success: true, class: _class });
   }
+}
+
+exports.setEnrollments = async (req, res) => {
+  const id = req.params._id;
+
+  var enrollments = {
+    'enrolledStudent': {
+      studentId: req.body.studentId,
+      requestDate: Date.now()
+    }
+  };
+
+  Class.update({ _id: id }, { $push: enrollments }, { upsert: true }, function (err, result) {
+    if (!err && result) {
+      return res.status(200).json({ success: true, message: "Estudiante agregado" });
+    }
+    else {
+      return res.status(404).json({
+        success: false,
+        message: err
+      });
+    }
+  });
 }
