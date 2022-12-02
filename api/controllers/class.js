@@ -237,8 +237,7 @@ exports.getEnrollments = async (req, res) => {
     {
       "_id": 1,
       "className": 1,
-      "subject": 1,
-      "enrolledStudent._id": 1
+      "subject": 1
     });
 
   if (_class.length === 0) {
