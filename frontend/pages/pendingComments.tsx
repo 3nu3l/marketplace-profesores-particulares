@@ -24,13 +24,11 @@ export default function PendingComments() {
     const pendingComments = comments.filter(comment => comment.commentState === "Pendiente").map((comment) =>
     <div><SimpleClassComments text={comment.content} publisher={comment.studentName}></SimpleClassComments>
     <Button variant="contained" color="success" onClick={() => approveComment(comment.studentName)}>Aprobar</Button> <span/> <span/>
-    <Button variant="outlined" color="error" onClick={() => deleteComment(comment.studentName, comment.studentEmai)}>Eliminar</Button>
+    <Button variant="outlined" color="error" onClick={() => deleteComment(comment.studentName, comment.studentEmail)}>Eliminar</Button>
     <br /><br /></div>
     )
 
     async function getComments() {
-        console.log("=======================")
-        console.log(classId)
         axios.get(`http://localhost:3001/comments/${classId}`,
         {
             headers: {
@@ -67,7 +65,7 @@ export default function PendingComments() {
         let descriptionState = prompt("¿Por qué razón debería ser rechazado este comentario? Se le comunicará al estudiante por email.")
         axios.put(`http://localhost:3001/comments/changeState/${classId}`, {
             "studentName": studentName,
-            "commentState": "Aprobado",
+            "commentState": "Rechazado",
             "studentEmail": studentEmail,
             "descriptionState": descriptionState
         }, {
@@ -92,7 +90,7 @@ export default function PendingComments() {
                 window.location.href = "/";
                 break;
             default:
-                window.alert("Ha ocurriddo un error")
+                window.alert("Ha ocurrido un error")
                 break;
             }
         })
