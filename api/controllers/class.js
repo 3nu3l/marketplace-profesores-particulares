@@ -144,7 +144,7 @@ exports.getComments = async (req, res) => {
   }
 }
 
-exports.changeStateComment = async (req, res) => {
+exports.changeCommentState = async (req, res) => {
   const classParams = req.params;
   const studentName = req.body.studentName;
   const commentState = req.body.commentState;
@@ -155,7 +155,7 @@ exports.changeStateComment = async (req, res) => {
 
   const _class = await Class.findOneAndUpdate(classParams, { $set: { "comments.$.commentState": comments.commentState } });
 
-  if (_class.length === 0) {
+  if (!_class) {
     return res.status(404).json({
       success: false,
       message: 'No se encuentra la clase con nombre ' + classParams.className + ' y la materia ' + classParams.subject + ' en la base de datos',

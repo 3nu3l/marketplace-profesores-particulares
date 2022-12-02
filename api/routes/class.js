@@ -10,7 +10,7 @@ const {
   updateClass,
   addComment,
   getComments,
-  changeStateComment,
+  changeCommentState,
   getClassByOwner,
   deleteClass,
   searchByAnyFilter
@@ -35,7 +35,7 @@ router.get('/classes/search/:filter', cors(), isAuth, classVlidation, searchByAn
 router.put('/classId/:_id', cors(), isAuth, classVlidation, classValidationById, updateClass);
 router.put('/comments/addComment/:_id', cors(), isAuth, classVlidation, classValidationById, commentValidation, addComment);
 router.get('/comments/:className/:subject', cors(), isAuth, classVlidation, classValidationByNameAndSubject, getComments);
-router.put('/comments/:className/:subject', cors(), isAuth, classVlidation, classValidationByNameAndSubject, changeStateComment);
+router.put('/comments/:className/:subject', cors(), isAuth, classVlidation, classValidationByNameAndSubject, changeCommentState);
 router.delete('/deleteClass/:_id', cors(), isAuth, classVlidation, classValidationById, deleteClass);
 
 module.exports = router;
