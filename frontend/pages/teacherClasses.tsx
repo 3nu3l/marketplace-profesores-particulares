@@ -120,13 +120,12 @@ export default function DataTable() {
   }
 
   // TODO: change to id
-  function goToComments(name, subject) {
+  function goToComments(classId) {
     router.push(
       { 
         pathname: "/pendingComments",
     query: {
-      className: name,
-      classSubject: subject
+      classId: classId
     }},
     "/pendingComments")
   }
@@ -166,7 +165,7 @@ export default function DataTable() {
       field: 'comments', headerName: 'Ver comentarios', renderCell: (params) => {
         return(
         <div>
-        <IconButton onClick={() => goToComments(params.row.className, params.row.subject)}><CommentIcon color='primary'/></IconButton>
+        <IconButton onClick={() => goToComments(params.row.id)}><CommentIcon color='primary'/></IconButton>
         </div>)
       }
     }

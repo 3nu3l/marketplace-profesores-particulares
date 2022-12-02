@@ -85,6 +85,7 @@ export default function ClassDetails() {
             axios.put(`http://localhost:3001/comments/addComment/${classId}`, {
                 "content": commentText,
                 "studentName": localStorage.getItem("fullName"),
+                "studentEmail": localStorage.getItem("email"),
                 "commentState": "Pendiente"
             },
             {
