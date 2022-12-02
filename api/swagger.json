@@ -659,7 +659,7 @@
         }
       }
     },
-    "/comments/{_id}": {
+    "/comments/changeState/{_id}": {
       "put": {
         "tags": [
           "Comments"
