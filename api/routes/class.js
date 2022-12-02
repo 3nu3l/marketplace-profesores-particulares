@@ -15,7 +15,8 @@ const {
   deleteClass,
   searchByAnyFilter,
   setEnrollments,
-  getEnrollments
+  getEnrollments,
+  deleteEnrollments
 } = require('../controllers/class');
 const { isAuth } = require('../middlewares/config/auth');
 const {
@@ -40,6 +41,7 @@ router.get('/comments/:_id', cors(), isAuth, classVlidation, classValidationByNa
 router.put('/comments/changeState/:_id', cors(), isAuth, classVlidation, classValidationByNameAndSubject, changeCommentState);
 router.delete('/deleteClass/:_id', cors(), isAuth, classVlidation, classValidationById, deleteClass);
 router.put('/enrollments/:_id', cors(), isAuth, classVlidation, classValidationById, setEnrollments);
+router.delete('/enrollments/:_id', cors(), isAuth, classVlidation, classValidationById, deleteEnrollments);
 router.get('/enrollments/:_id', cors(), isAuth, classVlidation, classValidationById, getEnrollments);
 
 module.exports = router;
